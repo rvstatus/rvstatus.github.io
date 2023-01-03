@@ -12,3 +12,8 @@ Steps for Hosting a Website on GitHub
 6. Back in the GitHub application, you should see your files in the left column. Make sure they are all checked. If so, enter a message in the text box called "commit summary", something like "initial commit." Then, click the commit button.
 7. Click the "Publish repo" button in the top right corner.
 8. Give it about 10 minutes, then check your-username.github.io. Your website should be there!
+
+
+
+NOTE : use below URL to run the home page.
+https://rvstatus.github.io/
