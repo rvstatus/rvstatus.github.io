@@ -94,6 +94,11 @@ body{
     flex: 50%;
   }
 }
+@media only screen and (min-width: 1080px) and (max-width: 2340px) {
+  .pricing-table {
+    display: grid;
+  }
+}
 
 /* header design */
 
@@ -253,7 +258,13 @@ footer a {
   }
   .onwer_info{
     padding:20px 0;
-  } 
+  }
+}
+
+@media only screen and (min-width: 1080px) and (max-width: 2340px) {
+  .main-footer {
+    grid-template-columns: 1fr;
+  }
 }
 
 .avatar {
