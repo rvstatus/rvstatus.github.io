@@ -5,66 +5,369 @@
     <title>Family Tree</title>
     <link rel="stylesheet" type="text/css" href="css/tree_style.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js\jquery_3.6.4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".profile_pic_img").on("click", function(){
+                // $(this).parent("a")
+                //     .children("div.popup_box")
+                //     .css({
+                //         display: "block",
+                //         position: "absolute",
+                //         left: ($(this).parent("a").offset().left + $(this).width()) + "px",
+                //         top: $(this).parent("a").offset().top + "px"
+                //     }
+                // );
+                // var divToShow = $(this).parent("a").siblings("div.popup_box");
+                // divToShow.css({
+                //     display: "block",
+                //     position: "absolute",
+                //     left: ($(this).offset().left + $(this).width()) + "px",
+                //     top: $(this).offset().top + "px"
+                // });
+            // },
+            // function(){
+            //     $("div.popup_box").hide();
+            });
+            // $(".profile_pic_img").hover(function() {
+            //     $(this).css("background-color", "yellow");
+            // }, function() {
+            //     $(this).css("background-color", "pink");
+            // });
+        });
+    </script>
 </head>
 <body>
-    <div class="tree">
-        <ul>
-            <li>
-                <div class="family">
-                    <div class="display_inline_block">
-                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                        <div class="display_inline_block details">
-                            <div><label class="name">Name : </label>Test</div>
-                            <div><label class="age">Age : </label>50</div>
-                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                            <div><label class="dod">DOD : </label>20-01-1990</div>
+    <div class="scroll_box">
+        <div class="tree">
+            <ul>
+                <li>
+                    <div class="family">
+                        <div class="display_inline_block">
+                            <a href="#">
+                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar profile_pic_img">
+                                <div class="popup_box" style="display:none;">
+                                    <div><label class="name">Name : </label>Test</div>
+                                    <div><label class="age">Age : </label>50</div>
+                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="display_inline_block">
+                            <a href="#">
+                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar profile_pic_img">
+                                <!-- <div class="display_inline_block details">
+                                    <div><label class="name">Name : </label>Test One</div>
+                                    <div><label class="age">Age : </label>55</div>
+                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                </div> -->
+                            </a>
                         </div>
                     </div>
-                    <div class="display_inline_block">
-                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                        <div class="display_inline_block details">
-                            <div><label class="name">Name : </label>Test One</div>
-                            <div><label class="age">Age : </label>55</div>
-                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                        </div>
-                    </div>
-                </div>
-                <ul>
-                    <li>
-                        <a href="#">Child</a>
-                        <ul>
-                            <li>
-                                <a href="#">Grand Child</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Child</a>
-                        <ul>
-                            <li><a href="#">Grand Child</a></li>
-                            <li>
-                                <a href="#">Grand Child</a>
-                                <ul>
-                                    <li>
-                                        <a href="#">Great Grand Child</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Great Grand Child</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Great Grand Child</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Grand Child</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+                    <ul>
+                        <li>
+                            <!-- <a href="#">Child</a> -->
+                            <div class="family">
+                                <div class="display_inline_block">
+                                    <a href="#">
+                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                        <!-- <div class="display_inline_block details">
+                                            <div><label class="name">Name : </label>Child</div>
+                                            <div><label class="age">Age : </label>50</div>
+                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                        </div> -->
+                                    </a>
+                                </div>
+                                <div class="display_inline_block">
+                                    <a href="#">
+                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                        <!-- <div class="display_inline_block details">
+                                            <div><label class="name">Name : </label>Child One</div>
+                                            <div><label class="age">Age : </label>55</div>
+                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                        </div> -->
+                                    </a>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <!-- <a href="#">Great Grand Child</a> -->
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child</div>
+                                                    <div><label class="age">Age : </label>50</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child One</div>
+                                                    <div><label class="age">Age : </label>55</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <!-- <a href="#">Great Grand Child</a> -->
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child</div>
+                                                    <div><label class="age">Age : </label>50</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child One</div>
+                                                    <div><label class="age">Age : </label>55</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <!-- <a href="#">Child</a> -->
+                            <div class="family">
+                                <div class="display_inline_block">
+                                    <a href="#">
+                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                        <!-- <div class="display_inline_block details">
+                                            <div><label class="name">Name : </label>Child</div>
+                                            <div><label class="age">Age : </label>50</div>
+                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                        </div> -->
+                                    </a>
+                                </div>
+                                <div class="display_inline_block">
+                                    <a href="#">
+                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                        <!-- <div class="display_inline_block details">
+                                            <div><label class="name">Name : </label>Child One</div>
+                                            <div><label class="age">Age : </label>55</div>
+                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                        </div> -->
+                                    </a>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child</div>
+                                                    <div><label class="age">Age : </label>50</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child One</div>
+                                                    <div><label class="age">Age : </label>55</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <!-- <a href="#">Grand Child</a> -->
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child</div>
+                                                    <div><label class="age">Age : </label>50</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child One</div>
+                                                    <div><label class="age">Age : </label>55</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <!-- <a href="#">Great Grand Child</a> -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a href="#">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- <div class="display_inline_block details">
+                                                            <div><label class="name">Name : </label>Child</div>
+                                                            <div><label class="age">Age : </label>50</div>
+                                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                        </div> -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a href="#">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- <div class="display_inline_block details">
+                                                            <div><label class="name">Name : </label>Child One</div>
+                                                            <div><label class="age">Age : </label>55</div>
+                                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                        </div> -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <!-- <a href="#">Great Grand Child</a> -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a href="#">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- <div class="display_inline_block details">
+                                                            <div><label class="name">Name : </label>Child</div>
+                                                            <div><label class="age">Age : </label>50</div>
+                                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                        </div> -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a href="#">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- <div class="display_inline_block details">
+                                                            <div><label class="name">Name : </label>Child One</div>
+                                                            <div><label class="age">Age : </label>55</div>
+                                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                        </div> -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <!-- <a href="#">Great Grand Child</a> -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a href="#">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- <div class="display_inline_block details">
+                                                            <div><label class="name">Name : </label>Child</div>
+                                                            <div><label class="age">Age : </label>50</div>
+                                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                        </div> -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a href="#">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- <div class="display_inline_block details">
+                                                            <div><label class="name">Name : </label>Child One</div>
+                                                            <div><label class="age">Age : </label>55</div>
+                                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                        </div> -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <!-- <a href="#">Grand Child</a> -->
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child</div>
+                                                    <div><label class="age">Age : </label>50</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a href="#">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                <!-- <div class="display_inline_block details">
+                                                    <div><label class="name">Name : </label>Child One</div>
+                                                    <div><label class="age">Age : </label>55</div>
+                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
+                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
+                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
+                                                </div> -->
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
