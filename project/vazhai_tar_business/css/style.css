@@ -23,7 +23,7 @@ body{
 
 .pricing-card{
   flex: 1;
-  /*max-width: 360px;*/
+  max-width: 360px;
   background-color: #fff;
   margin: 20px 10px;
   text-align: center;
@@ -96,7 +96,10 @@ body{
 }
 @media only screen and (max-width: 1080px) and (max-width: 2340px) {
   .pricing-table {
-    display: grid;
+    /*display: grid;*/
+  }
+  .pricing-card{
+    max-width: 100%;
   }
 }
 
@@ -216,7 +219,7 @@ footer a {
 
 .contact-details .fa {
   color: #f1f1f1;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .sociallogos{
@@ -264,6 +267,9 @@ footer a {
 @media only screen and (max-width: 1080px) and (max-width: 2340px) {
   .main-footer {
     grid-template-columns: 1fr;
+  }
+  .contact-details .fa {
+    margin-right: 20px;
   }
 }
 .avatar {
