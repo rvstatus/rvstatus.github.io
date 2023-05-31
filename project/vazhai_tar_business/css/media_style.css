@@ -19,9 +19,6 @@
   .main-footer {
     grid-template-columns: 1fr;
   }
-  .contact-details .fa {
-    margin-right: 15px;
-  }
   .pricing-table {
     display: grid;
   }
@@ -57,4 +54,19 @@
     display:grid;
     grid-template-columns: 1fr 1fr;
   }
+}
+@media (hover: hover) {
+  .pricing-card:hover .pricing-card-header{
+    box-shadow: 0em 0em 0em 25em #0fbcf9;
+  }
+  .pricing-card:hover ,.pricing-card:hover .price{
+    color: #fff;
+  }
+  .order-btn:hover{
+    background-color: #0fbcf9;
+    color: #fff;
+  }
+  /*nav a:hover::after{
+      transform: scaleX(1)
+  }*/
 }
