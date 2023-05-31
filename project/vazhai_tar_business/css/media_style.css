@@ -55,9 +55,10 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+/* hover add also box-shadow not working */
 @media (hover: hover) {
   .pricing-card:hover .pricing-card-header{
-    box-shadow: 0em 0em 0em 25em #0fbcf9;
+    box-shadow: 0 0 0 22em #0fbcf9;
   }
   .pricing-card:hover ,.pricing-card:hover .price{
     color: #fff;
