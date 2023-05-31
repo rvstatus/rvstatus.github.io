@@ -56,9 +56,9 @@
   }
 }
 /* hover add also box-shadow not working */
-@media (hover: hover) {
+@media only screen and (min-width: 240px) and (max-width: 480px) and (hover: hover) and (pointer: fine) {
   .pricing-card:hover .pricing-card-header{
-    box-shadow: 0 0 0 22em #0fbcf9;
+    box-shadow: 0 0 0 23em #0fbcf9;
   }
   .pricing-card:hover ,.pricing-card:hover .price{
     color: #fff;
