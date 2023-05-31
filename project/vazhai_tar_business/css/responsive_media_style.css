@@ -1,0 +1,18 @@
+/* responsive view design */
+@media (max-width: 760px) {
+  .main-footer {
+    grid-template-columns: 1fr;
+  }
+  .sociallogos{
+    padding:20px 0;
+  }
+  .onwer_info{
+    padding:20px 0;
+  }
+}
+
+@media (max-width:1201px){
+  .pricing-card{
+    flex: 50%;
+  }
+}

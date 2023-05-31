@@ -89,20 +89,6 @@ body{
   color: #fff;
 }
 
-@media screen and (max-width:1100px){
-  .pricing-card{
-    flex: 50%;
-  }
-}
-@media only screen and (max-width: 1080px) and (max-width: 2340px) {
-  .pricing-table {
-    /*display: grid;*/
-  }
-  .pricing-card{
-    max-width: 521px;
-  }
-}
-
 /* header design */
 
 a {
@@ -241,65 +227,9 @@ footer a {
     text-align: center;
 }
 
-@media only screen and (max-width: 1100px) {
-  .main-footer {
-    padding:20px;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-  }
-    .info{
-      padding:20px 0;
-  }
-}
-
-@media (max-width: 760px) {
-  .main-footer {
-    grid-template-columns: 1fr;
-  }
-  .sociallogos{
-    padding:20px 0;
-  }
-  .onwer_info{
-    padding:20px 0;
-  }
-}
-
-@media only screen and (max-width: 1080px) and (max-width: 2340px) {
-  .main-footer {
-    grid-template-columns: 1fr;
-  }
-  .contact-details .fa {
-    margin-right: 20px;
-  }
-}
 .avatar {
     vertical-align: middle;
     /*width: 50px;*/
     height: 150px;
     border-radius: 50%;
-}
-
-/* body mobile view design */
-@media only screen and (min-width: 240px) and (max-width: 480px) {
-  .main-footer {
-    grid-template-columns: 1fr;
-  }
-  .sociallogos{
-    padding:20px 0;
-  }
-  .onwer_info{
-    padding:20px 0;
-  }
-  .main-footer {
-    grid-template-columns: 1fr;
-  }
-  .contact-details .fa {
-    margin-right: 15px;
-  }
-  .pricing-table {
-    display: grid;
-  }
-  .pricing-card{
-    flex: 50%;
-  }
 }
