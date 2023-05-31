@@ -99,7 +99,7 @@ body{
     /*display: grid;*/
   }
   .pricing-card{
-    max-width: 100%;
+    max-width: 521px;
   }
 }
 
