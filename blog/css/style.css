@@ -24,6 +24,11 @@
   background-color: #f44336;
 }
 
+#system_error_page {
+  top: 240px;
+  background-color: #fb1515;
+}
+
 .ml80 {
   margin-left:80px;
 }
