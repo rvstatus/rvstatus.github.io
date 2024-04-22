@@ -9,8 +9,9 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js\jquery_3.6.4.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            $(".profile_pic_img").on("click", function(){
+        $(document).ready(function() {
+            var my_popup_div = null;
+            $(".profile_pic_img").on("click", function() {
                 $(this).parent("a")
                     .children("div.popup_box")
                     .css({
@@ -20,22 +21,14 @@
                         top: ($(this).parent("a").offset().top+35) + "px"
                     }
                 );
-                // var divToShow = $(this).parent("a").siblings("div.popup_box");
-                // divToShow.css({
-                //     display: "block",
-                //     position: "absolute",
-                //     left: ($(this).offset().left + $(this).width()) + "px",
-                //     top: $(this).offset().top + "px"
-                // });
-            // },
-            // function(){
-            //     $("div.popup_box").hide();
+                my_popup_div = $(this).parent("a").children("div.popup_box");
             });
-            // $(".profile_pic_img").hover(function() {
-            //     $(this).css("background-color", "yellow");
-            // }, function() {
-            //     $(this).css("background-color", "pink");
-            // });
+            $(document).mouseup(function(e){
+                // if the target of the click isn't the my_popup_div nor a descendant of the my_popup_div
+                if (!my_popup_div.is(e.target) && my_popup_div.has(e.target).length === 0) {
+                    my_popup_div.hide();
+                }
+            });
         });
     </script>
 </head>
