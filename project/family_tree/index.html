@@ -3,21 +3,23 @@
 <head>
     <meta charset="utf-8">
     <title>Family Tree</title>
+    <!-- FontAwesome 5 -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"> -->
     <link rel="stylesheet" type="text/css" href="css/tree_style.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js\jquery_3.6.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             $(".profile_pic_img").on("click", function(){
-                // $(this).parent("a")
-                //     .children("div.popup_box")
-                //     .css({
-                //         display: "block",
-                //         position: "absolute",
-                //         left: ($(this).parent("a").offset().left + $(this).width()) + "px",
-                //         top: $(this).parent("a").offset().top + "px"
-                //     }
-                // );
+                $(this).parent("a")
+                    .children("div.popup_box")
+                    .css({
+                        display: "block",
+                        position: "absolute",
+                        left: ($(this).parent("a").offset().left + $(this).width()) + "px",
+                        top: ($(this).parent("a").offset().top+35) + "px"
+                    }
+                );
                 // var divToShow = $(this).parent("a").siblings("div.popup_box");
                 // divToShow.css({
                 //     display: "block",
@@ -46,13 +48,45 @@
                         <div class="display_inline_block">
                             <a href="#">
                                 <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar profile_pic_img">
-                                <div class="popup_box" style="display:none;">
+                                <!-- <div class="popup_box" style="display:none;">
                                     <div><label class="name">Name : </label>Test</div>
                                     <div><label class="age">Age : </label>50</div>
                                     <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
                                     <div><label class="dob">DOB : </label>10-10-1945</div>
                                     <div><label class="dod">DOD : </label>20-01-1990</div>
+                                </div> -->
+                                <!-- popup start -->
+                                <div class="main popup_box" style="display:none;">
+                                    <h2>Details</h2>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <!-- <i class="fa fa-pen fa-xs edit"></i> -->
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">Test</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">50</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">1945 - 1990</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">10-10-1945</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">20-01-1990</td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td>Email</td> <td>:</td> <td>imdezcode@gmail.com</td>
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
+                                <!-- popup end -->
                             </a>
                         </div>
                         <div class="display_inline_block">
@@ -65,6 +99,38 @@
                                     <div><label class="dob">DOB : </label>10-10-1945</div>
                                     <div><label class="dod">DOD : </label>20-01-1990</div>
                                 </div> -->
+                                <!-- popup start -->
+                                <div class="main popup_box" style="display:none;">
+                                    <h2>Details</h2>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <!-- <i class="fa fa-pen fa-xs edit"></i> -->
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">Test Two</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">45</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">1945 - 1990</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">10-10-1945</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">20-01-1990</td>
+                                                    </tr>
+                                                    <!-- <tr>
+                                                        <td>Email</td> <td>:</td> <td>imdezcode@gmail.com</td>
+                                                    </tr> -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- popup end -->
                             </a>
                         </div>
                     </div>
