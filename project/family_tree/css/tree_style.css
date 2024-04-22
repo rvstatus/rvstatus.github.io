@@ -28,7 +28,7 @@
     content: '';
     position: absolute; top: 0; right: 50%;
     border-top: 1px solid #ccc;
-    width: 50%; height: 20px;
+    width: 50%; height: 12px;
 }
 .tree li::after{
     right: auto; left: 50%;
@@ -65,9 +65,9 @@ right connector from last child*/
 /*Time to add downward connectors from parents*/
 .tree ul ul::before{
     content: '';
-    position: absolute; top: 0; left: 50%;
+    position: absolute; top: 8px; left: 50%;
     border-left: 1px solid #ccc;
-    width: 0; height: 20px;
+    width: 0; height: 13px;
 }
 
 .tree li a{
@@ -103,7 +103,10 @@ right connector from last child*/
 
 .family {
     border: 1px solid #ccc;
-    padding: 15px;
-    padding-top: 42px;
+    /*padding: 15px;*/
+    padding-top: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
     display: inline;
 }

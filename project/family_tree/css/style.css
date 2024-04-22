@@ -1,5 +1,5 @@
 .avatar {
-    vertical-align: middle;
+    /*vertical-align: middle;*/
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -12,3 +12,57 @@
 .details {
     font-size: 8px;
 }
+
+.scroll_box {
+    width: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+/* popup css start */
+.main {
+    /*margin-top: 2%;
+    margin-left: 29%;
+    font-size: 28px;
+    padding: 0 10px;*/
+    width: 15%;
+    position: fixed;
+    z-index: 1;
+}
+
+.main h2 {
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.main .card {
+    background-color: #fff;
+    border-radius: 18px;
+    box-shadow: 1px 1px 8px 0 grey;
+    height: auto;
+    padding: 10px 5px 10px 5px;
+}
+
+.main .card table {
+    border: none;
+    font-size: 15px;
+    height: 125px;
+    width: 100%;
+}
+/*
+.edit {
+    position: absolute;
+    color: #e7e7e8;
+    right: 14%;
+}*/
+
+.tar {
+    text-align: right;
+}
+
+.tal {
+    text-align: left;
+}
+/* popup css end */
