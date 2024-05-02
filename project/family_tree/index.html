@@ -10,23 +10,32 @@
     <script src="js\jquery_3.6.4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            // refers to scroll window into left
+            var lastScrollLeft = 0;
+            $(window).scroll(function() {
+                my_popup_div.hide();
+                var documentScrollLeft = $(document).scrollLeft();
+                if (lastScrollLeft != documentScrollLeft) {
+                    lastScrollLeft = documentScrollLeft;
+                }
+            });
             var my_popup_div = null;
-            $(".profile_pic_img").on("click", function() {
-                $(this).parent("a")
-                    .children("div.popup_box")
+            $(".profile_pic_img").on("click", function(evt) {
+                $(this).children("div.popup_box")
                     .css({
                         display: "block",
-                        position: "absolute",
-                        left: ($(this).parent("a").offset().left + $(this).width()) + "px",
-                        top: ($(this).parent("a").offset().top+35) + "px"
+                        left: evt.pageX-lastScrollLeft,
+                        top: evt.pageY
                     }
                 );
-                my_popup_div = $(this).parent("a").children("div.popup_box");
+                my_popup_div = $(this).children("div.popup_box");
             });
             $(document).mouseup(function(e){
                 // if the target of the click isn't the my_popup_div nor a descendant of the my_popup_div
-                if (!my_popup_div.is(e.target) && my_popup_div.has(e.target).length === 0) {
-                    my_popup_div.hide();
+                if(my_popup_div != null) {
+                    if (!my_popup_div.is(e.target) && my_popup_div.has(e.target).length === 0) {
+                        my_popup_div.hide();
+                    }
                 }
             });
         });
@@ -37,17 +46,11 @@
         <div class="tree">
             <ul>
                 <li>
+                    <!-- top of the family member start -->
                     <div class="family">
                         <div class="display_inline_block">
-                            <a href="#">
-                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar profile_pic_img">
-                                <!-- <div class="popup_box" style="display:none;">
-                                    <div><label class="name">Name : </label>Test</div>
-                                    <div><label class="age">Age : </label>50</div>
-                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                </div> -->
+                            <a class="profile_pic_img">
+                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
                                 <!-- popup start -->
                                 <div class="main popup_box" style="display:none;">
                                     <h2>Details</h2>
@@ -57,19 +60,19 @@
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">Test</td>
+                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">Searching</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">50</td>
+                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">1945 - 1990</td>
+                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">10-10-1945</td>
+                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">20-01-1990</td>
+                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
                                                     </tr>
                                                     <!-- <tr>
                                                         <td>Email</td> <td>:</td> <td>imdezcode@gmail.com</td>
@@ -83,15 +86,8 @@
                             </a>
                         </div>
                         <div class="display_inline_block">
-                            <a href="#">
-                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar profile_pic_img">
-                                <!-- <div class="display_inline_block details">
-                                    <div><label class="name">Name : </label>Test One</div>
-                                    <div><label class="age">Age : </label>55</div>
-                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                </div> -->
+                            <a class="profile_pic_img">
+                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
                                 <!-- popup start -->
                                 <div class="main popup_box" style="display:none;">
                                     <h2>Details</h2>
@@ -101,19 +97,19 @@
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">Test Two</td>
+                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">Searching</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">45</td>
+                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">1945 - 1990</td>
+                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">10-10-1945</td>
+                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">20-01-1990</td>
+                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
                                                     </tr>
                                                     <!-- <tr>
                                                         <td>Email</td> <td>:</td> <td>imdezcode@gmail.com</td>
@@ -129,263 +125,1372 @@
                     </div>
                     <ul>
                         <li>
-                            <!-- <a href="#">Child</a> -->
+                            <!-- p.velkan nadar family member start -->
                             <div class="family">
                                 <div class="display_inline_block">
-                                    <a href="#">
+                                    <a class="profile_pic_img">
                                         <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                        <!-- <div class="display_inline_block details">
-                                            <div><label class="name">Name : </label>Child</div>
-                                            <div><label class="age">Age : </label>50</div>
-                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                        </div> -->
+                                        <!-- popup start -->
+                                        <div class="main popup_box" style="display:none;">
+                                            <h2>Details</h2>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.வேல்கண் நாடார்</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- popup end -->
                                     </a>
                                 </div>
                                 <div class="display_inline_block">
-                                    <a href="#">
+                                    <a class="profile_pic_img">
                                         <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                        <!-- <div class="display_inline_block details">
-                                            <div><label class="name">Name : </label>Child One</div>
-                                            <div><label class="age">Age : </label>55</div>
-                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                        </div> -->
+                                        <!-- popup start -->
+                                        <div class="main popup_box" style="display:none;">
+                                            <h2>Details</h2>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">வே.பாலம்மாள்</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- popup end -->
                                     </a>
                                 </div>
                             </div>
                             <ul>
                                 <li>
-                                    <!-- <a href="#">Great Grand Child</a> -->
+                                    <!-- v.palaiya nadar family member start -->
                                     <div class="family">
                                         <div class="display_inline_block">
-                                            <a href="#">
+                                            <a class="profile_pic_img">
                                                 <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child</div>
-                                                    <div><label class="age">Age : </label>50</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
+                                                <!-- popup start -->
+                                                <div class="main popup_box" style="display:none;">
+                                                    <h2>Details</h2>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">வே.பாலையா நாடார்</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- popup end -->
                                             </a>
                                         </div>
                                         <div class="display_inline_block">
-                                            <a href="#">
+                                            <a class="profile_pic_img">
                                                 <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child One</div>
-                                                    <div><label class="age">Age : </label>55</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
+                                                <!-- popup start -->
+                                                <div class="main popup_box" style="display:none;">
+                                                    <h2>Details</h2>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">பா.மாகாளி அம்மாள்</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- popup end -->
                                             </a>
                                         </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <!-- <a href="#">Great Grand Child</a> -->
-                                    <div class="family">
                                         <div class="display_inline_block">
-                                            <a href="#">
-                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child</div>
-                                                    <div><label class="age">Age : </label>50</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
-                                            </a>
-                                        </div>
-                                        <div class="display_inline_block">
-                                            <a href="#">
+                                            <a class="profile_pic_img">
                                                 <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child One</div>
-                                                    <div><label class="age">Age : </label>55</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <!-- <a href="#">Child</a> -->
-                            <div class="family">
-                                <div class="display_inline_block">
-                                    <a href="#">
-                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                        <!-- <div class="display_inline_block details">
-                                            <div><label class="name">Name : </label>Child</div>
-                                            <div><label class="age">Age : </label>50</div>
-                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                        </div> -->
-                                    </a>
-                                </div>
-                                <div class="display_inline_block">
-                                    <a href="#">
-                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                        <!-- <div class="display_inline_block details">
-                                            <div><label class="name">Name : </label>Child One</div>
-                                            <div><label class="age">Age : </label>55</div>
-                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                        </div> -->
-                                    </a>
-                                </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="family">
-                                        <div class="display_inline_block">
-                                            <a href="#">
-                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child</div>
-                                                    <div><label class="age">Age : </label>50</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
-                                            </a>
-                                        </div>
-                                        <div class="display_inline_block">
-                                            <a href="#">
-                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child One</div>
-                                                    <div><label class="age">Age : </label>55</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <!-- <a href="#">Grand Child</a> -->
-                                    <div class="family">
-                                        <div class="display_inline_block">
-                                            <a href="#">
-                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child</div>
-                                                    <div><label class="age">Age : </label>50</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
-                                            </a>
-                                        </div>
-                                        <div class="display_inline_block">
-                                            <a href="#">
-                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child One</div>
-                                                    <div><label class="age">Age : </label>55</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
+                                                <!-- popup start -->
+                                                <div class="main popup_box" style="display:none;">
+                                                    <h2>Details</h2>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">பா.சொர்ணம்மாள்</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- popup end -->
                                             </a>
                                         </div>
                                     </div>
                                     <ul>
                                         <li>
-                                            <!-- <a href="#">Great Grand Child</a> -->
+                                            <!-- p.velkan nadar family member start -->
                                             <div class="family">
                                                 <div class="display_inline_block">
-                                                    <a href="#">
+                                                    <a class="profile_pic_img">
                                                         <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                        <!-- <div class="display_inline_block details">
-                                                            <div><label class="name">Name : </label>Child</div>
-                                                            <div><label class="age">Age : </label>50</div>
-                                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                        </div> -->
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.வேல்கண் நாடார் @ முருகாண்டி நாடார்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
                                                     </a>
                                                 </div>
                                                 <div class="display_inline_block">
-                                                    <a href="#">
+                                                    <a class="profile_pic_img">
                                                         <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                        <!-- <div class="display_inline_block details">
-                                                            <div><label class="name">Name : </label>Child One</div>
-                                                            <div><label class="age">Age : </label>55</div>
-                                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                        </div> -->
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">வே.சக்கரையம்மாள்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <!-- v.palasekar family member start -->
+                                                    <div class="family">
+                                                        <div class="display_inline_block">
+                                                            <a class="profile_pic_img">
+                                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                <!-- popup start -->
+                                                                <div class="main popup_box" style="display:none;">
+                                                                    <h2>Details</h2>
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <table>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">வே.பாலசேகர்</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- popup end -->
+                                                            </a>
+                                                        </div>
+                                                        <div class="display_inline_block">
+                                                            <a class="profile_pic_img">
+                                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                                <!-- popup start -->
+                                                                <div class="main popup_box" style="display:none;">
+                                                                    <h2>Details</h2>
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <table>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">பா.லிங்கபுஸ்பம்</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- popup end -->
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="family">
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.NAME ONE</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.NAME ONE</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="family">
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.NAME TWO</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.NAME TWO</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <!-- v.palasekar family member end -->
+                                                </li>
+                                                <li>
+                                                    <!-- v.chandira sekar family member start -->
+                                                    <div class="family">
+                                                        <div class="display_inline_block">
+                                                            <a class="profile_pic_img">
+                                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                <!-- popup start -->
+                                                                <div class="main popup_box" style="display:none;">
+                                                                    <h2>Details</h2>
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <table>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">வே.சந்திர சேகர்</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- popup end -->
+                                                            </a>
+                                                        </div>
+                                                        <div class="display_inline_block">
+                                                            <a class="profile_pic_img">
+                                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                                <!-- popup start -->
+                                                                <div class="main popup_box" style="display:none;">
+                                                                    <h2>Details</h2>
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <table>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">ச.கோமதி @ புனிதா</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- popup end -->
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <!-- c.ram prasath family member start -->
+                                                            <div class="family">
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">ச.ராம் பிரசாத்</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">ரா.ஜெயப்பிரதா</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <!-- c.ram prasath family member end -->
+                                                        </li>
+                                                        <li>
+                                                            <!-- c.viswa family member start -->
+                                                            <div class="family">
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">ச.சுந்தரேச விஸ்வநாத்</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">சு.சண்முக பிரியா</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <!-- c.viswa family member end -->
+                                                        </li>
+                                                        <li>
+                                                            <!-- c.ragav family member start -->
+                                                            <div class="family">
+                                                                <div class="display_inline_block">
+                                                                    <a class="profile_pic_img">
+                                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                        <!-- popup start -->
+                                                                        <div class="main popup_box" style="display:none;">
+                                                                            <h2>Details</h2>
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <table>
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">ச.கிருஷ்ண ராகவ்</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">28</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">1995 - present</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">09-11-1995</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">alive</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- popup end -->
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <!-- c.ragav family member end -->
+                                                        </li>
+                                                    </ul>
+                                                    <!-- v.chandira sekar family member end -->
+                                                </li>
+                                            </ul>
+                                            <!-- p.velkan nadar family member end -->
+                                        </li>
+                                        <li>
+                                            <!-- m.pitchaikani ammal family member start -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">முத்து நாடார்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">மு.பிச்சை கணியம்மாள்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- m.pitchaikani ammal family member end -->
+                                        </li>
+                                        <li>
+                                            <!-- m.thangakani ammal family member start -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">தங்கராஜ் நாடார்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">த.தங்ககணி அம்மாள்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- m.thangakani ammal family member end -->
+                                        </li>
+                                        <li>
+                                            <!-- p.rangasamy nadar family member start -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.ரங்கசாமி நாடார்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">ர.கமலேஸ்வரி அம்மாள்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- p.rangasamy nadar family member end -->
+                                        </li>
+                                        <li>
+                                            <!-- p.jeyapandi nadar family member start -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.ஜெயபாண்டி நாடார்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">ஜெ.தங்கக்கொடி அம்மாள்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- p.jeyapandi nadar family member end -->
+                                        </li>
+                                        <li>
+                                            <!-- p.pitchipo ammal family member start -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">சௌந்தரபாண்டி நாடார்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.பிச்சிப்பூ அம்மாள்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- p.pitchipo ammal family member end -->
+                                        </li>
+                                        <li>
+                                            <!-- p.mani nadar family member start -->
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.மணி நாடார்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                        <!-- popup start -->
+                                                        <div class="main popup_box" style="display:none;">
+                                                            <h2>Details</h2>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <table>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">ம.ஜெயம் அம்மாள்</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- popup end -->
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- p.mani nadar family member end -->
+                                        </li>
+                                    </ul>
+                                    <!-- v.palaiya nadar family member end -->
+                                </li>
+                                <li>
+                                    <!-- v.shanmuga nadar family member start -->
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a class="profile_pic_img">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                <!-- popup start -->
+                                                <div class="main popup_box" style="display:none;">
+                                                    <h2>Details</h2>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">வே.சண்முக நாடார்</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- popup end -->
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a class="profile_pic_img">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                                <!-- popup start -->
+                                                <div class="main popup_box" style="display:none;">
+                                                    <h2>Details</h2>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="tar">Name</td> <td>:</td> <td class="tal">ச.சொர்ணம்மாள்</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- popup end -->
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- v.shanmuga nadar family member end -->
+                                </li>
+                            </ul>
+                            <!-- p.velkan nadar family member end -->
+                        </li>
+                        <li>
+                            <!-- p.palavesa muthu nadar family member start -->
+                            <div class="family">
+                                <div class="display_inline_block">
+                                    <a class="profile_pic_img">
+                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                        <!-- popup start -->
+                                        <div class="main popup_box" style="display:none;">
+                                            <h2>Details</h2>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">பா.பலவேச முத்து நாடார்</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- popup end -->
+                                    </a>
+                                </div>
+                                <div class="display_inline_block">
+                                    <a class="profile_pic_img">
+                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                        <!-- popup start -->
+                                        <div class="main popup_box" style="display:none;">
+                                            <h2>Details</h2>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="tar">Name</td> <td>:</td> <td class="tal">NAME</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Age</td> <td>:</td> <td class="tal">AA</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">Life Cycle</td> <td>:</td> <td class="tal">YYYY - YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOB</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="tar">DOD</td> <td>:</td> <td class="tal">DD-MM-YYYY</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- popup end -->
+                                    </a>
+                                </div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a class="profile_pic_img">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a class="profile_pic_img">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="family">
+                                        <div class="display_inline_block">
+                                            <a class="profile_pic_img">
+                                                <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                            </a>
+                                        </div>
+                                        <div class="display_inline_block">
+                                            <a class="profile_pic_img">
+                                                <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div class="family">
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                    </a>
+                                                </div>
+                                                <div class="display_inline_block">
+                                                    <a class="profile_pic_img">
+                                                        <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
                                                     </a>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
-                                            <!-- <a href="#">Great Grand Child</a> -->
                                             <div class="family">
                                                 <div class="display_inline_block">
-                                                    <a href="#">
+                                                    <a class="profile_pic_img">
                                                         <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                        <!-- <div class="display_inline_block details">
-                                                            <div><label class="name">Name : </label>Child</div>
-                                                            <div><label class="age">Age : </label>50</div>
-                                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                        </div> -->
                                                     </a>
                                                 </div>
                                                 <div class="display_inline_block">
-                                                    <a href="#">
+                                                    <a class="profile_pic_img">
                                                         <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                        <!-- <div class="display_inline_block details">
-                                                            <div><label class="name">Name : </label>Child One</div>
-                                                            <div><label class="age">Age : </label>55</div>
-                                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                        </div> -->
                                                     </a>
                                                 </div>
                                             </div>
                                         </li>
                                         <li>
-                                            <!-- <a href="#">Great Grand Child</a> -->
                                             <div class="family">
                                                 <div class="display_inline_block">
-                                                    <a href="#">
+                                                    <a class="profile_pic_img">
                                                         <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                        <!-- <div class="display_inline_block details">
-                                                            <div><label class="name">Name : </label>Child</div>
-                                                            <div><label class="age">Age : </label>50</div>
-                                                            <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                        </div> -->
                                                     </a>
                                                 </div>
                                                 <div class="display_inline_block">
-                                                    <a href="#">
+                                                    <a class="profile_pic_img">
                                                         <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                        <!-- <div class="display_inline_block details">
-                                                            <div><label class="name">Name : </label>Child One</div>
-                                                            <div><label class="age">Age : </label>55</div>
-                                                            <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                            <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                            <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                        </div> -->
                                                     </a>
                                                 </div>
                                             </div>
@@ -393,37 +1498,24 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <!-- <a href="#">Grand Child</a> -->
                                     <div class="family">
                                         <div class="display_inline_block">
-                                            <a href="#">
+                                            <a class="profile_pic_img">
                                                 <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child</div>
-                                                    <div><label class="age">Age : </label>50</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1945 - 1990</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
                                             </a>
                                         </div>
                                         <div class="display_inline_block">
-                                            <a href="#">
+                                            <a class="profile_pic_img">
                                                 <img src="image/common/female_img_avatar.png" alt="Female Avatar" class="avatar">
-                                                <!-- <div class="display_inline_block details">
-                                                    <div><label class="name">Name : </label>Child One</div>
-                                                    <div><label class="age">Age : </label>55</div>
-                                                    <div><label class="lifecycle">Life Cycle : </label>1955 - 1995</div>
-                                                    <div><label class="dob">DOB : </label>10-10-1945</div>
-                                                    <div><label class="dod">DOD : </label>20-01-1990</div>
-                                                </div> -->
                                             </a>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
+                            <!-- p.palavesa muthu nadar family member end -->
                         </li>
                     </ul>
+                    <!-- top of the family member end -->
                 </li>
             </ul>
         </div>
