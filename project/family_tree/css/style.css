@@ -16,11 +16,10 @@ body {
     font-size: 8px;
 }
 
-/*.scroll_box {
-    width: auto;
-    overflow-x: auto;
-    white-space: nowrap;
-}*/
+.scroll_box {
+  height: 800px;
+  overflow-y: scroll;
+}
 
 /* popup css start */
 .main {
