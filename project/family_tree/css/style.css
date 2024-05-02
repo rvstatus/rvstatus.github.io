@@ -28,7 +28,7 @@ body {
     margin-left: 29%;
     font-size: 28px;
     padding: 0 10px;*/
-    width: 17%;
+    width: auto;
     position: fixed;
     z-index: 1;
 }
