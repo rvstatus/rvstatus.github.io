@@ -12,20 +12,35 @@
         $(document).ready(function() {
             // refers to scroll window into left
             var lastScrollLeft = 0;
+            var lastScrollTop = 0;
             $(window).scroll(function() {
                 my_popup_div.hide();
                 var documentScrollLeft = $(document).scrollLeft();
                 if (lastScrollLeft != documentScrollLeft) {
                     lastScrollLeft = documentScrollLeft;
                 }
+                var documentScrollTop = $(document).scrollTop();
+                if (lastScrollTop != documentScrollTop) {
+                    lastScrollTop = documentScrollTop;
+                }
             });
             var my_popup_div = null;
             $(".profile_pic_img").on("click", function(evt) {
+                // returns height of browser viewport
+                // var windowHeight = $(window).height();
+                // alert(windowHeight);
+                // alert(evt.pageY);
+                // alert((windowHeight / 1.5 ));
+                // if((windowHeight / 1.5 ) < evt.pageY) {
+                //     alert("before : "+lastScrollTop);
+                //     lastScrollTop = evt.pageY-windowHeight;
+                //     alert("after : "+lastScrollTop);
+                // }
                 $(this).children("div.popup_box")
                     .css({
                         display: "block",
                         left: evt.pageX-lastScrollLeft,
-                        top: evt.pageY
+                        top: evt.pageY-lastScrollTop
                     }
                 );
                 my_popup_div = $(this).children("div.popup_box");
