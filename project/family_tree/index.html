@@ -7,9 +7,25 @@
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"> -->
     <link rel="stylesheet" type="text/css" href="css/tree_style.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js\jquery_3.6.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lightbox/css/lightbox.min.css">
+
+    <script src="js/jquery_3.6.4.min.js"></script>
+    <script src="lightbox/js/lightbox-plus-jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            // disable the developer tool on right click
+            document.oncontextmenu = function() { return false; };
+
+            // disable F12 key OR Ctrl+Shift+I OR Ctrl+Shift+J OR Ctrl+U combo
+            document.addEventListener('keydown', event => {
+              if (event.keyCode === 123 
+                || (event.ctrlKey && event.shiftKey && event.keyCode === 73) 
+                || (event.ctrlKey && event.shiftKey && event.keyCode === 74)
+                || (event.ctrlKey && event.keyCode === 85)) {
+                event.preventDefault();
+              }
+            });
+
             // refers to scroll window into left
             var lastScrollLeft = 0;
             var lastScrollTop = 0;
@@ -45,7 +61,8 @@
                 );
                 my_popup_div = $(this).children("div.popup_box");
             });
-            $(document).mouseup(function(e){
+
+            $(document).mouseup(function(e) {
                 // if the target of the click isn't the my_popup_div nor a descendant of the my_popup_div
                 if(my_popup_div != null) {
                     if (!my_popup_div.is(e.target) && my_popup_div.has(e.target).length === 0) {
@@ -53,10 +70,47 @@
                     }
                 }
             });
+
+            // $(document).mousedown(function(e) {
+            //     if( e.button == 2 ) {
+            //         // alert($(this).attr('title'));
+            //     }
+            //     return true;
+            // });
+
+            // double click time preview the image
+            $(".profile_pic_img img").dblclick(function () {
+                my_popup_div.hide();
+                // set the src,alt of the image clicked into lightbox anchor and image tag
+                $(".lightbox_tag img").attr("src",$(this).attr("src"));
+                $(".lightbox_tag img").attr("alt",$(this).attr("alt"));
+
+                $(".lightbox_tag").attr("href",$(this).attr("src"));
+                $(".lightbox_tag").attr("data-title",$(this).attr("alt"));
+
+                if($(".lightbox_tag").attr("href") != "") {
+                    // trigger the lightbox_tag
+                    $(".lightbox_tag").trigger("click");
+
+                    // empty the src,alt of the image clicked into lightbox anchor and image tag
+                    $(".lightbox_tag img").attr("src","");
+                    $(".lightbox_tag img").attr("alt","");
+
+                    $(".lightbox_tag").attr("href","");
+                    $(".lightbox_tag").attr("data-title","");
+                }
+            });
         });
     </script>
 </head>
 <body>
+    <section>
+        <div>
+            <a href="" data-lightbox="example-2" data-title="" class="lightbox_tag" style="display : none;">
+                <img src="" alt=""/>
+            </a>
+        </div>
+    </section>
     <div class="scroll_box">
         <div class="tree">
             <ul>
@@ -819,7 +873,7 @@
                                                             <div class="family">
                                                                 <div class="display_inline_block">
                                                                     <a class="profile_pic_img">
-                                                                        <img src="image/common/male_img_avatar.png" alt="Male Avatar" class="avatar">
+                                                                        <img src="image/krishna_ragav_c/ragav_1.jpg" alt="krishna ragav" class="image">
                                                                         <!-- popup start -->
                                                                         <div class="main popup_box" style="display:none;">
                                                                             <h2>Details</h2>
