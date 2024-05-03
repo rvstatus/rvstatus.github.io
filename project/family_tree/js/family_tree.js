@@ -16,7 +16,9 @@ $(document).ready(function() {
     var lastScrollLeft = 0;
     var lastScrollTop = 0;
     $(window).scroll(function() {
-        my_popup_div.hide();
+        if(my_popup_div != null) {
+            my_popup_div.hide();
+        }
         var documentScrollLeft = $(document).scrollLeft();
         if (lastScrollLeft != documentScrollLeft) {
             lastScrollLeft = documentScrollLeft;
