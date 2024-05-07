@@ -29,6 +29,11 @@
   background-color: #fb1515;
 }
 
+#home_page {
+  top: 340px;
+  background-color: #0c2e8a;
+}
+
 .ml80 {
   margin-left:80px;
 }
