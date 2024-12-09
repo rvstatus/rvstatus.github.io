@@ -47,6 +47,22 @@ $(document).ready(function() {
                 top: evt.pageY-lastScrollTop+20
             }
         );
+
+        // calculate the date as per the given details
+        var dob_value = $(this).children("div.popup_box").find('.popup_box_table_td_dob').eq(0).text();
+        var dod_value = $(this).children("div.popup_box").find('.popup_box_table_td_dod').eq(0).text();
+        var lc_value = $(this).children("div.popup_box").find('.popup_box_table_td_lc').eq(0).text();
+        var age_value = $(this).children("div.popup_box").find('.popup_box_table_td_age').eq(0).text();
+        var dod = dod_value;
+        if(dod_value == "alive") {
+            dod = get_current_date();
+        }
+        var start = parseDate(dob_value);
+        var end = parseDate(dod);
+        var lc = calculate_life_cycle(start,end,dod_value);
+        var age = calculate_age(start, end); // birthdate and end date
+        $(this).children("div.popup_box").find('.popup_box_table_td_lc').eq(0).text(lc);
+        $(this).children("div.popup_box").find('.popup_box_table_td_age').eq(0).text(age);
         my_popup_div = $(this).children("div.popup_box");
     });
 
@@ -89,3 +105,68 @@ $(document).ready(function() {
         }
     });
 });
+
+// get the current date
+function get_current_date() {
+    var current_date = new Date();
+    var formatted_date = format_date(current_date);
+    return formatted_date;
+}
+
+// function to format date in dd-mm-yyyy format
+function format_date(date) {
+    var day = String(date.getDate()).padStart(2, '0');
+    var month = String(date.getMonth() + 1).padStart(2, '0');
+    var year = date.getFullYear();
+    return day + '-' + month + '-' + year;
+}
+
+// function to parse a date in "DD-MM-YYYY" format
+function parseDate(dateStr) {
+    var parts = dateStr.split('-');
+    return new Date(parts[2], parts[1] - 1, parts[0]);
+}
+
+// calculate difference in years, months, and days
+function calculate_life_cycle(start, end, dod_value) {
+
+    var years = end.getFullYear() - start.getFullYear();
+    var months = end.getMonth() - start.getMonth();
+    var days = end.getDate() - start.getDate();
+
+    // adjust months and years if necessary
+    if (days < 0) {
+        months--;
+        days += new Date(end.getFullYear(), end.getMonth(), 0).getDate();
+    }
+
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    var start_year = start.getFullYear();
+    var end_year = end.getFullYear();
+    if(dod_value == "alive") {
+        end_year = "present"
+    }
+
+    // var lc_str = " ( " + years + " years, " + months + " months, " + days + " days )";
+    var lc_str = start_year +" - "+ end_year +" ( "+ years +" years, " + months + " months, " + days + " days )";
+    return lc_str;
+}
+
+// calculate age
+function calculate_age(startDate, endDate) {
+    var startDateObj = new Date(startDate);
+    var endDateObj = new Date(endDate);
+    
+    var age = endDateObj.getFullYear() - startDateObj.getFullYear();
+
+    var monthDifference = endDateObj.getMonth() - startDateObj.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && endDateObj.getDate() < startDateObj.getDate())) {
+        age--;
+    }
+
+    return age;
+}
