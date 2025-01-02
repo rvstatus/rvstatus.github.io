@@ -12,7 +12,10 @@
 
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+    <!-- <link rel="stylesheet" href="{{ asset('resources/assets/css/font_awesome/all.css') }}"> -->
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
 
     <!-- Styles -->
@@ -82,13 +85,13 @@
                 <header> <a>Expense Management</a> </header>
                 <ul class="nav">
                     <li>
-                        <a href="javascript:alert('under construction');">
-                          <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard
+                        <a href="{{ url('/expense_dashboard') }}">
+                          <i class="fas fa-tachometer-alt" aria-hidden="true"></i> Dashboard
                         </a>
                     </li>
                     <li>
                         <a href="{{ url('/expense_list') }}">
-                          <i class="fa fa-money" aria-hidden="true"></i> Expanse List
+                          <i class="fas fa-coins" aria-hidden="true"></i> Expanse List
                         </a>
                     </li>
                     <!-- <li>
