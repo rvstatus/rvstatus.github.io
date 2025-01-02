@@ -19,6 +19,14 @@ Route::auth();
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
+
+// expense screen start
 Route::get('/expense_list', 'ExpenseController@expense_list');
 Route::get('/expense_register', 'ExpenseController@expense_register');
 Route::post('/exp_reg_process', 'ExpenseController@exp_reg_process');
+// expense screen end
+
+// expense dashboard screen start
+Route::get('/expense_dashboard', 'ExpenseDashBoardController@expense_dashboard');
+
+// expense dashboard screen end

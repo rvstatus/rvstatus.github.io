@@ -66,7 +66,7 @@
                                     <td>{{ $expense->created_by }}</td>
                                     <td>
                                         <ul class="action-list">
-                                            <li><a href="javascript:alert('under construction');" class="btn btn-primary"><i class="fa fa-pencil"></i></a></li>
+                                            <li><a href="javascript:alert('under construction');" class="btn btn-primary"><i class="fas fa-pen"></i></a></li>
                                             <li><a href="javascript:alert('under construction');" class="btn btn-danger"><i class="fa fa-times"></i></a></li>
                                             <li><a href="javascript:alert('under construction');" class="btn btn-sm btn-warning"><i class="fa fa-info-circle"></i></a></li>
                                         </ul>
