@@ -1,5 +1,5 @@
 <?php
-namespace App\Repositories;
+namespace App\Http\Repositories;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;

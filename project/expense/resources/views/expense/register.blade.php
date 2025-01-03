@@ -11,6 +11,24 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/exp_reg_process') }}">
                         {{ csrf_field() }}
 
+                        <div class="form-group{{ $errors->has('project_type_name') ? ' has-error' : '' }}">
+                            <label for="project_type_name" class="col-md-4 control-label">Project Type Name</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="project_type_name" id="project_type_name">
+                                    <option value="">Select Project Type</option>
+                                        @foreach($project_type_list as $project_type)
+                                            <option value="{{ $project_type->project_type_id }}"  {{old('project_type_name') == $project_type->project_type_id  ? 'selected' : ''}}>{{ $project_type->project_type_name}}</option>
+                                        @endforeach
+                                </select>
+                                @if ($errors->has('project_type_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('project_type_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('mason_name') ? ' has-error' : '' }}">
                             <label for="mason_name" class="col-md-4 control-label">Mason Name</label>
 
