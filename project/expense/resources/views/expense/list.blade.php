@@ -1,10 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-
+<script type="text/javascript">
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('#response_message').fadeOut();
+        }, 5000); // 5 seconds
+    });
+</script>
 <link rel="stylesheet" href="{{ asset('resources/assets/css/expense/list.css') }}">
 @if(session()->has('response'))
-    <div class="alert {{ session()->get('response')['design'] }}">
+    <div id="response_message"  class="alert {{ session()->get('response')['design'] }}">
         {{ session()->get('response')['message'] }}
     </div>
 @endif
@@ -15,7 +21,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
-                            <a href="{{ url('/expense_register') }}" class="btn btn-sm btn-primary pull-left"><i class="fa fa-plus-circle"></i> Add New</a>
+                            <a href="{{ url('/expense_register') }}" class="btn btn-sm btn-primary pull-left"><i class="fa fa-plus-circle"></i> Add New Expense</a>
                             <form class="form-horizontal pull-right">
                                 <div class="form-group">
                                     <label>Sort By : </label>
@@ -36,6 +42,7 @@
                           <colgroup>
                             <col width="5%" />
                             <col />
+                            <col />
                             <col width="5%" />
                             <col width="10%" />
                             <col width="15%" />
@@ -45,7 +52,8 @@
                           </colgroup>
                             <tr>
                                 <th>S.No</th>
-                                <th>Name</th>
+                                <th>Project Name</th>
+                                <th>Worker Name</th>
                                 <th>Date</th>
                                 <th>Work Type</th>
                                 <th>Work Category</th>
@@ -55,9 +63,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($exp_list as $expense)
+                            @foreach($exp_list as $index => $expense)
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $expense->project_type_name }}</td>
                                     <td>{{ $expense->name }}</td>
                                     <td>{{ $expense->working_date }}</td>
                                     <td>{{ $expense->work_type_name }}</td>
