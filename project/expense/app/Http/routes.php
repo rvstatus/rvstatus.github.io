@@ -27,6 +27,6 @@ Route::post('/exp_reg_process', 'ExpenseController@exp_reg_process');
 // expense screen end
 
 // expense dashboard screen start
-Route::get('/expense_dashboard', 'ExpenseDashBoardController@expense_dashboard');
+Route::any('/expense_dashboard', 'ExpenseDashBoardController@expense_dashboard');
 
 // expense dashboard screen end

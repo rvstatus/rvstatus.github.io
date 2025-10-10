@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ asset('resources/assets/image/wallet.png') }}" sizes="16x16" type="image/png">
+
     <title>Expense Management</title>
     <!-- date picker css start -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -22,11 +23,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     <!-- <script src="{{ asset('resources/assets/js/pages.js') }}"></script> -->
-    <!-- <link rel="stylesheet" href="{{ asset('resources/assets/css/main.css') }}"> -->
+    <link rel="stylesheet" href="{{ asset('resources/assets/css/main.css') }}">
     <style>
         body {
             font-family: 'Lato';
         }
+
         .fa-btn {
             margin-right: 6px;
         }
@@ -39,17 +41,6 @@
     <!-- date picker js start -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
     <!-- date picker js end -->
-
-    <!-- jQuery time picker plugin start -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-    <!-- jQuery time picker plugin end -->
-
-    @if(Auth::check())
-    <link rel="stylesheet" href="{{ asset('resources/assets/css/main_login.css') }}">
-    @else
-    <link rel="stylesheet" href="{{ asset('resources/assets/css/main.css') }}">
-    @endif
 </head>
 
 <body id="app-layout">
@@ -98,13 +89,12 @@
             <!-- nav-left -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class='nav-link' style="padding-top : 20px !important;">
+                    <a class='nav-link'>
                         <i class="fas fa-bars" onclick="collapseSidebar()"></i>
                     </a>
                 </li>
                 <li class="nav-item">
                     <img src="{{ asset('resources/assets/image/expenseic.png') }}" alt="" class="logo">
-
                 </li>
             </ul>
 
@@ -118,27 +108,7 @@
                             <i class="fas fa-sun light-icon"></i>
                         </a>
                     </li> -->
-                <li class="dropdown avt">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{ asset('resources/assets/image/userlogo.png') }}" alt="User Avatar" class="img-circle" width="35" height="35">
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <!-- <a href="10-Profile.php"> -->
-                            <a href="javascript:alert('under construction')">
-                                <i class="fas fa-user-tie"></i> Profile
-                            </a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="{{ url('/logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                     <div class="avt dropdown">
                         <img src="{{ asset('resources/assets/image/userlogo.png') }}" alt="" class="dropdown-toggle" data-toggle="user-menu">
                         <ul id="user-menu" class="dropdown-menu">
@@ -151,7 +121,7 @@
                                 </a>
                             </li>
                             <li class="dropdown-menu-item">
-                                <a href="{{ url('/logout') }}" class="dropdown-menu-link">
+                                <a href="logout.php" class="dropdown-menu-link">
                                     <div>
                                         <i class="fas fa-sign-out-alt"></i>
                                     </div>
@@ -160,7 +130,7 @@
                             </li>
                         </ul>
                     </div>
-                </li> -->
+                </li>
             </ul>
             <!-- sidebar start -->
             <div class="sidebar">
