@@ -2,92 +2,141 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-// use App\Http\Repositories\ExpenseRepository;
-use Illuminate\Http\Request;
+use App\Http\Repositories\ExpenseRepository;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ExpenseDashBoardController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+     /**
+      * Create a new controller instance.
+      *
+      * @return void
+      */
+     public function __construct()
+     {
+          $this->middleware('auth');
+     }
 
-    /**
-     * Show the application expense dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function expense_dashboard()
-    {
-        // total expense
-        $total_exp = DB::table('t_expense')->sum('salary');
+     /**
+      * Show the application expense dashboard.
+      *
+      * @param $request
+      * @return \Illuminate\Http\Response
+      */
+     public function expense_dashboard(Request $request)
+     {
 
-        // total today expense
-        $total_today_exp = DB::table('t_expense')
-                            ->where('working_date', '=', Carbon::today()->toDateString())
-                            ->sum('salary');
+          $project_type = $request->input('project_type');
+          $work_type =  $request->input('work_type');
+          // total expense
+          $total_exp = $this->applyExpenseFilters(
+               DB::table('t_expense'),
+               $project_type,
+               $work_type
+          )->sum('salary');
 
-        // total yesterday expense
-        $total_yesterday_exp = DB::table('t_expense')
-                                ->whereRaw('DATE(working_date) = ?', [Carbon::yesterday()->toDateString()])
-                            ->sum('salary');
+          // total today expense
+          $total_today_exp = $this->applyExpenseFilters(
+               DB::table('t_expense')
+                    ->where('working_date', '=', Carbon::today()->toDateString()),
+               $project_type,
+               $work_type
+          )->sum('salary');
 
-        // total last seven days expense
-        $total_last_seven_day_exp = DB::table('t_expense')
-                            ->whereRaw('DATE(working_date) >= ?', [Carbon::today()->subDays(7)->toDateString()])
-                            ->whereRaw('DATE(working_date) <= ?', [Carbon::today()->toDateString()])
-                            ->sum('salary');
+          // total yesterday expense
+          $total_yesterday_exp = $this->applyExpenseFilters(
+               DB::table('t_expense')
+                    ->whereRaw('DATE(working_date) = ?', [Carbon::yesterday()->toDateString()]),
+               $project_type,
+               $work_type
+          )->sum('salary');
 
-        // total current month expense
-        $total_current_month_exp = DB::table('t_expense')
-                            ->whereBetween('working_date', [Carbon::now()->startOfMonth(), Carbon::now()->addMonth()->startOfMonth()])
-                            ->sum('salary');
+          // total last seven days expense
+          $total_last_seven_day_exp = $this->applyExpenseFilters(
+               DB::table('t_expense')
+                    ->whereRaw('DATE(working_date) >= ?', [Carbon::today()->subDays(7)->toDateString()])
+                    ->whereRaw('DATE(working_date) <= ?', [Carbon::today()->toDateString()]),
+               $project_type,
+               $work_type
+          )->sum('salary');
 
-        // total last month expense
-        $total_last_month_exp = DB::table('t_expense')
-                            ->whereRaw("DATE_FORMAT(working_date, '%Y-%m') = ?", [Carbon::now()->subMonth()->format('Y-m')])
-                            ->sum('salary');
+          // total current month expense
+          $total_current_month_exp = $this->applyExpenseFilters(
+               DB::table('t_expense')
+                    ->whereBetween('working_date', [Carbon::now()->startOfMonth(), Carbon::now()->addMonth()->startOfMonth()]),
+               $project_type,
+               $work_type
+          )->sum('salary');
 
-        if($total_exp == "") {
-             $total_exp = "No Expenses Logged Yet.";
-        } else {
-             $total_exp = "&#8377; ".number_format($total_exp, 2);
-        }
-        if($total_today_exp == "") {
-             $total_today_exp = "No Expenses Logged Today.";
-        } else {
-             $total_today_exp = "&#8377; ".number_format($total_today_exp, 2);
-        }
-        if($total_yesterday_exp == "") {
-             $total_yesterday_exp = "No Expenses Logged Yesterday.";
-        } else {
-             $total_yesterday_exp = "&#8377; ".number_format($total_yesterday_exp, 2);
-        }
-        if($total_last_seven_day_exp == "") {
-             $total_last_seven_day_exp = "No Expenses Logged This Week.";
-        } else {
-             $total_last_seven_day_exp = "&#8377; ".number_format($total_last_seven_day_exp, 2);
-        }
-        if($total_current_month_exp == "") {
-             $total_current_month_exp = "No Expenses This Month.";
-        } else {
-             $total_current_month_exp = "&#8377; ".number_format($total_current_month_exp, 2);
-        }
-        if($total_last_month_exp == "") {
-             $total_last_month_exp = "No Expenses Last Month.";
-        } else {
-             $total_last_month_exp = "&#8377; ".number_format($total_last_month_exp, 2);
-        }
+          // total last month expense
+          $total_last_month_exp = $this->applyExpenseFilters(
+               DB::table('t_expense')
+                    ->whereRaw("DATE_FORMAT(working_date, '%Y-%m') = ?", [Carbon::now()->subMonth()->format('Y-m')]),
+               $project_type,
+               $work_type
+          )->sum('salary');
 
-        return view('dashboard/index', compact('total_exp','total_today_exp','total_yesterday_exp','total_last_seven_day_exp','total_current_month_exp','total_last_month_exp'));
-    }
-    
+          if ($total_exp == "") {
+               $total_exp = "No Expenses Logged Yet.";
+          } else {
+               $total_exp = "&#8377; " . number_format($total_exp, 2);
+          }
+          if ($total_today_exp == "") {
+               $total_today_exp = "No Expenses Logged Today.";
+          } else {
+               $total_today_exp = "&#8377; " . number_format($total_today_exp, 2);
+          }
+          if ($total_yesterday_exp == "") {
+               $total_yesterday_exp = "No Expenses Logged Yesterday.";
+          } else {
+               $total_yesterday_exp = "&#8377; " . number_format($total_yesterday_exp, 2);
+          }
+          if ($total_last_seven_day_exp == "") {
+               $total_last_seven_day_exp = "No Expenses Logged This Week.";
+          } else {
+               $total_last_seven_day_exp = "&#8377; " . number_format($total_last_seven_day_exp, 2);
+          }
+          if ($total_current_month_exp == "") {
+               $total_current_month_exp = "No Expenses This Month.";
+          } else {
+               $total_current_month_exp = "&#8377; " . number_format($total_current_month_exp, 2);
+          }
+          if ($total_last_month_exp == "") {
+               $total_last_month_exp = "No Expenses Last Month.";
+          } else {
+               $total_last_month_exp = "&#8377; " . number_format($total_last_month_exp, 2);
+          }
+
+          $work_type_list = DB::table('mst_work_type')
+               ->select('work_type_name', 'id')
+               ->get();
+          $expenseRepository = new ExpenseRepository();
+          $project_type_list = $expenseRepository->get_project_list();
+          return view('dashboard/index', compact('total_exp', 'total_today_exp', 'total_yesterday_exp', 'total_last_seven_day_exp', 'total_current_month_exp', 'total_last_month_exp', 'work_type_list', 'project_type_list'))
+               ->with([
+                    'selected_project_type' => $project_type,
+                    'selected_work_type' => $work_type,
+               ]);
+     }
+     /**
+      * 
+      * helper to apply optional filters
+      * 
+      * @param $query
+      * @param $project_type
+      * @param $work_type
+      * @return query
+      */
+     public function applyExpenseFilters($query, $project_type, $work_type)
+     {
+          if (!empty($project_type)) {
+               $query->where('project_type_id', $project_type);
+          }
+          if (!empty($work_type)) {
+               $query->where('working_type', $work_type);
+          }
+          return $query;
+     }
 }
