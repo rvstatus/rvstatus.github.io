@@ -30,3 +30,21 @@ Route::post('/exp_reg_process', 'ExpenseController@exp_reg_process');
 Route::any('/expense_dashboard', 'ExpenseDashBoardController@expense_dashboard');
 
 // expense dashboard screen end
+
+// project type screen start
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/project_type_list', 'ProjectTypeController@project_type_list');
+    Route::post('/project_type_toggle', 'ProjectTypeController@toggle_status');
+    Route::post('/project_type_register', 'ProjectTypeController@register');
+    Route::post('/project_type_update', 'ProjectTypeController@update');
+    Route::post('/project_type_get_by_id', 'ProjectTypeController@get_by_id');
+});
+// project type screen end
+
+// work category screen start
+Route::get('/work_category_list', 'WorkCategoryController@work_category_list');
+// work category screen end
+
+// work type screen start
+Route::get('/work_type_list', 'WorkTypeController@work_type_list');
+// work type screen end
