@@ -814,6 +814,10 @@ button:focus {
     margin-top: 5px;
     font-size: 13px;
 }
+
+.is-invalid {
+    border-color: #dc3545;
+}
 /* validation error message design end */
 
 /* input screen design start */
@@ -894,3 +898,37 @@ button:focus {
 .btn-group-responsive button {
     min-width: 150px;
 }
+
+/* custom session alert for success and error message start */
+.custom-alert {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  display: inline-block;
+  line-height: 1.5;
+}
+/* custom session alert for success and error message end */
+
+/* pagination start */
+.pagination {
+  margin: 10px 0;
+}
+
+.pagination>li>a,
+.pagination>li>span {
+  color: #333;
+  padding: 6px 12px;
+}
+
+.pagination>.active>span {
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+  color: #fff;
+}
+
+.pagination>li>a:hover {
+  background-color: #eee;
+}
+
+/* pagination end */

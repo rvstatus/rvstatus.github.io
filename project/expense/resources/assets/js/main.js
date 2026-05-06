@@ -218,4 +218,41 @@ function open2() {
     }
 
 }
+// openSettingsMenu is used for open the side bar of the Project Type,Work Category,Work Type in Setting
+function openSettingsMenu() {
+    let val = document.getElementById('Settings');
+    let sib1 = val.nextElementSibling;
+    let sib2 = sib1.nextElementSibling;
+    let sib3 = sib2.nextElementSibling;
 
+    if(val.classList.length === 1) {
+        val.classList.add("open");
+
+        sib1.style.display = "block";
+        sib2.style.display = "block";
+        sib3.style.display = "block";
+    } else {
+        val.classList.remove("open");
+
+        sib1.style.display = "none";
+        sib2.style.display = "none";
+        sib3.style.display = "none";
+    }
+}
+// run when the page is fully loaded
+$(document).ready(function() {
+    // call function to hide the message after 5 seconds
+    autoHideMessage('#response_message', 5000);
+});
+
+// automatically hide a message
+function autoHideMessage(selector, time = 5000) {
+    // check if the element exists on the page
+    if ($(selector).length) {
+        // wait for the given time (in milliseconds)
+        setTimeout(function () {
+            // fade out (hide) the message slowly
+            $(selector).fadeOut('slow');
+        }, time);
+    }
+}

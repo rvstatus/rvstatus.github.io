@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,6 +28,7 @@
         body {
             font-family: 'Lato';
         }
+
         .fa-btn {
             margin-right: 6px;
         }
@@ -255,6 +257,42 @@
                             </span>
                         </a>
                     </li>
+                    <li class="sidebar-nav-item" id="Settings" onclick="openSettingsMenu()">
+                        <a href="#" class="sidebar-nav-link">
+                            <div>
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <span>
+                                Setting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item" style="display:none;">
+                        <a href="{{ url('/project_type_list') }}" class="sidebar-nav-link">
+                            <div>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <span>Project Type</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-item" style="display:none;">
+                        <a href="{{ url('/work_category_list') }}" class="sidebar-nav-link">
+                            <div>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <span>Work Category</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-nav-item" style="display:none;">
+                        <a href="{{ url('/work_type_list') }}" class="sidebar-nav-link">
+                            <div>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <span>Work Type</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- sidebar end -->
@@ -285,6 +323,9 @@
     @endif
     <script src="{{ asset('resources/assets/js/expense/expense.js') }}"></script>
     <script src="{{ asset('resources/assets/js/main.js') }}"></script>
+    <!-- SweetAlert (GLOBAL) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('resources/lang/' . app()->getLocale() . '.js') }}"></script>
 </body>
 
 </html>

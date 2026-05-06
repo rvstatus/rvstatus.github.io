@@ -1,19 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<script type="text/javascript">
-    $(document).ready(function() {
-        setTimeout(function() {
-            $('#response_message').fadeOut();
-        }, 5000); // 5 seconds
-    });
-</script>
 <link rel="stylesheet" href="{{ asset('resources/assets/css/expense/list.css') }}">
-@if(session()->has('response'))
-    <div id="response_message"  class="alert {{ session()->get('response')['design'] }}">
-        {{ session()->get('response')['message'] }}
-    </div>
-@endif
 <div class="container">
     <div class="row">
         <div class="col-md-11">
@@ -22,6 +10,12 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
                             <a href="{{ url('/expense_register') }}" class="btn btn-sm btn-primary pull-left"><i class="fa fa-plus-circle"></i> Add New Expense</a>
+
+                            @if(session()->has('response'))
+                            <div id="response_message" class="alert {{ session()->get('response')['design'] }} custom-alert">
+                                {{ session()->get('response')['message'] }}
+                            </div>
+                            @endif
                             <form class="form-horizontal pull-right">
                                 <div class="form-group">
                                     <label>Sort By : </label>
@@ -39,17 +33,17 @@
                 <div class="panel-body table-responsive">
                     <table class="table">
                         <thead>
-                          <colgroup>
-                            <col width="5%" />
-                            <col />
-                            <col />
-                            <col width="5%" />
-                            <col width="10%" />
-                            <col width="15%" />
-                            <col width="5%" />
-                            <col width="10%" />
-                            <col width="15%" />
-                          </colgroup>
+                            <colgroup>
+                                <col width="5%" />
+                                <col />
+                                <col />
+                                <col width="5%" />
+                                <col width="10%" />
+                                <col width="15%" />
+                                <col width="5%" />
+                                <col width="10%" />
+                                <col width="15%" />
+                            </colgroup>
                             <tr>
                                 <th>S.No</th>
                                 <th>Project Name</th>
@@ -64,23 +58,23 @@
                         </thead>
                         <tbody>
                             @foreach($exp_list as $index => $expense)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $expense->project_type_name }}</td>
-                                    <td>{{ $expense->name }}</td>
-                                    <td>{{ $expense->working_date }}</td>
-                                    <td>{{ $expense->work_type_name }}</td>
-                                    <td>{{ $expense->work_category_name }}</td>
-                                    <td>{{ $expense->salary }}</td>
-                                    <td>{{ $expense->created_by }}</td>
-                                    <td>
-                                        <ul class="action-list">
-                                            <li><a href="javascript:alert('under construction');" class="btn btn-primary"><i class="fas fa-pen"></i></a></li>
-                                            <li><a href="javascript:alert('under construction');" class="btn btn-danger"><i class="fa fa-times"></i></a></li>
-                                            <li><a href="javascript:alert('under construction');" class="btn btn-sm btn-warning"><i class="fa fa-info-circle"></i></a></li>
-                                        </ul>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $expense->project_type_name }}</td>
+                                <td>{{ $expense->name }}</td>
+                                <td>{{ $expense->working_date }}</td>
+                                <td>{{ $expense->work_type_name }}</td>
+                                <td>{{ $expense->work_category_name }}</td>
+                                <td>{{ $expense->salary }}</td>
+                                <td>{{ $expense->created_by }}</td>
+                                <td>
+                                    <ul class="action-list">
+                                        <li><a href="javascript:alert('under construction');" class="btn btn-primary"><i class="fas fa-pen"></i></a></li>
+                                        <li><a href="javascript:alert('under construction');" class="btn btn-danger"><i class="fa fa-times"></i></a></li>
+                                        <li><a href="javascript:alert('under construction');" class="btn btn-sm btn-warning"><i class="fa fa-info-circle"></i></a></li>
+                                    </ul>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -109,6 +103,6 @@
         </div>
     </div>
 </div>
-    
+
 
 @endsection

@@ -1,0 +1,17 @@
+
+.form-row-custom {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.form-row-custom label {
+    width: 140px;
+    line-height: 1.2;
+}
+
+.form-row-custom input {
+    flex: 1;
+    height: 30px;
+    font-size: 13px;
+}
