@@ -83,8 +83,8 @@ class ProjectTypeController extends Controller
             ],
             [
                 // custom error messages for validation
-                'project_type_name.required' => 'The Project Type Name is required.',
-                'project_type_name.max' => 'The Project Type must be 50 characters or less.',
+                'project_type_name.required' => Lang::get('messages.project_type.validation.name.required'),
+                'project_type_name.max' => Lang::get('messages.project_type.validation.name.max'),
             ]
         );
 
@@ -118,8 +118,8 @@ class ProjectTypeController extends Controller
             [
                 // custom error messages for validation
                 'id.required' => 'The Project Type Id is required.',
-                'project_type_name.required' => 'The Project Type Name is required.',
-                'project_type_name.max' => 'The Project Type must be 50 characters or less.',
+                'project_type_name.required' => Lang::get('messages.project_type.validation.name.required'),
+                'project_type_name.max' => Lang::get('messages.project_type.validation.name.max'),
             ]
         );
 

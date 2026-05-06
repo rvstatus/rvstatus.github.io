@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -42,9 +43,21 @@ Route::group(['middleware' => 'auth'], function () {
 // project type screen end
 
 // work category screen start
-Route::get('/work_category_list', 'WorkCategoryController@work_category_list');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/work_category_list', 'WorkCategoryController@work_category_list');
+    Route::post('/work_category_toggle', 'WorkCategoryController@toggle_status');
+    Route::post('/work_category_register', 'WorkCategoryController@register');
+    Route::post('/work_category_update', 'WorkCategoryController@update');
+    Route::post('/work_category_get_by_id', 'WorkCategoryController@get_by_id');
+});
 // work category screen end
 
 // work type screen start
-Route::get('/work_type_list', 'WorkTypeController@work_type_list');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/work_type_list', 'WorkTypeController@work_type_list');
+    Route::post('/work_type_toggle', 'WorkTypeController@toggle_status');
+    Route::post('/work_type_register', 'WorkTypeController@register');
+    Route::post('/work_type_update', 'WorkTypeController@update');
+    Route::post('/work_type_get_by_id', 'WorkTypeController@get_by_id');
+});
 // work type screen end

@@ -181,4 +181,5 @@
     });
 </script>
 @endif
+<script src="{{ asset('resources/assets/js/setting/projectType.js') }}"></script>
 @endsection

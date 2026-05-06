@@ -322,7 +322,6 @@
     </div>
     @endif
     <script src="{{ asset('resources/assets/js/expense/expense.js') }}"></script>
-    <script src="{{ asset('resources/assets/js/setting/projectType.js') }}"></script>
     <script src="{{ asset('resources/assets/js/main.js') }}"></script>
     <!-- SweetAlert (GLOBAL) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
