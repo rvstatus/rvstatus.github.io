@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -45,5 +47,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function register_data($name, $email, $password)
+    {
+        // default status
+        $insert = DB::table('users')->insert([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return $insert ? true : false;
     }
 }
