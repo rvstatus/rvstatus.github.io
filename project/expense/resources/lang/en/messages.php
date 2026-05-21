@@ -20,8 +20,8 @@ return [
             ],
         ],
         'create' => [
-            'success' => 'Registration completed successfully.',
-            'fail' => 'Registration failed.',
+            'success' => 'Registration Completed Successfully.',
+            'fail' => 'Registration Failed.',
         ],
     ],
     'login' => [

@@ -4,26 +4,51 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Lang;
+use App\Repositories\AuthRepository;
 
 class AuthController extends Controller
 {
-    // Login page
+    protected $authRepository;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(AuthRepository $authRepository)
+    {
+        $this->authRepository = $authRepository;
+    }
+
+    /**
+     * show the login page.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function login()
     {
         return view('auth.login');
     }
 
-    // Register page
+    /**
+     * show the register page.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function register()
     {
         return view('auth.register');
     }
 
-    // Register process
+    /**
+     * register the user data.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function register_process(Request $request)
     {
+        // server side validation
         $request->validate(
             [
                 'name' => 'required|min:3|max:50',
@@ -47,29 +72,27 @@ class AuthController extends Controller
                 'password.confirmed' => Lang::get('messages.register.validation.password.confirmed'),
             ]
         );
-
-        $userModel = new \App\Models\User();
-
-        $status = $userModel->register_data(
-            $request->name,
-            $request->email,
-            $request->password
-        );
-
+        // register process
+        $status = $this->authRepository->register($request->name, $request->email, $request->password);
         if ($status) {
-
+            // success
             return redirect('/login')
                 ->with('success', Lang::get('messages.register.create.success'));
         }
-
+        // error
         return back()
             ->withInput()
             ->with('error', Lang::get('messages.register.create.fail'));
     }
 
-    // Login process
+    /**
+     * login the user process.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function login_process(Request $request)
     {
+        // server side validation
         $request->validate(
             [
                 'email' => 'required|email',
@@ -84,11 +107,10 @@ class AuthController extends Controller
             ]
         );
 
+        // get login credentials
         $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-
+        if ($this->authRepository->login($credentials)) {
             $request->session()->regenerate();
-
             return redirect('/dashboard');
         }
         return back()->with(
@@ -97,7 +119,11 @@ class AuthController extends Controller
         );
     }
 
-    // Logout
+    /**
+     * Logout the user.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();
