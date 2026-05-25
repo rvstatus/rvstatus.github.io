@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExpenseController;
-// use App\Http\Controllers\ExpenseDashBoardController;
+use App\Http\Controllers\ExpenseDashBoardController;
 // use App\Http\Controllers\ProjectTypeController;
 // use App\Http\Controllers\WorkCategoryController;
 // use App\Http\Controllers\WorkTypeController;
@@ -46,9 +46,9 @@ Route::get('/expense_register', [ExpenseController::class, 'expense_register']);
 Route::post('/exp_reg_process', [ExpenseController::class, 'exp_reg_process']);
 // expense screen end
 
-// // expense dashboard screen start
-// Route::any('/expense_dashboard', [ExpenseDashBoardController::class, 'expense_dashboard']);
-// // expense dashboard screen end
+// expense dashboard screen start
+Route::any('/expense_dashboard', [ExpenseDashBoardController::class, 'expense_dashboard']);
+// expense dashboard screen end
 
 // // project type screen start
 // Route::middleware(['auth'])->group(function () {
