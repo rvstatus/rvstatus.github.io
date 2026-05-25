@@ -111,7 +111,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if ($this->authRepository->login($credentials)) {
             $request->session()->regenerate();
-            return redirect('/dashboard');
+            return redirect('/expense_list');
         }
         return back()->with(
             'error',

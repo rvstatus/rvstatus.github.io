@@ -116,5 +116,34 @@ return [
         ],
 
     ],
-
+    'expense' => [
+        'list' => [
+            'empty' => 'No Data Found.',
+        ],
+        'validation' => [
+            'project_type_name' => [
+                'required' => 'The Project Type Name is required.',
+            ],
+            'mason_name' => [
+                'required' => 'The Mason Name is required.',
+            ],
+            'working_date' => [
+                'required' => 'Please select a Working Date.',
+                'date' => 'The Working Date must be a valid date.',
+                'before' => 'The Working Date must be a date before today.',
+            ],
+            'working_cat' => [
+                'required' => 'The Working Category is required.',
+            ],
+            'working_type' => [
+                'required' => 'The Working Type is required.',
+            ],
+            'salary' => [
+                'required' => 'The Salary is required.',
+                'integer' => 'The Salary must be a valid integer.',
+                'min' => 'The Salary must be at least 1.',
+                'not_in' => 'The Salary cannot be zero.',
+            ],
+        ],
+    ],
 ];
