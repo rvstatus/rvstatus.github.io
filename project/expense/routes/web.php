@@ -5,9 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseDashBoardController;
-// use App\Http\Controllers\ProjectTypeController;
-// use App\Http\Controllers\WorkCategoryController;
-// use App\Http\Controllers\WorkTypeController;
+use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\WorkCategoryController;
+use App\Http\Controllers\WorkTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,32 +50,32 @@ Route::post('/exp_reg_process', [ExpenseController::class, 'exp_reg_process']);
 Route::any('/expense_dashboard', [ExpenseDashBoardController::class, 'expense_dashboard']);
 // expense dashboard screen end
 
-// // project type screen start
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/project_type_list', [ProjectTypeController::class, 'project_type_list']);
-//     Route::post('/project_type_toggle', [ProjectTypeController::class, 'toggle_status']);
-//     Route::post('/project_type_register', [ProjectTypeController::class, 'register']);
-//     Route::post('/project_type_update', [ProjectTypeController::class, 'update']);
-//     Route::post('/project_type_get_by_id', [ProjectTypeController::class, 'get_by_id']);
-// });
-// // project type screen end
+// project type screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/project_type_list', [ProjectTypeController::class, 'project_type_list']);
+    Route::post('/project_type_toggle', [ProjectTypeController::class, 'toggle_status']);
+    Route::post('/project_type_register', [ProjectTypeController::class, 'register']);
+    Route::post('/project_type_update', [ProjectTypeController::class, 'update']);
+    Route::post('/project_type_get_by_id', [ProjectTypeController::class, 'get_by_id']);
+});
+// project type screen end
 
-// // work category screen start
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/work_category_list', [WorkCategoryController::class, 'work_category_list']);
-//     Route::post('/work_category_toggle', [WorkCategoryController::class, 'toggle_status']);
-//     Route::post('/work_category_register', [WorkCategoryController::class, 'register']);
-//     Route::post('/work_category_update', [WorkCategoryController::class, 'update']);
-//     Route::post('/work_category_get_by_id', [WorkCategoryController::class, 'get_by_id']);
-// });
-// // work category screen end
+// work category screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/work_category_list', [WorkCategoryController::class, 'work_category_list']);
+    Route::post('/work_category_toggle', [WorkCategoryController::class, 'toggle_status']);
+    Route::post('/work_category_register', [WorkCategoryController::class, 'register']);
+    Route::post('/work_category_update', [WorkCategoryController::class, 'update']);
+    Route::post('/work_category_get_by_id', [WorkCategoryController::class, 'get_by_id']);
+});
+// work category screen end
 
-// // work type screen start
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/work_type_list', [WorkTypeController::class, 'work_type_list']);
-//     Route::post('/work_type_toggle', [WorkTypeController::class, 'toggle_status']);
-//     Route::post('/work_type_register', [WorkTypeController::class, 'register']);
-//     Route::post('/work_type_update', [WorkTypeController::class, 'update']);
-//     Route::post('/work_type_get_by_id', [WorkTypeController::class, 'get_by_id']);
-// });
-// // work type screen end
+// work type screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/work_type_list', [WorkTypeController::class, 'work_type_list']);
+    Route::post('/work_type_toggle', [WorkTypeController::class, 'toggle_status']);
+    Route::post('/work_type_register', [WorkTypeController::class, 'register']);
+    Route::post('/work_type_update', [WorkTypeController::class, 'update']);
+    Route::post('/work_type_get_by_id', [WorkTypeController::class, 'get_by_id']);
+});
+// work type screen end
