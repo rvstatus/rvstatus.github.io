@@ -1,7 +1,42 @@
 <?php
 
 return [
-
+    'register' => [
+        'validation' => [
+            'name' => [
+                'required' => 'Name field is required.',
+                'min' => 'Name must be minimum 3 characters.',
+                'max' => 'Name must be less than 50 characters.',
+            ],
+            'email' => [
+                'required' => 'Email field is required.',
+                'email' => 'Please enter valid email address.',
+                'unique' => 'This email already exists.',
+            ],
+            'password' => [
+                'required' => 'Password field is required.',
+                'min' => 'Password must be minimum 6 characters.',
+                'confirmed' => 'Password confirmation does not match.',
+            ],
+        ],
+        'create' => [
+            'success' => 'Registration Completed Successfully.',
+            'fail' => 'Registration Failed.',
+        ],
+    ],
+    'login' => [
+        'validation' => [
+            'email' => [
+                'required' => 'Email field is required.',
+                'email' => 'Please enter valid email address.',
+            ],
+            'password' => [
+                'required' => 'Password field is required.',
+                'min' => 'Password must be minimum 6 characters.',
+            ],
+        ],
+        'invalid_credentials' => 'Invalid email or password.',
+    ],
     'project_type' => [
 
         'validation' => [
@@ -81,5 +116,49 @@ return [
         ],
 
     ],
-
+    'expense' => [
+        'list' => [
+            'empty' => 'No Data Found.',
+        ],
+        'validation' => [
+            'project_type_name' => [
+                'required' => 'The Project Type Name is required.',
+            ],
+            'mason_name' => [
+                'required' => 'The Mason Name is required.',
+            ],
+            'working_date' => [
+                'required' => 'Please select a Working Date.',
+                'date' => 'The Working Date must be a valid date.',
+                'before' => 'The Working Date must be a date before today.',
+            ],
+            'working_cat' => [
+                'required' => 'The Working Category is required.',
+            ],
+            'working_type' => [
+                'required' => 'The Working Type is required.',
+            ],
+            'salary' => [
+                'required' => 'The Salary is required.',
+                'integer' => 'The Salary must be a valid integer.',
+                'min' => 'The Salary must be at least 1.',
+                'not_in' => 'The Salary cannot be zero.',
+            ],
+        ],
+    ],
+    'forgot_password' => [
+        'validation' => [
+            'email_not_found' => 'Email address not found.',
+            'invalid_request' => 'Invalid password reset request.',
+            'invalid_token' => 'Invalid or Expired reset token.',
+        ],
+        'mail' => [
+            'success' => 'Password reset link sent successfully.',
+            'fail' => 'Failed to send password reset link.',
+        ],
+        'reset' => [
+            'success' => 'Password reset successful.',
+            'fail' => 'Password reset failed. Please try again.',
+        ],
+    ],
 ];

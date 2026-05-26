@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\ProjectTypeRepository;
+use App\Repositories\ProjectTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
@@ -16,7 +16,7 @@ class ProjectTypeController extends Controller
     protected $projectTypeRepository;
     public function __construct(ProjectTypeRepository $projectTypeRepository)
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->projectTypeRepository = $projectTypeRepository;
     }
 
@@ -76,8 +76,7 @@ class ProjectTypeController extends Controller
     public function register(Request $request)
     {
 
-        $this->validate(
-            $request,
+        $request->validate(
             [
                 'project_type_name' => 'required|max:50',
             ],
@@ -109,8 +108,7 @@ class ProjectTypeController extends Controller
     public function update(Request $request)
     {
 
-        $this->validate(
-            $request,
+        $request->validate(
             [
                 'id' => 'required',
                 'project_type_name' => 'required|max:50',

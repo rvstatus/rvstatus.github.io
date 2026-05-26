@@ -57,7 +57,7 @@
                         Today's Expenses
                     </h3>
                     <p style="font-size: 1.2em;">
-                        {{ $total_today_exp }}
+                        &#8377; {{ $total_today_exp }}
                     </p>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                         Yesterday's Expenses
                     </h3>
                     <p style="font-size: 1.2em;">
-                        {{ $total_yesterday_exp }}
+                        &#8377; {{ $total_yesterday_exp }}
                     </p>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         Last 7 day's Expenses
                     </h3>
                     <p style="font-size: 1.2em;">
-                        {{ $total_last_seven_day_exp }}
+                        &#8377; {{ $total_last_seven_day_exp }}
                     </p>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                         Current Month Expenses
                     </h3>
                     <p style="font-size: 1.2em;">
-                        {{ $total_current_month_exp }}
+                        &#8377; {{ $total_current_month_exp }}
                     </p>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                         Last Month Expenses
                     </h3>
                     <p style="font-size: 1.2em;">
-                        {{ $total_last_month_exp }}
+                        &#8377; {{ $total_last_month_exp }}
                     </p>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                         Total Expenses
                     </h3>
                     <p style="font-size: 1.2em;">
-                        {{ $total_exp }}
+                        &#8377; {{ $total_exp }}
                     </p>
                 </div>
             </div>

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\ExpenseRepository;
+use App\Repositories\ExpenseRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Lang;
 
 class ExpenseController extends Controller
 {
@@ -14,9 +15,10 @@ class ExpenseController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $expenseRepository;
+    public function __construct(ExpenseRepository $expenseRepository)
     {
-        $this->middleware('auth');
+        $this->expenseRepository = $expenseRepository;
     }
 
     /**
@@ -83,8 +85,7 @@ class ExpenseController extends Controller
      */
     public function exp_reg_process(Request $request)
     {
-        $this->validate(
-            $request,
+        $request->validate(
             [
                 'project_type_name' => 'required',
                 'mason_name' => 'required',
@@ -95,18 +96,23 @@ class ExpenseController extends Controller
                 'salary' => 'required|integer|min:1|not_in:0'
             ],
             [
-                // Custom error messages for validation
-                'project_type_name.required' => 'The Project Type Name is required.',
-                'mason_name.required' => 'The Mason Name is required.',
-                'working_date.required' => 'Please select a Working Date.',
-                'working_date.date' => 'The Working Date must be a valid date.',
-                'working_date.before' => 'The Working Date must be a date before today.',
-                'working_cat.required' => 'The Working Category is required.',
-                'working_type.required' => 'The Working Type is required.',
-                'salary.required' => 'The Salary is required.',
-                'salary.integer' => 'The Salary must be a valid integer.',
-                'salary.min' => 'The Salary must be at least 1.',
-                'salary.not_in' => 'The Salary cannot be zero.',
+                // custom error messages for validation
+                'project_type_name.required' => Lang::get('messages.expense.validation.project_type_name.required'),
+
+                'mason_name.required' => Lang::get('messages.expense.validation.mason_name.required'),
+
+                'working_date.required' => Lang::get('messages.expense.validation.working_date.required'),
+                'working_date.date' => Lang::get('messages.expense.validation.working_date.date'),
+                'working_date.before' => Lang::get('messages.expense.validation.working_date.before'),
+
+                'working_cat.required' => Lang::get('messages.expense.validation.working_cat.required'),
+
+                'working_type.required' => Lang::get('messages.expense.validation.working_type.required'),
+
+                'salary.required' => Lang::get('messages.expense.validation.salary.required'),
+                'salary.integer' => Lang::get('messages.expense.validation.salary.integer'),
+                'salary.min' => Lang::get('messages.expense.validation.salary.min'),
+                'salary.not_in' => Lang::get('messages.expense.validation.salary.not_in'),
             ]
         );
         $dt = new Carbon();
@@ -118,6 +124,7 @@ class ExpenseController extends Controller
         $expense_data['project_type_id'] = $request->project_type_name;
         $expense_data['mason_name'] = $request->mason_name;
         $expense_data['working_date'] = $working_date;
+        $expense_data['working_hours'] = $request->working_hours;
         $expense_data['working_category'] = $request->working_cat;
         $expense_data['working_type'] = $request->working_type;
         $expense_data['salary'] = $request->salary;

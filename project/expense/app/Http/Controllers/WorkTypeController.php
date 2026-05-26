@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\WorkTypeRepository;
+use App\Repositories\WorkTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
@@ -16,7 +16,7 @@ class WorkTypeController extends Controller
     protected $workTypeRepository;
     public function __construct(WorkTypeRepository $workTypeRepository)
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->workTypeRepository = $workTypeRepository;
     }
 
@@ -76,8 +76,7 @@ class WorkTypeController extends Controller
     public function register(Request $request)
     {
 
-        $this->validate(
-            $request,
+        $request->validate(
             [
                 'work_type_name' => 'required|max:50',
             ],
@@ -109,8 +108,7 @@ class WorkTypeController extends Controller
     public function update(Request $request)
     {
 
-        $this->validate(
-            $request,
+        $request->validate(
             [
                 'id' => 'required',
                 'work_type_name' => 'required|max:50',

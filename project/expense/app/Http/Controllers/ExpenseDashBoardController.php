@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\ExpenseRepository;
+use App\Repositories\ExpenseRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class ExpenseDashBoardController extends Controller
       */
      public function __construct()
      {
-          $this->middleware('auth');
+          // $this->middleware('auth');
      }
 
      /**
@@ -81,32 +82,32 @@ class ExpenseDashBoardController extends Controller
           if ($total_exp == "") {
                $total_exp = "No Expenses Logged Yet.";
           } else {
-               $total_exp = "&#8377; " . number_format($total_exp, 2);
+               $total_exp = number_format($total_exp, 2);
           }
           if ($total_today_exp == "") {
                $total_today_exp = "No Expenses Logged Today.";
           } else {
-               $total_today_exp = "&#8377; " . number_format($total_today_exp, 2);
+               $total_today_exp = number_format($total_today_exp, 2);
           }
           if ($total_yesterday_exp == "") {
                $total_yesterday_exp = "No Expenses Logged Yesterday.";
           } else {
-               $total_yesterday_exp = "&#8377; " . number_format($total_yesterday_exp, 2);
+               $total_yesterday_exp = number_format($total_yesterday_exp, 2);
           }
           if ($total_last_seven_day_exp == "") {
                $total_last_seven_day_exp = "No Expenses Logged This Week.";
           } else {
-               $total_last_seven_day_exp = "&#8377; " . number_format($total_last_seven_day_exp, 2);
+               $total_last_seven_day_exp = number_format($total_last_seven_day_exp, 2);
           }
           if ($total_current_month_exp == "") {
                $total_current_month_exp = "No Expenses This Month.";
           } else {
-               $total_current_month_exp = "&#8377; " . number_format($total_current_month_exp, 2);
+               $total_current_month_exp = number_format($total_current_month_exp, 2);
           }
           if ($total_last_month_exp == "") {
                $total_last_month_exp = "No Expenses Last Month.";
           } else {
-               $total_last_month_exp = "&#8377; " . number_format($total_last_month_exp, 2);
+               $total_last_month_exp = number_format($total_last_month_exp, 2);
           }
 
           $work_type_list = DB::table('mst_work_type')
@@ -124,10 +125,10 @@ class ExpenseDashBoardController extends Controller
       * 
       * helper to apply optional filters
       * 
-      * @param $query
-      * @param $project_type
-      * @param $work_type
-      * @return query
+      * @param Builder $query
+      * @param int $project_type
+      * @param int $work_type
+      * @return Builder
       */
      public function applyExpenseFilters($query, $project_type, $work_type)
      {

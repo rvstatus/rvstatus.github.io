@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\WorkCategoryRepository;
+use App\Repositories\WorkCategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
@@ -16,7 +16,7 @@ class WorkCategoryController extends Controller
     protected $workCategoryRepository;
     public function __construct(WorkCategoryRepository $workCategoryRepository)
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->workCategoryRepository = $workCategoryRepository;
     }
 
@@ -76,8 +76,7 @@ class WorkCategoryController extends Controller
     public function register(Request $request)
     {
 
-        $this->validate(
-            $request,
+        $request->validate(
             [
                 'work_category_name' => 'required|max:50',
             ],
@@ -109,8 +108,7 @@ class WorkCategoryController extends Controller
     public function update(Request $request)
     {
 
-        $this->validate(
-            $request,
+        $request->validate(
             [
                 'id' => 'required',
                 'work_category_name' => 'required|max:50',
