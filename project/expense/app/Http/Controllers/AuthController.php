@@ -134,4 +134,77 @@ class AuthController extends Controller
 
         return redirect('/login');
     }
+    /**
+     * show forgot password page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function forgot_password()
+    {
+        return view('auth.passwords.email');
+    }
+
+    /**
+     * send the reset link to the user.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function send_reset_link(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $response = $this->authRepository
+            ->sendResetLink($request->email);
+
+        if ($response['status']) {
+            return redirect('/login')
+                ->with('success', $response['message']);
+        }
+
+        return back()->withErrors([
+            'email' => $response['message']
+        ]);
+    }
+
+    /**
+     * open the reset password.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function reset_password_form(Request $request)
+    {
+        return view('auth.passwords.reset', [
+            'email' => $request->email,
+            'token' => $request->token
+        ]);
+    }
+
+    /**
+     * register the reset password.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function reset_password(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $response = $this->authRepository
+            ->resetPassword($request->all());
+
+        if ($response['status']) {
+
+            return redirect('/login')
+                ->with('success', $response['message']);
+        }
+
+        return back()->withErrors([
+            'email' => $response['message']
+        ]);
+    }
 }

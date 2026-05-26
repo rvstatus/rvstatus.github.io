@@ -146,4 +146,19 @@ return [
             ],
         ],
     ],
+    'forgot_password' => [
+        'validation' => [
+            'email_not_found' => 'Email address not found.',
+            'invalid_request' => 'Invalid password reset request.',
+            'invalid_token' => 'Invalid or Expired reset token.',
+        ],
+        'mail' => [
+            'success' => 'Password reset link sent successfully.',
+            'fail' => 'Failed to send password reset link.',
+        ],
+        'reset' => [
+            'success' => 'Password reset successful.',
+            'fail' => 'Password reset failed. Please try again.',
+        ],
+    ],
 ];

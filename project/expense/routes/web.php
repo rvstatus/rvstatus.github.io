@@ -39,15 +39,26 @@ Route::post('/register_process', [AuthController::class, 'register_process'])->n
 // Logout
 Route::get('/logout', [AuthController::class, 'logout']);
 
+// forgot password process start
+Route::get('/forgot-password', [AuthController::class, 'forgot_password']);
+Route::post('/forgot-password', [AuthController::class, 'send_reset_link']);
+
+Route::get('/reset-password', [AuthController::class, 'reset_password_form'])->name('password.reset.form');
+Route::post('/reset-password', [AuthController::class, 'reset_password'])->name('password.reset');
+// forgot password process end
 
 // expense screen start
-Route::get('/expense_list', [ExpenseController::class, 'expense_list'])->name('expense_list');
-Route::get('/expense_register', [ExpenseController::class, 'expense_register']);
-Route::post('/exp_reg_process', [ExpenseController::class, 'exp_reg_process']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/expense_list', [ExpenseController::class, 'expense_list'])->name('expense_list');
+    Route::get('/expense_register', [ExpenseController::class, 'expense_register']);
+    Route::post('/exp_reg_process', [ExpenseController::class, 'exp_reg_process']);
+});
 // expense screen end
 
 // expense dashboard screen start
-Route::any('/expense_dashboard', [ExpenseDashBoardController::class, 'expense_dashboard']);
+Route::middleware(['auth'])->group(function () {
+    Route::any('/expense_dashboard', [ExpenseDashBoardController::class, 'expense_dashboard']);
+});
 // expense dashboard screen end
 
 // project type screen start
