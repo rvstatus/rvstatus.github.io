@@ -22,15 +22,25 @@ class AuthRepository
      */
     public function register($name, $email, $password)
     {
-        $insert = DB::table('users')->insert([
+        $userId = DB::table('users')->insertGetId([
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
+            'is_admin' => 0,
+            'is_approved' => 0,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        return $insert ? true : false;
+        if ($userId) {
+            DB::table('user_agree')->insert([
+                'user_id' => $userId,
+                'agree_status' => 0, // pending
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            return true;
+        }
+        return false;
     }
 
     /**

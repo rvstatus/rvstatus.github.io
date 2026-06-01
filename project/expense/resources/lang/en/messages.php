@@ -161,4 +161,22 @@ return [
             'fail' => 'Password reset failed. Please try again.',
         ],
     ],
+    'user_approval' => [
+
+        'approve' => [
+            'success' => 'User Approved Successfully.',
+            'fail'    => 'User Approval Failed.',
+        ],
+
+        'reject' => [
+            'success' => 'User Rejected Successfully.',
+            'fail'    => 'User Rejection Failed.',
+        ],
+
+        'pending' => [
+            'success' => 'User Changed To Pending Successfully.',
+            'fail'    => 'Failed To Change User To Pending.',
+        ],
+
+    ],
 ];

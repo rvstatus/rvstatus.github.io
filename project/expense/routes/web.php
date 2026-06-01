@@ -8,6 +8,7 @@ use App\Http\Controllers\ExpenseDashBoardController;
 use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\WorkCategoryController;
 use App\Http\Controllers\WorkTypeController;
+use App\Http\Controllers\UserApprovalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +91,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/work_type_get_by_id', [WorkTypeController::class, 'get_by_id']);
 });
 // work type screen end
+
+// user approval screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/user_approval_list', [UserApprovalController::class, 'index']);
+    Route::post('/user_approve', [UserApprovalController::class, 'approve']);
+    Route::post('/user_reject', [UserApprovalController::class, 'reject']);
+    Route::post('/user_pending', [UserApprovalController::class, 'pending']);
+});
+// user approval screen end
