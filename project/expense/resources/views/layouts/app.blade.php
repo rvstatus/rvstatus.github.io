@@ -293,6 +293,14 @@
                             <span>Work Type</span>
                         </a>
                     </li>
+                    @if(Auth::user()->is_admin == 1)
+                    <li class="sidebar-nav-item">
+                        <a href="{{ url('/user_approval_list') }}" class="sidebar-nav-link">
+                            <div> <i class="fas fa-users"></i> </div>
+                            <span> User Approval </span>
+                        </a>
+                    </li>
+                    @endif
                 </ul>
             </div>
             <!-- sidebar end -->

@@ -111,6 +111,16 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if ($this->authRepository->login($credentials)) {
             $request->session()->regenerate();
+            // approval check
+            if (Auth::user()->is_approved == 0) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return back()->with(
+                    'error',
+                    'Waiting for admin approval'
+                );
+            }
             return redirect('/expense_list');
         }
         return back()->with(
