@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\ExpenseRepository;
+use App\Repositories\WorkCategoryRepository;
+use App\Repositories\ProjectTypeRepository;
+use App\Repositories\EmployeeRepository;
+use App\Repositories\WorkTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -16,9 +21,34 @@ class ExpenseController extends Controller
      * @return void
      */
     protected $expenseRepository;
-    public function __construct(ExpenseRepository $expenseRepository)
-    {
+    /**
+     * work category repository
+     */
+    protected $workCategoryRepository;
+    /**
+     * project type repository
+     */
+    protected $projectTypeRepository;
+    /**
+     * employee repository
+     */
+    protected $employeeRepository;
+    /**
+     * work type repository
+     */
+    protected $workTypeRepository;
+    public function __construct(
+        ExpenseRepository $expenseRepository,
+        WorkCategoryRepository $workCategoryRepository,
+        ProjectTypeRepository $projectTypeRepository,
+        EmployeeRepository $employeeRepository,
+        WorkTypeRepository $workTypeRepository
+    ) {
         $this->expenseRepository = $expenseRepository;
+        $this->workCategoryRepository = $workCategoryRepository;
+        $this->projectTypeRepository = $projectTypeRepository;
+        $this->employeeRepository = $employeeRepository;
+        $this->workTypeRepository = $workTypeRepository;
     }
 
     /**
@@ -28,25 +58,7 @@ class ExpenseController extends Controller
      */
     public function expense_list()
     {
-        $exp_list = DB::table('t_expense AS exp')
-            ->select(
-                'mst_project_type.project_type_name AS project_type_name',
-                'm_emp.emp_name AS name',
-                'exp.working_date',
-                'exp.working_hours',
-                'exp.salary',
-                'exp.created_by',
-                DB::raw("DATE_FORMAT(exp.created_at, '%Y-%m-%d %H:%i:%s') AS created_date"),
-                'mst_work_category.work_category_name',
-                'mst_work_type.work_type_name'
-            )
-            ->leftJoin('m_emp', 'm_emp.emp_id', '=', 'exp.mason_name')
-            ->leftJoin('mst_project_type', 'mst_project_type.project_type_id', '=', 'exp.project_type_id')
-            ->leftJoin('mst_work_category', 'mst_work_category.id', '=', 'exp.working_category')
-            ->leftJoin('mst_work_type', 'mst_work_type.id', '=', 'exp.working_type')
-            ->where('exp.created_by', '=', auth()->user()->name)
-            ->orderBy('exp.working_date', 'DESC')
-            ->get();
+        $exp_list = $this->expenseRepository->get_expense_list_by_user(Auth::user()->user_id);
         return view('expense/list', compact('exp_list'));
     }
 
@@ -57,22 +69,16 @@ class ExpenseController extends Controller
      */
     public function expense_register()
     {
-        // $emp_list = ExpenseRepository::getEmpList();
+        // get active employee list created by,current user
+        $emp_list = $this->employeeRepository->get_active_employee_list_by_user(Auth::user()->user_id);
 
-        $emp_list = DB::table('m_emp')
-            ->select('emp_name', 'emp_id')
-            ->get();
+        // get active work category type list created by,current user
+        $work_cat_list = $this->workCategoryRepository->get_active_work_category_list(Auth::user()->user_id);
 
-        $work_cat_list = DB::table('mst_work_category')
-            ->select('work_category_name', 'id')
-            ->get();
+        // get active work type list created by,current user
+        $work_type_list = $this->workTypeRepository->get_active_work_type_list_by_user(Auth::user()->user_id);
 
-        $work_type_list = DB::table('mst_work_type')
-            ->select('work_type_name', 'id')
-            ->get();
-
-        $expenseRepository = new ExpenseRepository();
-        $project_type_list = $expenseRepository->get_project_list();
+        $project_type_list = $this->projectTypeRepository->get_active_project_list(Auth::user()->user_id);
 
         return view('expense/register', compact('emp_list', 'work_cat_list', 'work_type_list', 'project_type_list'));
     }
@@ -128,7 +134,7 @@ class ExpenseController extends Controller
         $expense_data['working_category'] = $request->working_cat;
         $expense_data['working_type'] = $request->working_type;
         $expense_data['salary'] = $request->salary;
-        $expense_data['created_by'] = auth()->user()->name;
+        $expense_data['created_by'] = Auth::user()->user_id;
 
         $expenseRepository = new ExpenseRepository();
         $result = $expenseRepository->insert_expense($expense_data);

@@ -18,10 +18,11 @@ class WorkCategoryRepository extends BaseRepository
      * get all work category with pagination
      * 
      * @param int $perPage
+     * @param string $create_by
      * @return $work_category_list
      * 
      */
-    public function get_all_work_category_list($perPage)
+    public function get_all_work_category_list($perPage, $create_by)
     {
         $work_category_list = DB::table('mst_work_category')
             ->select(
@@ -32,7 +33,9 @@ class WorkCategoryRepository extends BaseRepository
                 'updated_by',
                 'updated_at',
                 'deleted_flg'
-            )->paginate($perPage);
+            )
+            ->where('created_by', $create_by)
+            ->paginate($perPage);
         return $work_category_list;
     }
 
@@ -130,5 +133,22 @@ class WorkCategoryRepository extends BaseRepository
                 'work_category_name' => $work_category_name,
                 'updated_by' => $user,
             ]);
+    }
+
+    /**
+     * get active work category list
+     *
+     * @param string $createdBy
+     *
+     * @return object
+     */
+    public function get_active_work_category_list($createdBy)
+    {
+        $work_category_list = DB::table('mst_work_category')
+            ->where('deleted_flg', 0)
+            ->where('created_by', $createdBy)
+            ->orderBy('work_category_name', 'ASC')
+            ->get();
+        return $work_category_list;
     }
 }

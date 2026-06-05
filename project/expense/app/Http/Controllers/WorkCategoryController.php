@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\WorkCategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Auth;
 
 class WorkCategoryController extends Controller
 {
@@ -29,7 +30,7 @@ class WorkCategoryController extends Controller
     {
         $perPage = config('constants.pagination.work_category');
 
-        $work_category_list = $this->workCategoryRepository->get_all_work_category_list($perPage);
+        $work_category_list = $this->workCategoryRepository->get_all_work_category_list($perPage, Auth::user()->user_id);
         return view('setting/work_category/list', compact('work_category_list'));
     }
 
@@ -41,7 +42,7 @@ class WorkCategoryController extends Controller
     public function toggle_status()
     {
         $id = request('id');
-        $updatedBy = auth()->user()->name;
+        $updatedBy = Auth::user()->user_id;
 
         $result = $this->workCategoryRepository->toggle_status($id, $updatedBy);
 
@@ -87,7 +88,7 @@ class WorkCategoryController extends Controller
             ]
         );
 
-        $result = $this->workCategoryRepository->register_data(request('work_category_name'), auth()->user()->name);
+        $result = $this->workCategoryRepository->register_data(request('work_category_name'), Auth::user()->user_id);
         // default response
         $response['message'] = Lang::get('messages.work_category.create.fail');
         $response['design'] = "alert-danger";
@@ -121,7 +122,7 @@ class WorkCategoryController extends Controller
             ]
         );
 
-        $result = $this->workCategoryRepository->update_data($request->id, $request->work_category_name, auth()->user()->name);
+        $result = $this->workCategoryRepository->update_data($request->id, $request->work_category_name, Auth::user()->user_id);
         // default response
         $response['message'] = Lang::get('messages.work_category.update.fail');
         $response['design'] = "alert-danger";

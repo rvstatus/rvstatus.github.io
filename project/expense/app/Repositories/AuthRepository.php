@@ -22,18 +22,21 @@ class AuthRepository
      */
     public function register($name, $email, $password)
     {
-        $userId = DB::table('users')->insertGetId([
+        // generate the new user id
+        $userId = $this->get_next_user_id();
+        $lastUserId = DB::table('users')->insertGetId([
             'name' => $name,
             'email' => $email,
+            'user_id' => $userId,
             'password' => Hash::make($password),
             'is_admin' => 0,
             'is_approved' => 0,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        if ($userId) {
+        if ($lastUserId) {
             DB::table('user_agree')->insert([
-                'user_id' => $userId,
+                'user_id' => $lastUserId,
                 'agree_status' => 0, // pending
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -157,5 +160,25 @@ class AuthRepository
             'status' => true,
             'message' => Lang::get('messages.forgot_password.reset.success')
         ];
+    }
+
+    /**
+     * Generate next user ID.
+     *
+     * @return string
+     */
+    public function get_next_user_id()
+    {
+        $lastUser = DB::table('users')
+            ->orderBy('id', 'DESC')
+            ->first();
+
+        if (!$lastUser) {
+            return 'USR00001';
+        }
+
+        $number = (int) substr($lastUser->user_id, 3);
+        $userId = 'USR' . str_pad($number + 1, 5, '0', STR_PAD_LEFT);
+        return $userId;
     }
 }

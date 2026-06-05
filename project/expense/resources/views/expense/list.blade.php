@@ -12,21 +12,23 @@
                             <a href="{{ url('/expense_register') }}" class="btn btn-sm btn-primary pull-left"><i class="fa fa-plus-circle"></i> Add New Expense</a>
 
                             @if(session()->has('response'))
-                            <div id="response_message" class="alert {{ session()->get('response')['design'] }} custom-alert">
-                                {{ session()->get('response')['message'] }}
+                            <div class="text-center">
+                                <div id="response_message" class="alert {{ session()->get('response')['design'] }} custom-alert" style="display:inline-block;">
+                                    {{ session()->get('response')['message'] }}
+                                </div>
                             </div>
                             @endif
-                            <form class="form-horizontal pull-right">
+                            <!--<form class="form-horizontal pull-right">
                                 <div class="form-group">
                                     <label>Sort By : </label>
-                                    <!-- <select class="form-control">
+                                     <select class="form-control">
                                         <option>5</option>
                                         <option>10</option>
                                         <option>15</option>
                                         <option>20</option>
-                                    </select> -->
+                                    </select>
                                 </div>
-                            </form>
+                            </form> -->
                         </div>
                     </div>
                 </div>
@@ -34,12 +36,12 @@
                     <table class="table">
                         <thead>
                             <colgroup>
-                                <col width="5%" />
+                                <col width="3%" />
                                 <col />
                                 <col />
-                                <col width="5%" />
-                                <col width="10%" />
-                                <col width="15%" />
+                                <col width="7%" />
+                                <col width="13%" />
+                                <col width="13%" />
                                 <col width="5%" />
                                 <col width="10%" />
                                 <col width="15%" />

@@ -179,4 +179,60 @@ return [
         ],
 
     ],
+    'employee' => [
+        'list' => [
+            'empty' => 'No Data Found.',
+        ],
+        'validation' => [
+            'emp_name' => [
+                'required' => 'Employee Name is required.',
+                'min' => 'Employee Name must be at least 3 characters.',
+                'max' => 'Employee Name must be less than 50 characters.',
+            ],
+            'gender' => [
+                'required' => 'Gender is required.',
+            ],
+            'mobile_no' => [
+                'required' => 'Mobile Number is required.',
+                'digits_between' => 'Mobile Number must be valid.',
+            ],
+            'email' => [
+                'required' => 'Email is required.',
+                'email' => 'Please enter valid Email Address.',
+            ],
+            'address' => [
+                'required' => 'Address is required.',
+                'max' => 'Address must be less than 500 characters.',
+            ],
+            'join_date' => [
+                'required' => 'Join Date is required.',
+                'date' => 'Join Date must be a valid date.',
+                'before_or_equal' => 'Employee must be at least 18 years old.',
+            ],
+            'category_id' => [
+                'required' => 'Category is required.',
+            ],
+            'salary' => [
+                'required' => 'Salary is required.',
+                'numeric' => 'Salary must be numeric.',
+                'min' => 'Salary must be greater than zero.',
+                'max' => 'Salary is too large.',
+            ],
+        ],
+        'create' => [
+            'success' => 'Employee Registered Successfully.',
+            'fail' => 'Employee Registration Failed.',
+        ],
+    ],
+    'dashboard' => [
+        'expense' => [
+            'total_exp' => 'No Expenses Logged Yet.',
+            'total_today_exp' => 'No Expenses Logged Today.',
+            'total_yesterday_exp' => 'No Expenses Logged Yesterday.',
+            'total_last_seven_day_exp' => 'No Expenses Logged This Week.',
+            'total_current_month_exp' => 'No Expenses This Month.',
+            'total_last_month_exp' => 'No Expenses Last Month.',
+        ],
+
+    ],
 ];
