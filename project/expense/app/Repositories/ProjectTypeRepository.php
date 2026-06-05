@@ -18,10 +18,11 @@ class ProjectTypeRepository extends BaseRepository
      * get all project types with pagination
      * 
      * @param int $perPage
+     * @param string $create_by
      * @return $project_type_list
      * 
      */
-    public function get_all_project_type_list($perPage)
+    public function get_all_project_type_list($perPage, $create_by)
     {
         $project_type_list = DB::table('mst_project_type')
             ->select(
@@ -33,7 +34,9 @@ class ProjectTypeRepository extends BaseRepository
                 'updated_by',
                 'updated_at',
                 'deleted_flg'
-            )->paginate($perPage);
+            )
+            ->where('created_by', $create_by)
+            ->paginate($perPage);
         return $project_type_list;
     }
 
@@ -144,5 +147,39 @@ class ProjectTypeRepository extends BaseRepository
                 'project_type_name' => $project_type_name,
                 'updated_by' => $user,
             ]);
+    }
+
+    /**
+     * get the project type for the expense
+     *
+     * @param string $create_by
+     * @return array $project_list
+     */
+    public function get_active_project_list($create_by)
+    {
+        $project_list = DB::table('mst_project_type')
+            ->select('project_type_name', 'project_type_id')
+            ->where('deleted_flg', 0)
+            ->where('created_by', $create_by)
+            ->orderBy(
+                'project_type_name',
+                'ASC'
+            )
+            ->get();
+        return $project_list;
+    }
+
+    /**
+     * 
+     * get all project type list for dash board
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_dashboard_filter_project_list()
+    {
+        $project_list = DB::table('mst_project_type')
+            ->select('project_type_name', 'project_type_id')
+            ->get();
+        return $project_list;
     }
 }

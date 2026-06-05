@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\ProjectTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectTypeController extends Controller
 {
@@ -29,7 +30,7 @@ class ProjectTypeController extends Controller
     {
         $perPage = config('constants.pagination.project_type');
 
-        $project_type_list = $this->projectTypeRepository->get_all_project_type_list($perPage);
+        $project_type_list = $this->projectTypeRepository->get_all_project_type_list($perPage, Auth::user()->user_id);
         return view('setting/project_type/list', compact('project_type_list'));
     }
 
@@ -41,7 +42,7 @@ class ProjectTypeController extends Controller
     public function toggle_status()
     {
         $id = request('id');
-        $updatedBy = auth()->user()->name;
+        $updatedBy = Auth::user()->user_id;
 
         $result = $this->projectTypeRepository->toggle_status($id, $updatedBy);
 
@@ -87,7 +88,7 @@ class ProjectTypeController extends Controller
             ]
         );
 
-        $result = $this->projectTypeRepository->register_data(request('project_type_name'), auth()->user()->name);
+        $result = $this->projectTypeRepository->register_data(request('project_type_name'), Auth::user()->user_id);
         // default response
         $response['message'] = Lang::get('messages.project_type.create.fail');
         $response['design'] = "alert-danger";
@@ -121,7 +122,7 @@ class ProjectTypeController extends Controller
             ]
         );
 
-        $result = $this->projectTypeRepository->update_data($request->id, $request->project_type_name, auth()->user()->name);
+        $result = $this->projectTypeRepository->update_data($request->id, $request->project_type_name, Auth::user()->user_id);
         // default response
         $response['message'] = Lang::get('messages.project_type.update.fail');
         $response['design'] = "alert-danger";

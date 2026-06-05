@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\WorkTypeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Auth;
 
 class WorkTypeController extends Controller
 {
@@ -29,7 +30,7 @@ class WorkTypeController extends Controller
     {
         $perPage = config('constants.pagination.work_type');
 
-        $work_type_list = $this->workTypeRepository->get_all_work_type_list($perPage);
+        $work_type_list = $this->workTypeRepository->get_all_work_type_list($perPage, Auth::user()->user_id);
         return view('setting/work_type/list', compact('work_type_list'));
     }
 
@@ -41,7 +42,7 @@ class WorkTypeController extends Controller
     public function toggle_status()
     {
         $id = request('id');
-        $updatedBy = auth()->user()->name;
+        $updatedBy = Auth::user()->user_id;
 
         $result = $this->workTypeRepository->toggle_status($id, $updatedBy);
 
@@ -87,7 +88,7 @@ class WorkTypeController extends Controller
             ]
         );
 
-        $result = $this->workTypeRepository->register_data(request('work_type_name'), auth()->user()->name);
+        $result = $this->workTypeRepository->register_data(request('work_type_name'), Auth::user()->user_id);
         // default response
         $response['message'] = Lang::get('messages.work_type.create.fail');
         $response['design'] = "alert-danger";
@@ -121,7 +122,7 @@ class WorkTypeController extends Controller
             ]
         );
 
-        $result = $this->workTypeRepository->update_data($request->id, $request->work_type_name, auth()->user()->name);
+        $result = $this->workTypeRepository->update_data($request->id, $request->work_type_name, Auth::user()->user_id);
         // default response
         $response['message'] = Lang::get('messages.work_type.update.fail');
         $response['design'] = "alert-danger";

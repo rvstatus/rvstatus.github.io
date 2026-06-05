@@ -18,10 +18,11 @@ class WorkTypeRepository extends BaseRepository
      * get all work type with pagination
      * 
      * @param int $perPage
+     * @param string $create_by
      * @return $work_type_list
      * 
      */
-    public function get_all_work_type_list($perPage)
+    public function get_all_work_type_list($perPage, $create_by)
     {
         $work_type_list = DB::table('mst_work_type')
             ->select(
@@ -33,7 +34,9 @@ class WorkTypeRepository extends BaseRepository
                 'updated_by',
                 'updated_at',
                 'deleted_flg'
-            )->paginate($perPage);
+            )
+            ->where('created_by', $create_by)
+            ->paginate($perPage);
         return $work_type_list;
     }
 
@@ -141,5 +144,35 @@ class WorkTypeRepository extends BaseRepository
                 'work_type_name' => $work_type_name,
                 'updated_by' => $user,
             ]);
+    }
+
+    /**
+     * Get active work types created by user.
+     *
+     * @param string $createdBy
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_active_work_type_list_by_user($createdBy)
+    {
+        $work_type_list = DB::table('mst_work_type')
+            ->select('work_type_name', 'id')
+            ->where('deleted_flg', 0)
+            ->where('created_by', $createdBy)
+            ->get();
+        return $work_type_list;
+    }
+
+    /**
+     * 
+     * get all work type list for dash board
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_dashboard_filter_work_type_list()
+    {
+        $work_type_list = DB::table('mst_work_type')
+            ->select('work_type_name', 'id')
+            ->get();
+        return $work_type_list;
     }
 }

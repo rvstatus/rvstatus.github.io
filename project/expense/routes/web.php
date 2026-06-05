@@ -9,7 +9,7 @@ use App\Http\Controllers\ProjectTypeController;
 use App\Http\Controllers\WorkCategoryController;
 use App\Http\Controllers\WorkTypeController;
 use App\Http\Controllers\UserApprovalController;
-
+use App\Http\Controllers\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -100,3 +100,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user_pending', [UserApprovalController::class, 'pending']);
 });
 // user approval screen end
+
+// employee screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/employee_list', [EmployeeController::class, 'employee_list']);
+    Route::get('/employee_register', [EmployeeController::class, 'employee_register']);
+    Route::post('/employee_reg_process', [EmployeeController::class, 'employee_reg_process']);
+});
+// employee screen end

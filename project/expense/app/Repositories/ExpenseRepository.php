@@ -12,21 +12,35 @@ class ExpenseRepository extends BaseRepository
     {
         return ExpenseModel::class;
     }
-
-    public function getEmpList()
+    /**
+     * Get expense list by user.
+     *
+     * @param string $createdBy
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_expense_list_by_user($createdBy)
     {
-        $emp_list = DB::table('m_emp')
-            ->select('emp_name', 'emp_id')
-            ->get();
-        return $emp_list;
-    }
 
-    public function get_project_list()
-    {
-        $project_list = DB::table('mst_project_type')
-            ->select('project_type_name', 'project_type_id')
+        $exp_list = DB::table('t_expense AS exp')
+            ->select(
+                'mst_project_type.project_type_name AS project_type_name',
+                'm_emp.emp_name AS name',
+                'exp.working_date',
+                'exp.working_hours',
+                'exp.salary',
+                'exp.created_by',
+                DB::raw("DATE_FORMAT(exp.created_at, '%Y-%m-%d %H:%i:%s') AS created_date"),
+                'mst_work_category.work_category_name',
+                'mst_work_type.work_type_name'
+            )
+            ->leftJoin('m_emp', 'm_emp.emp_id', '=', 'exp.mason_name')
+            ->leftJoin('mst_project_type', 'mst_project_type.project_type_id', '=', 'exp.project_type_id')
+            ->leftJoin('mst_work_category', 'mst_work_category.id', '=', 'exp.working_category')
+            ->leftJoin('mst_work_type', 'mst_work_type.id', '=', 'exp.working_type')
+            ->where('exp.created_by', '=', $createdBy)
+            ->orderBy('exp.working_date', 'DESC')
             ->get();
-        return $project_list;
+        return $exp_list;
     }
 
     /**

@@ -7,6 +7,7 @@ return [
         'work_category' => 3,
         'work_type' => 3,
         'user_approval' => 3,
+        'employee' => 3,
     ],
 
     'user_agree_status' => [

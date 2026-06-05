@@ -178,6 +178,16 @@
                         </a>
                     </li>
                     <li class="sidebar-nav-item">
+                        <a href="{{ url('/employee_list') }}" class="sidebar-nav-link">
+                            <div>
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span>
+                                Employee List
+                            </span>
+                        </a>
+                    </li>
+                    <li class="sidebar-nav-item">
                         <a href="{{ url('/expense_list') }}" class="sidebar-nav-link">
                             <div>
                                 <i class="fas fa-coins"></i>
@@ -187,7 +197,7 @@
                             </span>
                         </a>
                     </li>
-                    <li class="sidebar-nav-item" id="Expense" onclick="open1()">
+                    <!-- <li class="sidebar-nav-item" id="Expense" onclick="open1()">
                         <a href="#" class="sidebar-nav-link">
                             <div>
                                 <i class="fa fa-plus-circle"></i>
@@ -226,8 +236,8 @@
                                 Expense Report
                             </span>
                         </a>
-                    </li>
-                    <li class="sidebar-nav-item" style="display:none;">
+                    </li> -->
+                    <!-- <li class="sidebar-nav-item" style="display:none;">
                         <a href="7-Datewise.php" class="sidebar-nav-link">
                             <div>
                                 <i class="fas fa-calendar-day"></i>
@@ -256,7 +266,7 @@
                                 Yearly Report
                             </span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="sidebar-nav-item" id="Settings" onclick="openSettingsMenu()">
                         <a href="#" class="sidebar-nav-link">
                             <div>
