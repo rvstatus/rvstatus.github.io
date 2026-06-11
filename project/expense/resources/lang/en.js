@@ -120,5 +120,51 @@ window.lang = {
             add_button: "Register",
             edit_button: "Update"
         }
+    },
+    employee: {
+        // form validation messages
+        validation: {
+            emp_name: {
+                required: "Employee Name is required",
+                min: "Employee Name must be at least 3 characters",
+                max: "Employee Name must be less than 50 characters"
+            },
+            gender: {
+                required: "Gender is required"
+            },
+            mobile_no: {
+                required: "Mobile Number is required",
+                invalid: "Enter valid 10 digit mobile number"
+            },
+            email: {
+                required: "Email is required",
+                invalid: "Enter valid email address"
+            },
+            address: {
+                required: "Address is required",
+                max: "Address must be less than 500 characters"
+            },
+            category_id: {
+                required: "Category is required"
+            },
+            join_date: {
+                required: "Join Date is required"
+            },
+            salary: {
+                required: "Salary is required",
+                invalid: "Enter valid salary"
+            }
+        },
+        // popup (SweetAlert) messages
+        popup: {
+            common: {
+                title: "Are you sure?",
+                confirm_button: "Yes, proceed!",
+                cancel_button: "Cancel"
+            },
+            update: {
+                text: "Do you want to update this Employee?"
+            }
+        }
     }
 };

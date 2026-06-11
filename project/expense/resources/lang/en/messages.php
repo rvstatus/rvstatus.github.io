@@ -223,6 +223,13 @@ return [
             'success' => 'Employee Registered Successfully.',
             'fail' => 'Employee Registration Failed.',
         ],
+        'detail' => [
+            'not_found' => 'Temporary technical issue. Please try again in a few minutes.',
+        ],
+        'update' => [
+            'success' => 'Employee Updated Successfully.',
+            'fail' => 'Employee Update Failed.',
+        ],
     ],
     'dashboard' => [
         'expense' => [

@@ -115,4 +115,130 @@ class EmployeeController extends Controller
                 ]
             );
     }
+
+    /**
+     * employee detail screen
+     */
+    public function employee_detail(Request $request)
+    {
+        $employee = $this->employeeRepository->get_employee_by_id($request->id, Auth::user()->user_id);
+        if (!$employee) {
+            return redirect('/employee_list')
+                ->with(
+                    'response',
+                    [
+                        'design' => 'alert-danger',
+                        'message' => Lang::get('messages.employee.detail.not_found'),
+                    ]
+                );
+        }
+        return view('employee.detail', compact('employee'));
+    }
+    /**
+     * employee edit screen
+     */
+    public function employee_edit(Request $request)
+    {
+        $employee = $this->employeeRepository->get_employee_by_id($request->id, Auth::user()->user_id);
+
+        if (!$employee) {
+            return redirect('/employee_list')
+                ->with(
+                    'response',
+                    [
+                        'design' => 'alert-danger',
+                        'message' => Lang::get('messages.employee.detail.not_found'),
+                    ]
+                );
+        }
+
+        $work_cat_list = $this->workCategoryRepository->get_active_work_category_list(Auth::user()->user_id);
+        return view('employee.edit', compact('employee', 'work_cat_list'));
+    }
+
+    /**
+     * employee update process
+     */
+    public function employee_update(Request $request)
+    {
+        $request->validate(
+            [
+                'emp_name' => 'required|min:3|max:50',
+                'gender' => 'required',
+                'mobile_no' => 'required|digits_between:10,10',
+                'email' => 'required|email|max:100',
+                'address' => 'required|max:500',
+                'join_date' => 'required',
+                'category_id' => 'required',
+                'salary' => 'required|numeric|min:1|max:999999',
+            ],
+            [
+                'emp_name.required' => Lang::get('messages.employee.validation.emp_name.required'),
+                'emp_name.min' => Lang::get('messages.employee.validation.emp_name.min'),
+                'emp_name.max' => Lang::get('messages.employee.validation.emp_name.max'),
+
+                'gender.required' => Lang::get('messages.employee.validation.gender.required'),
+
+                'mobile_no.required' => Lang::get('messages.employee.validation.mobile_no.required'),
+                'mobile_no.digits_between' => Lang::get('messages.employee.validation.mobile_no.digits_between'),
+
+                'email.required' => Lang::get('messages.employee.validation.email.required'),
+                'email.email' => Lang::get('messages.employee.validation.email.email'),
+
+                'address.required' => Lang::get('messages.employee.validation.address.required'),
+                'address.max' => Lang::get('messages.employee.validation.address.max'),
+
+                'join_date.required' => Lang::get('messages.employee.validation.join_date.required'),
+                'join_date.date' => Lang::get('messages.employee.validation.join_date.date'),
+                'join_date.before_or_equal' => Lang::get('messages.employee.validation.join_date.before_or_equal'),
+
+                'category_id.required' => Lang::get('messages.employee.validation.category_id.required'),
+
+                'salary.required' => Lang::get('messages.employee.validation.salary.required'),
+                'salary.numeric' => Lang::get('messages.employee.validation.salary.numeric'),
+                'salary.min' => Lang::get('messages.employee.validation.salary.min'),
+                'salary.max' => Lang::get('messages.employee.validation.salary.max'),
+            ]
+        );
+
+        $join_date = date(
+            'Y-m-d',
+            strtotime($request->join_date)
+        );
+
+        $update = $this->employeeRepository->update_employee(
+            $request->id,
+            $request->emp_name,
+            $request->gender,
+            $request->mobile_no,
+            $request->email,
+            $request->address,
+            $join_date,
+            $request->category_id,
+            $request->salary,
+            Auth::user()->user_id
+        );
+
+        if ($update) {
+            $employee = $this->employeeRepository->get_employee_by_id($request->id, Auth::user()->user_id);
+            return view('employee.detail', compact('employee'))
+                ->with(
+                    'response',
+                    [
+                        'design' => 'alert-success',
+                        'message' => Lang::get('messages.employee.update.success'),
+                    ]
+                );
+        }
+
+        return redirect()->back()
+            ->withInput()
+            ->with(
+                'response',
+                [
+                    'design' => 'alert-danger',
+                    'message' => Lang::get('messages.employee.update.fail'),
+                ]
+            );
+    }
 }

@@ -1,0 +1,11 @@
+.panel-heading {
+    font-weight: bold;
+}
+
+.btn-group-responsive .btn {
+    margin-right: 10px;
+}
+
+textarea {
+    resize: vertical;
+}

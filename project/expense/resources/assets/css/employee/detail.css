@@ -1,0 +1,76 @@
+.page-header-area {
+    margin-bottom: 20px;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    color: #333;
+}
+
+.page-sub-title {
+    margin-top: 5px;
+    color: #777;
+    font-size: 13px;
+}
+
+.page-action-btn {
+    margin-top: 18px;
+}
+
+.employee-fieldset {
+    border: 1px solid #dcdcdc;
+    padding: 15px;
+    margin-bottom: 25px;
+    background: #fff;
+}
+
+.employee-fieldset legend {
+    width: auto;
+    border: none;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #337ab7;
+}
+
+.detail-table {
+    margin-bottom: 0;
+}
+
+.detail-table th {
+    width: 180px;
+    background: #f8f8f8;
+    font-weight: 600;
+    vertical-align: middle !important;
+}
+
+.detail-table td {
+    vertical-align: middle !important;
+}
+
+.detail-table tbody tr:hover {
+    background: #fcfcfc;
+}
+
+.panel {
+    margin-bottom: 0;
+}
+
+.alert {
+    margin-bottom: 20px;
+}
+
+.employee-title {
+    margin: 0;
+}
+
+.employee-panel-body {
+    padding-top: 5px;
+}
+
+.employee-action-row {
+    margin-bottom: 15px;
+}
