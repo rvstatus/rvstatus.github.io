@@ -21,6 +21,10 @@
                 </a>
             </div>
         </div>
+        <form id="employee_detail_form" action="{{ url('/employee_detail') }}" method="POST" style="display:none;">
+            {{ csrf_field() }}
+            <input type="hidden" name="id" id="id">
+        </form>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">

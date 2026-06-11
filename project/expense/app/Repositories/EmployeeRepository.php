@@ -123,4 +123,73 @@ class EmployeeRepository extends BaseRepository
             ->get();
         return $active_emp_list;
     }
+
+    /**
+     * get employee detail by id
+     *
+     * @param int $id
+     * @param string $createdBy
+     * @return object|null
+     */
+    public function get_employee_by_id($id, $createdBy)
+    {
+        return DB::table('m_emp as e')
+            ->leftJoin('mst_work_category as wc', 'wc.id', '=', 'e.category_id')
+            ->select(
+                'e.id',
+                'e.emp_id',
+                'e.emp_name',
+                'e.gender',
+                'e.mobile_no',
+                'e.email',
+                'e.address',
+                'e.join_date',
+                'e.leave_date',
+                'e.salary',
+                'e.category_id',
+                'wc.work_category_name',
+                'e.created_by',
+                'e.created_at'
+            )
+            ->where('e.id', $id)
+            ->where('e.deleted_flg', 0)
+            ->where('e.created_by', $createdBy)
+            ->first();
+    }
+
+    /**
+     * update employee
+     *
+     * @param int $id
+     * @param string $emp_name
+     * @param int $gender
+     * @param string $mobile_no
+     * @param string $email
+     * @param string $address
+     * @param string $join_date
+     * @param int $category_id
+     * @param float $salary
+     * @param string $created_by
+     *
+     * @return bool
+     */
+    public function update_employee($id, $emp_name, $gender, $mobile_no, $email, $address, $join_date, $category_id, $salary, $created_by)
+    {
+        return DB::table('m_emp')
+            ->where('id', $id)
+            ->where('created_by', $created_by)
+            ->update(
+                [
+                    'emp_name' => $emp_name,
+                    'gender' => $gender,
+                    'mobile_no' => $mobile_no,
+                    'email' => $email,
+                    'address' => $address,
+                    'join_date' => $join_date,
+                    'category_id' => $category_id,
+                    'salary' => $salary,
+                    'updated_at' => now(),
+                ]
+            );
+    }
 }
