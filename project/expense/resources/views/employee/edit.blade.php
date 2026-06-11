@@ -102,7 +102,7 @@
                                 Join Date
                             </label>
                             <div class="col-md-5">
-                                <input id="join_date" type="text" class="form-control" name="join_date" value="{{ old('join_date', date('d-m-Y', strtotime($employee->join_date))) }}" placeholder="dd/mm/yyyy" autocomplete="off">
+                                <input id="join_date" type="text" class="form-control datepicker" name="join_date" value="{{ old('join_date', date('d-m-Y', strtotime($employee->join_date))) }}" placeholder="dd/mm/yyyy" autocomplete="off">
                             </div>
                             <!-- <div class="input-group">
                                 <input

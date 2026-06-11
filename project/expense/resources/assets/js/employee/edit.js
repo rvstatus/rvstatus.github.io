@@ -6,11 +6,11 @@ $(document).ready(function () {
         }
     });
     // initialize join date picker
-    $('#join_date').datepicker({
-        format: 'dd/mm/yyyy',
-        autoclose: true,
-        todayHighlight: true
-    });
+    // $('#join_date').datepicker({
+    //     format: 'dd/mm/yyyy',
+    //     autoclose: true,
+    //     todayHighlight: true
+    // });
     const empVal = window.lang.employee.validation;
     const empPopup = window.lang.employee.popup;
     // clear button click

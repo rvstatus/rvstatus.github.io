@@ -8,9 +8,11 @@
     <link rel="icon" href="{{ asset('resources/assets/image/wallet.png') }}" sizes="16x16" type="image/png">
     <title>Expense Management</title>
     <!-- date picker css start -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
-    <!-- date picker css end -->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet"> -->
 
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> -->
+    <link rel="stylesheet" href="{{ asset('resources\assets\lib\css\flatpickr.min.css') }}">
+    <!-- date picker css end -->
 
     <!-- Fonts -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous"> -->
@@ -38,9 +40,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 
-    <!-- date picker js start -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
-    <!-- date picker js end -->
 
     <!-- jQuery time picker plugin start -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css" />
@@ -339,8 +338,16 @@
         </div>
     </div>
     @endif
-    <script src="{{ asset('resources/assets/js/expense/expense.js') }}"></script>
     <script src="{{ asset('resources/assets/js/main.js') }}"></script>
+    <!-- date picker js start -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script> -->
+
+    <script src="{{ asset('resources\assets\lib\js\flatpickr.min.js') }}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
+
+    <script src="{{ asset('resources/assets/js/common-datepicker.js') }}"></script>
+    <!-- date picker js end -->
+
     <!-- SweetAlert (GLOBAL) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('resources/lang/' . app()->getLocale() . '.js') }}"></script>

@@ -141,7 +141,7 @@
                             <label for="working_date" class="control-label col-md-3">Date</label>
 
                             <div class="col-md-5">
-                                <input id="working_date" type="text" class="form-control w115" name="working_date" value="{{ old('working_date') }}">
+                                <input id="working_date" type="text" class="form-control w120 datepicker" name="working_date" value="{{ old('working_date') }}" placeholder="dd/mm/yyyy">
                             </div>
 
                             <div class="col-md-4">
@@ -154,7 +154,7 @@
                             <label for="working_hours" class="control-label col-md-3">Working Hours</label>
 
                             <div class="col-md-5">
-                                <input id="working_hours" type="text" class="form-control w180" name="working_hours" value="{{ old('working_hours') }}">
+                                <input id="working_hours" type="text" class="form-control w180 timepicker " name="working_hours" value="{{ old('working_hours') }}">
                             </div>
 
                             <div class="col-md-4">

@@ -14,8 +14,8 @@ window.lang = {
         popup: {
             // common popup texts (shared buttons / title)
             common: {
-                title: "Are you sure?",
-                confirm_button: "Yes, proceed!",
+                title: "Are you sure ?",
+                confirm_button: "Yes, proceed !",
                 cancel_button: "Cancel"
             },
 
@@ -24,11 +24,11 @@ window.lang = {
             },
 
             create: {
-                text: "Do you want to create this Project Type?"
+                text: "Do you want to create this Project Type ?"
             },
 
             update: {
-                text: "Do you want to update this Project Type?"
+                text: "Do you want to update this Project Type ?"
             }
         },
         // form labels and button text
@@ -55,8 +55,8 @@ window.lang = {
         popup: {
             // common popup texts (shared buttons / title)
             common: {
-                title: "Are you sure?",
-                confirm_button: "Yes, proceed!",
+                title: "Are you sure ?",
+                confirm_button: "Yes, proceed !",
                 cancel_button: "Cancel"
             },
 
@@ -65,11 +65,11 @@ window.lang = {
             },
 
             create: {
-                text: "Do you want to create this Work Category?"
+                text: "Do you want to create this Work Category ?"
             },
 
             update: {
-                text: "Do you want to update this Work Category?"
+                text: "Do you want to update this Work Category ?"
             }
         },
         // form labels and button text
@@ -96,8 +96,8 @@ window.lang = {
         popup: {
             // common popup texts (shared buttons / title)
             common: {
-                title: "Are you sure?",
-                confirm_button: "Yes, proceed!",
+                title: "Are you sure ?",
+                confirm_button: "Yes, proceed !",
                 cancel_button: "Cancel"
             },
 
@@ -106,11 +106,11 @@ window.lang = {
             },
 
             create: {
-                text: "Do you want to create this Work Type?"
+                text: "Do you want to create this Work Type ?"
             },
 
             update: {
-                text: "Do you want to update this Work Type?"
+                text: "Do you want to update this Work Type ?"
             }
         },
         // form labels and button text
@@ -158,12 +158,18 @@ window.lang = {
         // popup (SweetAlert) messages
         popup: {
             common: {
-                title: "Are you sure?",
-                confirm_button: "Yes, proceed!",
+                title: "Are you sure ?",
+                confirm_button: "Yes, proceed !",
                 cancel_button: "Cancel"
             },
             update: {
-                text: "Do you want to update this Employee?"
+                text: "Do you want to update this Employee ?"
+            },
+            delete: {
+                text: "Do you want to delete this Employee ?"
+            },
+            revert_delete: {
+                text: "Do you want to revert delete this Employee ?"
             }
         }
     }

@@ -230,6 +230,14 @@ return [
             'success' => 'Employee Updated Successfully.',
             'fail' => 'Employee Update Failed.',
         ],
+        'delete' => [
+            'success' => 'Employee Deleted Successfully.',
+            'fail' => 'Employee Delete Failed.',
+        ],
+        'revert' => [
+            'success' => 'Employee Restored Successfully.',
+            'fail' => 'Employee Restore Failed.',
+        ],
     ],
     'dashboard' => [
         'expense' => [
