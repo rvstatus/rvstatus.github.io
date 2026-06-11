@@ -111,5 +111,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/employee_edit', [EmployeeController::class, 'employee_edit']);
     // Route::match(['get', 'post'], '/employee_edit', [EmployeeController::class, 'employee_edit']);
     Route::post('/employee_update', [EmployeeController::class, 'employee_update']);
+    Route::post('/employee_delete', [EmployeeController::class, 'employee_delete']);
+    Route::post('/employee_revert', [EmployeeController::class, 'employee_revert']);
 });
 // employee screen end

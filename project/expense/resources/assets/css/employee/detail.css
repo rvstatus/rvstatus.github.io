@@ -74,3 +74,65 @@
 .employee-action-row {
     margin-bottom: 15px;
 }
+
+/* mobile view */
+@media (max-width: 767px) {
+
+    .employee-title {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .employee-action-row .btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .employee-fieldset {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .employee-fieldset legend {
+        font-size: 16px;
+        padding: 0 5px;
+    }
+
+    .detail-table,
+    .detail-table tbody,
+    .detail-table tr,
+    .detail-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .detail-table th {
+        display: none;
+    }
+
+    .detail-table tr {
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        padding: 8px;
+        background: #fff;
+    }
+
+    .detail-table td {
+        border: none !important;
+        padding: 6px 0 !important;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .detail-table td[data-label]:before {
+        content: attr(data-label);
+        display: block;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .panel-body {
+        padding: 10px;
+    }
+}

@@ -241,4 +241,52 @@ class EmployeeController extends Controller
                 ]
             );
     }
+
+    /**
+     * employee delete process
+     */
+    public function employee_delete(Request $request)
+    {
+        $delete = $this->employeeRepository->delete_employee($request->id, Auth::user()->user_id);
+        if ($delete) {
+            return redirect('/employee_list')
+                ->with(
+                    'response',
+                    [
+                        'design' => 'alert-success',
+                        'message' => Lang::get('messages.employee.delete.success'),
+                    ]
+                );
+        }
+        return redirect('/employee_list')
+            ->with(
+                'response',
+                [
+                    'design' => 'alert-danger',
+                    'message' => Lang::get('messages.employee.delete.fail'),
+                ]
+            );
+    }
+
+    /**
+     * employee revert process
+     */
+    public function employee_revert(Request $request)
+    {
+        $revert = $this->employeeRepository->revert_employee($request->id, Auth::user()->user_id);
+
+        if ($revert) {
+            return redirect('/employee_list')
+                ->with('response', [
+                    'design' => 'alert-success',
+                    'message' => Lang::get('messages.employee.revert.success'),
+                ]);
+        }
+
+        return redirect('/employee_list')
+            ->with('response', [
+                'design' => 'alert-danger',
+                'message' => Lang::get('messages.employee.revert.fail'),
+            ]);
+    }
 }

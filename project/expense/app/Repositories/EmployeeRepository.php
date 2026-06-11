@@ -52,7 +52,7 @@ class EmployeeRepository extends BaseRepository
                 'e.created_by',
                 'e.created_at'
             )
-            ->where('e.deleted_flg', 0)
+            // ->where('e.deleted_flg', 0)
             ->where('e.created_by', $createdBy)
             ->orderBy('e.id', 'DESC')
             ->paginate($perPage);
@@ -149,10 +149,11 @@ class EmployeeRepository extends BaseRepository
                 'e.category_id',
                 'wc.work_category_name',
                 'e.created_by',
-                'e.created_at'
+                'e.created_at',
+                'e.deleted_flg'
             )
             ->where('e.id', $id)
-            ->where('e.deleted_flg', 0)
+            // ->where('e.deleted_flg', 0)
             ->where('e.created_by', $createdBy)
             ->first();
     }
@@ -191,5 +192,45 @@ class EmployeeRepository extends BaseRepository
                     'updated_at' => now(),
                 ]
             );
+    }
+
+    /**
+     * delete employee
+     *
+     * @param int $id
+     * @param string $created_by
+     *
+     * @return bool
+     */
+    public function delete_employee($id, $created_by)
+    {
+        return DB::table('m_emp')
+            ->where('id', $id)
+            ->where('created_by', $created_by)
+            ->update(
+                [
+                    'deleted_flg' => 1,
+                    'updated_at' => now(),
+                ]
+            );
+    }
+
+    /**
+     * revert employee (undo delete)
+     *
+     * @param int $id
+     * @param string $created_by
+     *
+     * @return bool
+     */
+    public function revert_employee($id, $created_by)
+    {
+        return DB::table('m_emp')
+            ->where('id', $id)
+            ->where('created_by', $created_by)
+            ->update([
+                'deleted_flg' => 0,
+                'updated_at' => now(),
+            ]);
     }
 }

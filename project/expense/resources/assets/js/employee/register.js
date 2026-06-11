@@ -6,9 +6,9 @@ $(document).ready(function () {
         }
     });
     // initialize join date picker
-    $('#join_date').datepicker({
-        format: 'dd/mm/yyyy',
-        autoclose: true,
-        todayHighlight: true
-    });
+    // $('#join_date').datepicker({
+    //     format: 'dd/mm/yyyy',
+    //     autoclose: true,
+    //     todayHighlight: true
+    // });
 });

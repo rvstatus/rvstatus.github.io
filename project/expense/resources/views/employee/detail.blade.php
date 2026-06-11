@@ -18,11 +18,22 @@
                     <a href="{{ url('/employee_list') }}" class="btn btn-primary btn-sm">
                         <i class="fa fa-arrow-left"></i> Back
                     </a>
-                    <a href="javascript:void(0)" class="btn btn-warning btn-sm" id="btn_edit">
+                    @if($employee->deleted_flg == 1)
+                    <!-- employee inactive -->
+                    <a href="javascript:void(0)" class="btn btn-success btn-sm" id="btn_delete_revert" data-action="{{ url('/employee_revert') }}">
+                        <i class="fa fa-undo"></i> Revert
+                    </a>
+                    @else
+                    <!-- employee active -->
+                    <a href="javascript:void(0)" class="btn btn-warning btn-sm" id="btn_edit" data-action="{{ url('/employee_edit') }}">
                         <i class="fa fa-edit"></i> Edit
                     </a>
-                    <!-- edit form -->
-                    <form id="edit_form" method="POST" action="{{ url('/employee_edit') }}">
+                    <a href="javascript:void(0)" class="btn btn-danger btn-sm" id="btn_delete" data-action="{{ url('/employee_delete') }}">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                    @endif
+                    <!-- edit, delete and revert form -->
+                    <form id="employee_form" method="POST">
                         {{ csrf_field() }}
                         <input type="hidden" name="id" id="employee_id" value="{{ $employee->id }}">
                     </form>
@@ -39,13 +50,13 @@
                 <table class="table table-bordered detail-table">
                     <tr>
                         <th>Employee Name</th>
-                        <td>{{ $employee->emp_name }}</td>
+                        <td data-label="Employee Name">{{ $employee->emp_name }}</td>
                         <th>Employee ID</th>
-                        <td>{{ $employee->emp_id }}</td>
+                        <td data-label="Employee ID">{{ $employee->emp_id }}</td>
                     </tr>
                     <tr>
                         <th>Gender</th>
-                        <td>
+                        <td data-label="Gender">
                             @if($employee->gender == 1)
                             Male
                             @elseif($employee->gender == 2)
@@ -55,19 +66,15 @@
                             @endif
                         </td>
                         <th>Mobile Number</th>
-                        <td>{{ $employee->mobile_no }}</td>
+                        <td data-label="Mobile Number">{{ $employee->mobile_no }}</td>
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td colspan="3">
-                            {{ $employee->email }}
-                        </td>
+                        <td data-label="Email">{{ $employee->email }}</td>
                     </tr>
                     <tr>
                         <th>Address</th>
-                        <td colspan="3">
-                            {{ $employee->address }}
-                        </td>
+                        <td data-label="Address">{!! nl2br(e($employee->address)) !!}</td>
                     </tr>
                 </table>
             </fieldset>
@@ -77,19 +84,19 @@
                 <table class="table table-bordered detail-table">
                     <tr>
                         <th>Category</th>
-                        <td>{{ $employee->work_category_name ?? '-' }}</td>
+                        <td data-label="Category">{{ $employee->work_category_name ?? '-' }}</td>
                         <th>Salary</th>
-                        <td>
+                        <td data-label="Salary">
                             {{ $employee->salary ? '₹ '.number_format($employee->salary,0,'.',',') : '-' }}
                         </td>
                     </tr>
                     <tr>
                         <th>Join Date</th>
-                        <td>
+                        <td data-label="Join Date">
                             {{ !empty($employee->join_date) ? date('d-m-Y', strtotime($employee->join_date)) : '-' }}
                         </td>
                         <th>Leave Date</th>
-                        <td>
+                        <td data-label="Leave Date">
                             {{ !empty($employee->leave_date) ? date('d-m-Y', strtotime($employee->leave_date)) : 'Nil' }}
                         </td>
                     </tr>
