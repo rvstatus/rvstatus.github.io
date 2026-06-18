@@ -26,6 +26,9 @@
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     <!-- <script src="{{ asset('resources/assets/js/pages.js') }}"></script> -->
     <!-- <link rel="stylesheet" href="{{ asset('resources/assets/css/main.css') }}"> -->
+    <link rel="stylesheet" href="{{ asset('resources\assets\css\pad-mar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('resources\assets\css\year_month_bar.css') }}" />
+
     <style>
         body {
             font-family: 'Lato';
@@ -186,6 +189,22 @@
                             </span>
                         </a>
                     </li>
+                    <li class="sidebar-nav-item">
+                        <a href="{{ url('salary/index')}}" class="sidebar-nav-link">
+                            <div>
+                                <i class="fas fa-money-check-alt"></i>
+                            </div>
+                            <span>{{ trans('labels.salary') }}</span>
+                        </a>
+                    </li>
+                    <!-- <li class="sidebar-nav-item">
+                        <a href="{{ url('paySlip/index')}}" class="sidebar-nav-link">
+                            <div>
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <span>{{ trans('labels.payslip') }}</span>
+                        </a>
+                    </li> -->
                     <li class="sidebar-nav-item">
                         <a href="{{ url('/expense_list') }}" class="sidebar-nav-link">
                             <div>

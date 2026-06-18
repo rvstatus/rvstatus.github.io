@@ -172,5 +172,9 @@ window.lang = {
                 text: "Do you want to revert delete this Employee ?"
             }
         }
+    },
+    salary: {
+        cancel_msg : "Do You Like To Cancel?"
     }
+
 };

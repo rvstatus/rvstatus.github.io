@@ -142,7 +142,7 @@
                                 </button>
                                 <button type="button" id="btn_clear" class="btn btn-warning"> <i class="fa fa-undo"></i> Clear </button>
                                 <button type="button" id="btn_edit" data-url="{{ url('/employee_update') }}" class="btn btn-success">
-                                    <i class="fa fa-save"></i> Update
+                                    <i class="fa fa-edit"></i> Update
                                 </button>
                             </div>
                         </div>
