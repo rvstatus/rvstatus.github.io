@@ -6,6 +6,10 @@ return [
     'register' => ' Register',
     'add' => ' Add',
     'cancel' => ' Cancel',
+    'month' => 'Month',
+    'year' => 'Year',
+    'view' => 'View',
+    'no_data_found' => 'No Data Found!',
     // salary
     'salary' => 'Salary',
     'salarydetails' => 'Salary Details',
@@ -20,7 +24,8 @@ return [
     'salary_view' => 'Salary View',
     'salary_take_home' => 'Take Home',
     'insentive' => 'Insentive',
-    'nodatafound' => 'No Data Found!',
+    // salary add
+    'period' => 'Period',
     // emp selection popup 
     'un_selected' => ' Unselected',
     'selected' => ' Selected',

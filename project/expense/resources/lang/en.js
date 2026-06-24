@@ -174,7 +174,39 @@ window.lang = {
         }
     },
     salary: {
-        cancel_msg : "Do You Like To Cancel?"
+        popup: {
+            common: {
+                title: "Are you sure ?",
+                confirm_button: "Yes, proceed !",
+                cancel_button: "Cancel"
+            },
+            cancel: {
+                text: "Do you want to cancel the changes ?"
+            },
+            register: {
+                text: "Do you want to register salary details ?"
+            },
+            employee_selection: {
+                text: "Do you want to add the selected employees ?"
+            }
+        },
+        validation: {
+            employee: {
+                required: "Please select at least one employee."
+            },
+            basic_salary: {
+                required: "Please Enter Basic Salary Amount"
+            },
+            insentive: {
+                required: "Please Enter Insentive Amount"
+            },
+            // pf_amount: {
+            //     required: "Please Enter PF Amount"
+            // },
+            // esi_amount: {
+            //     required: "Please Enter ESI Amount"
+            // },
+        }
     }
 
 };

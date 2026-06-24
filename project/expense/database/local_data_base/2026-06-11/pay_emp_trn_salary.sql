@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2026-06-18 10:51:50
+Date: 2026-06-24 09:48:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,9 +29,9 @@ CREATE TABLE `pay_emp_trn_salary` (
   `NET_salary` decimal(10,2) DEFAULT NULL,
   `month` int(2) NOT NULL,
   `year` int(4) NOT NULL,
-  `created_date_time` timestamp NULL DEFAULT NULL,
-  `created_by` varchar(50) DEFAULT NULL,
-  `updated_date_time` timestamp NULL DEFAULT NULL,
+  `created_date_time` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_by` varchar(50) NOT NULL DEFAULT '',
+  `updated_date_time` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   `updated_by` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

@@ -14,15 +14,6 @@ use Carbon\Carbon;
   var datetime = '<?php echo date('Ymdhis'); ?>';
 </script>
 
-<!-- Session msg start -->
-<div>
-  @if(session()->has('response'))
-  <div id="response_message" class="alert {{ session('response.design') }}" style="margin:0; padding:2px 5px;">
-    {{ session('response.message') }}
-  </div>
-  @endif
-</div>
-<!-- Session msg end -->
 
 @php
 if($request->selYear=="" && $request->selMonths=="") {
@@ -59,13 +50,22 @@ $request->selMonths = $prevmn;
       <!-- Register -->
       @if(!empty($selectedUserSalaryCount) && $selectedUserSalaryCount != 0)
       <div class="pull-right mr10">
-        <a href="javascript:add_salary('{{ $request->selYear}}','{{ $request->selMonth}}');" class="btn btn-success btn-sm">
+        <a href="javascript:add_salary('{{ $request->selYear}}','{{ $request->selMonth}}', '{{ url('/salary/addSalary') }}');" class="btn btn-success btn-sm">
           <i class="fa fa-plus"></i>
           {{ trans('labels.register') }}
         </a>
       </div>
       @endif
     </div>
+    <!-- Session msg start -->
+    <div>
+      @if(session()->has('response'))
+      <div id="response_message" class="alert {{ session('response.design') }}" style="padding:8px 12px;margin-bottom:10px;">
+        {{ session('response.message') }}
+      </div>
+      @endif
+    </div>
+    <!-- Session msg end -->
     <!-- BODY -->
     <div class="panel-body">
       <!-- YEAR MONTH (UNCHANGED LOGIC) -->
@@ -73,6 +73,7 @@ $request->selMonths = $prevmn;
         {{ Helpers::display_year_month($prev_yrs,$cur_year,$cur_month,$total_yrs,$curtime) }}
       </div>
       <form name="salaryEmpForm" id="salaryEmpForm" action="{{ url('Admin/salary/index?mainmenu=paySlip_salary&time='.date('YmdHis')) }}" method="POST">
+        @csrf
         <input type="hidden" name="mainmenu" id="mainmenu" value="paySlip_salary">
         <input type="hidden" name="plimit" id="plimit" value="{{ $request->plimit }}">
         <input type="hidden" name="page" id="page" value="{{ $request->page }}">
@@ -130,10 +131,9 @@ $request->selMonths = $prevmn;
                 <td class="text-right">{{ number_format($employeeList->netSalary) }}</td>
                 <td class="text-center">
                   <?php if (!empty($employeeList->salaryId) && $employeeList->salaryId != "") { ?>
-                    <a href="javascript:goto_salary_view('{{ $employeeList->emp_id}}','{{ $employeeList->salaryId }}');">
-                      <img class="box20 mt3"
-                        src="{{ asset('assets/images/details.png') }}"
-                        title="{{ trans('labels.view') }}">
+                    <a href="javascript:goto_salary_view('{{ $employeeList->emp_id }}','{{ $employeeList->salaryId }}');"
+                      title="{{ trans('labels.view') }}">
+                      <i class="fa fa-eye text-primary" style="font-size:18px;"></i>
                     </a>
                   <?php } ?>
                 </td>
@@ -141,7 +141,7 @@ $request->selMonths = $prevmn;
               @empty
               <tr>
                 <td class="text-center" colspan="9">
-                  {{ trans('labels.nodatafound') }}
+                  {{ trans('labels.no_data_found') }}
                 </td>
               </tr>
               @endforelse

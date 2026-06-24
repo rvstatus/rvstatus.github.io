@@ -15,7 +15,7 @@
 
     } else {
 
-      if (confirm(window.lang.salary.cancel_msg)) {
+      if (confirm(window.lang.salary.popup.cancel.text)) {
 
         cancel_check = true;
 

@@ -8,6 +8,7 @@ use App\Repositories\SalaryRepository;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
 /**
  * Salary Controller
@@ -119,25 +120,124 @@ class SalaryController extends Controller
     public function empselectionprocess(Request $request)
     {
         //  insert / update selected employees
-        $this->salaryRepository->InsertEmpFlrDetails($request, Auth::user()->user_id);
+        $status = $this->salaryRepository->InsertEmpFlrDetails($request, Auth::user()->user_id);
 
         // store filter state in session
         Session::flash('year', $request->year);
         Session::flash('month', $request->month);
-        Session::flash('message', 'Employees Selected Successfully!');
-        Session::flash('type', 'alert-success');
 
         // clear temporary request values
         $request->merge([
             'selected' => [],
             'removed'  => []
         ]);
-
-        // redirect back to salary list
-        return Redirect::to(
-            'salary/index?mainmenu=' .
+        if ($status) {
+            // redirect back to salary list with success message
+            return Redirect::to('salary/index?mainmenu=' .
                 $request->mainmenu .
-                '&time=' . date('YmdHis')
-        );
+                '&time=' . date('YmdHis'))->with('response', [
+                'design' => 'alert-success',
+                'message' => Lang::get('messages.salary.employee_selection.success'),
+            ]);
+        }
+        // redirect back to salary list fail message
+        return Redirect::to('salary/index?mainmenu=' .
+            $request->mainmenu .
+            '&time=' . date('YmdHis'))->with('response', [
+            'design' => 'alert-danger',
+            'message' => Lang::get('messages.salary.employee_selection.fail'),
+        ]);
+    }
+
+    /**
+     * Salary Add Screen
+     */
+    public function addSalary(Request $request)
+    {
+        if (empty($request->selMonth) || empty($request->selYear)) {
+            return redirect()->route('salary.index');
+        }
+
+        if (empty($request->plimit)) {
+            $request->merge([
+                'plimit' => 50
+            ]);
+        }
+
+        $userDetail = $this->salaryRepository->fnGetUserSalaryDetail($request);
+
+        return view('salary.add', [
+            'userDetail' => $userDetail,
+            'request'    => $request
+        ]);
+    }
+
+    /**
+     *
+     * store Salary Details
+     * save salary information for selected employees.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addProcess(Request $request)
+    {
+        if (empty($request->selMonth) || empty($request->selYear)) {
+            // redirect back to salary list if no request value
+            return Redirect::to(
+                'salary/index?mainmenu=' .
+                    $request->mainmenu .
+                    '&time=' . date('YmdHis')
+            )->with(
+                'response',
+                [
+                    'design' => 'alert-danger',
+                    'message' => Lang::get('messages.salary.index.error'),
+                ]
+            );
+        }
+
+        $insertStatus = false;
+        for ($i = 1; $i <= $request->count; $i++) {
+            $basicSalary = 'basicSalary' . $i;
+            $insentive   = 'insentive' . $i;
+            // todo in future
+            // $pfAmount    = 'pfAmount' . $i;
+            // $esiAmount   = 'esiAmount' . $i;
+            $request->merge(['iterator' => $i]);
+            if (!empty($request->$basicSalary) || !empty($request->$insentive)) {
+                $insertStatus = $this->salaryRepository->insert_salary($request, Auth::user()->user_id);
+            }
+        }
+
+        Session::flash('month', $request->selMonth);
+        Session::flash('year', $request->selYear);
+        if ($insertStatus) {
+            // redirect back to salary list with success message
+            return Redirect::to(
+                'salary/index?mainmenu=' .
+                    $request->mainmenu .
+                    '&time=' . date('YmdHis')
+            )->with(
+                'response',
+                [
+                    'design' => 'alert-success',
+                    'message' => Lang::get('messages.salary.create.success'),
+                ]
+            );
+        } else {
+            // redirect back to salary list with fail message
+            return Redirect::to(
+                'salary/index?mainmenu=' .
+                    $request->mainmenu .
+                    '&time=' . date('YmdHis')
+            )->with(
+                'response',
+                [
+                    'design' => 'alert-danger',
+                    'message' => Lang::get('messages.salary.create.fail'),
+                ]
+            );
+        }
     }
 }

@@ -1,0 +1,78 @@
+.emp-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: #fff;
+    padding: 12px 15px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.emp-panel-heading h4 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.emp-panel-heading,
+.emp-panel-heading h4 {
+    color: #fff !important;
+}
+.emp-code-link {
+    color: #2c3e50;
+    font-weight: 600;
+    text-decoration: none;
+}
+.emp-code-link:hover {
+    color: #4b6cb7;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.salary-table {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+}
+.salary-table thead th {
+    background: linear-gradient(#f8fafc, #eef2f7);
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #dcdfe3 !important;
+}
+
+.salary-table tbody td {
+    font-size: 13px;
+    vertical-align: middle;
+    border: 1px solid #ececec !important;
+}
+
+/* row hover effect */
+.salary-table tbody tr:hover {
+    background: #f1f7ff !important;
+    transition: 0.2s ease-in-out;
+}
+
+/* alternate row color */
+.salary-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+/* input box styling inside table */
+.salary-table input.form-control {
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+    height: 30px;
+    font-size: 13px;
+}
+
+.salary-table input.form-control:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 3px rgba(74, 144, 226, 0.4);
+}
+
+.salary-table thead tr:first-child th {
+    font-size: 14px;
+    background: #e9f2ff;
+}

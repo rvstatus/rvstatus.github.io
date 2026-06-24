@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 /**
  * Salary Repository
@@ -92,9 +93,10 @@ class SalaryRepository
      * insert salary data
      *
      * @param object $request
+     * @param string $created_by
      * @return bool
      */
-    public function insert_salary($request)
+    public function insert_salary($request, $created_by)
     {
         $i = $request->iterator;
 
@@ -108,7 +110,7 @@ class SalaryRepository
             'total' => $request->{'netSalary' . $i},
             'month' => $request->selMonth,
             'year' => $request->selYear,
-            'created_by' => Session::get('emp_name')
+            'created_by' => $created_by
         ]);
     }
 
@@ -201,33 +203,90 @@ class SalaryRepository
      */
     public static function InsertEmpFlrDetails($request, $create_by)
     {
-        // remove existing employee mapping for selected month/year
-        DB::table('pay_mst_ps_emp')
-            ->where('year', $request->year)
-            ->where('month', $request->month)
-            ->delete();
-        // prepare insert data array
-        $rows = [];
-        if (!empty($request->selected) && is_array($request->selected)) {
-            foreach ($request->selected as $empId) {
-                $rows[] = [
-                    'Emp_Id'      => $empId,
-                    'del_flg'      => 0,
-                    'resign_id'   => 0,
-                    'title'       => 2,
-                    'year'        => $request->year,
-                    'month'       => $request->month,
-                    'create_date' => now(),
-                    'create_by'   => $create_by,
-                    'update_date' => now(),
-                    'update_by'   => $create_by,
-                ];
-            }
+        DB::beginTransaction();
 
-            // bulk insert
-            DB::table('pay_mst_ps_emp')->insert($rows);
+        try {
+            // remove existing employee mapping for selected month/year
+            DB::table('pay_mst_ps_emp')
+                ->where('year', $request->year)
+                ->where('month', $request->month)
+                ->delete();
+            // prepare insert data array
+            $rows = [];
+            if (!empty($request->selected) && is_array($request->selected)) {
+                foreach ($request->selected as $empId) {
+                    $rows[] = [
+                        'emp_id'      => $empId,
+                        'del_flg'      => 0,
+                        'resign_id'   => 0,
+                        'title'       => 2,
+                        'year'        => $request->year,
+                        'month'       => $request->month,
+                        'create_date' => now(),
+                        'create_by'   => $create_by,
+                        'update_date' => now(),
+                        'update_by'   => $create_by,
+                    ];
+                }
+
+                // bulk insert
+                $inserted = DB::table('pay_mst_ps_emp')->insert($rows);
+                if (!$inserted) {
+                    DB::rollBack();
+                    return false;
+                }
+            }
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+    }
+
+    /**
+     * Get User Salary Detail
+     *
+     * Retrieve employee details selected for salary processing
+     * and exclude employees whose salary has already been
+     * generated for the selected year and month.
+     *
+     * @param object $request
+     * @return \Illuminate\Support\Collection
+     */
+    public static function fnGetUserSalaryDetail($request)
+    {
+        // get selected year and month
+        if (!empty($request->selYear) && !empty($request->selMonth)) {
+            $yrs  = $request->selYear;
+            $mons = $request->selMonth;
+        } else {
+            $start = new Carbon('first day of last month');
+            $yrs   = $start->format('Y');
+            $mons  = $start->format('m');
         }
 
-        return true;
+        // fetch employee details not yet registered in salary table
+        return DB::table('pay_mst_ps_emp as mu')
+            ->select(
+                'emp.emp_name',
+                'emp.emp_id',
+                'mu.year',
+                'mu.month'
+            )
+            ->leftJoin('m_emp as emp', 'emp.emp_id', '=', 'mu.emp_id')
+            ->where('mu.year', $yrs)
+            ->where('mu.month', $mons)
+            ->whereRaw(
+                'mu.emp_id NOT IN (
+                SELECT emp_id
+                FROM pay_emp_trn_salary
+                WHERE year = ?
+                AND month = ?
+            )',
+                [$yrs, $mons]
+            )
+            ->orderBy('mu.emp_id', 'ASC')
+            ->get();
     }
 }
