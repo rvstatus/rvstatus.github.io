@@ -41,7 +41,7 @@ class Helpers
           echo "<span class=\"currentheader\">&nbsp;" . $cur_year . "年&nbsp;</span>&nbsp;";
         } else {
           $yr = $total_yrs[$year];
-          echo "<span class=\"spnOver\"><a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">&nbsp;" . $yr . "年&nbsp;</a></span>&nbsp;";
+          echo "<span class=\"spnOver\"><a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">&nbsp;" . $yr . "年&nbsp;</a></span>&nbsp;";
         }
       }
       echo "<span>＞＞</span>";
@@ -58,18 +58,18 @@ class Helpers
         echo "<span>＜＜</span>";
         echo "<span class=\"currentheader \">&nbsp;" . $total_yrs[$inx] . "年&nbsp;</span>&nbsp;";
         $yr = $total_yrs[$inx + 1];
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">" . $yr . "年</a></span>";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">" . $yr . "年</a></span>";
         $yr = $total_yrs[$inx + 2];
-        /*echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera\">".$yr."年</a></span>";
+        /*echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera\">".$yr."年</a></span>";
            $yr=$total_yrs[$inx+3];*/
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＞＞</a></span>";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＞＞</a></span>";
       } else if ($inx == $cnt - 1) {       //LAST YEAR
         $yr = $total_yrs[$inx - 2];
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＜＜</a></span>";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＜＜</a></span>";
         /*$yr=$total_yrs[$inx-2];
-           echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera\">".$yr."年</a></span>";*/
+           echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera\">".$yr."年</a></span>";*/
         $yr = $total_yrs[$inx - 1];
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">" . $yr . "年</a></span>&nbsp;";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">" . $yr . "年</a></span>&nbsp;";
         echo "<span class=\"currentheader\">&nbsp;" . $total_yrs[$inx] . "年&nbsp;</span>";
         echo "<span>＞＞</span>";
       } else {                //OTHERWISE
@@ -85,18 +85,18 @@ class Helpers
         if ($yr == '') {
           echo "<span>＜＜</span>";
         } else {
-          echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＜＜</a></span>";
+          echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＜＜</a></span>";
         }
         $yr = $total_yrs[$inx - 1];
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">" . $yr . "年</a></span>&nbsp;";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">" . $yr . "年</a></span>&nbsp;";
         echo "<span class=\"currentheader\">&nbsp;" . $total_yrs[$inx] . "年&nbsp;</span>";
         $yr = $total_yrs[$inx + 1];
-        /*echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera\">".$yr."年</a></span>";
+        /*echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera\">".$yr."年</a></span>";
            $yr=$total_yrs[$inx+2];*/
         if ($yr == '') {
           echo "<span>＞＞</span>";
         } else {
-          echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＞＞</a></span>";
+          echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$cur_month','$yr','$curtime');\" class=\"bordera pageload\">＞＞</a></span>";
         }
       }
     }
@@ -119,20 +119,19 @@ class Helpers
       if ($month == $cur_month) {
         echo "&nbsp;<span class=\"currentheader\">&nbsp;" . $month . "月&nbsp;</span>&nbsp;";
       } else if (empty($months) || !in_array($month, (array)$months)) {
-
-        echo "&nbsp;&nbsp;" . $month . "月&nbsp;";
+        echo "<span class='disabled-item'>" . $month . "月</span>";
       } else if (($month < $cur_month) && ($month <= $sys_cur_month)) {
 
         $mon = str_pad($month, 2, "0", STR_PAD_LEFT);
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$mon','$cur_year','$curtime');\" class=\"bordera pageload\">&nbsp;" . $month . "月&nbsp;</a></span>";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$mon','$cur_year','$curtime');\" class=\"bordera pageload\">&nbsp;" . $month . "月&nbsp;</a></span>";
       } else if ($month <= $sys_cur_month) {
 
         $mon = str_pad($month, 2, "0", STR_PAD_LEFT);
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$mon','$cur_year','$curtime');\" class=\"bordera pageload\">&nbsp;" . $month . "月&nbsp;</a></span>";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$mon','$cur_year','$curtime');\" class=\"bordera pageload\">&nbsp;" . $month . "月&nbsp;</a></span>";
       } else if ($cur_year < $sys_cur_year) {
 
         $mon = str_pad($month, 2, "0", STR_PAD_LEFT);
-        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:getData('$mon','$cur_year','$curtime');\" class=\"bordera pageload\">&nbsp;" . $month . "月&nbsp;</a></span>";
+        echo "<span class=\"spnOver\">&nbsp;<a href=\"javascript:get_data_based_on_year_month_bar('$mon','$cur_year','$curtime');\" class=\"bordera pageload\">&nbsp;" . $month . "月&nbsp;</a></span>";
       } else {
 
         echo $month . "月&nbsp;";

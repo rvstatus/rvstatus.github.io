@@ -932,3 +932,6 @@ button:focus {
 }
 
 /* pagination end */
+.cmn_vam {
+  vertical-align: middle !important;
+}

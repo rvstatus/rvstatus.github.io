@@ -1,0 +1,43 @@
+.panel-heading {
+    font-weight: bold;
+}
+
+.btn-group-responsive .btn {
+    margin-right: 10px;
+}
+
+.btn-group-responsive {
+    text-align: center;
+}
+
+.btn-group-responsive .btn {
+    min-width: 120px;
+    margin: 0 8px;
+}
+.control-label {
+    white-space: nowrap;
+}
+/* panel design */
+.salary-edit-panel {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+
+.salary-edit-panel .panel-heading {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 14px 18px;
+    border: none;
+}
+
+.salary-edit-panel .panel-body {
+    padding: 18px;
+}
+/* form spacing */
+.salary-form-group {
+    margin-bottom: 0;
+}

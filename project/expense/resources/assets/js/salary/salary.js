@@ -111,22 +111,22 @@ function cancel(viewflg,mainmenu) {
 }
 
 // only type the number on the text box
-function isNumberKey(evt) { 
+function is_number_key(evt) { 
    var charCode = (evt.which) ? evt.which : event.keyCode
    if (charCode > 31 && (charCode < 48 || charCode > 57))
       return false;
    return true;
 }
 
-// if any value type on screen fnCancelCheck call
-function fnCancelCheck() {
+// if any value type on screen fn_cancel_check call
+function fn_cancel_check() {
     cancel_check = false;
     return cancel_check;
 }
 // edit and add screen common method end
 
-// register screen addAll Method used to register the data
-function addAll(i,msg,count) {
+// register screen add_all Method used to register the data
+function add_all(i,msg,count) {
     for (var j= 1; j <= count; j++) {
         var basicSalary = $("#basicSalary"+j).val();
         var insentive = $("#insentive"+j).val();
@@ -161,4 +161,186 @@ function addAll(i,msg,count) {
         $('#salaryAddForm').attr('action', 'addProcess?mainmenu='+mainmenu+'&time='+datetime);
         $("#salaryAddForm").submit();
     }
+}
+
+// edit salary record and redirect to edit screen
+function fn_salary_edit(salaryId, mainmenu, screenName) {
+    // set selected salary id
+    $("#salaryId").val(salaryId);
+    // default form
+    let formId = "#salaryEmpForm";
+
+    // decide form based on screen
+    switch (screenName) {
+        case "salary_view":
+            if ($("#screenName").val() === "") {
+                $("#backScreenName").val("salary_view_form_index");
+            }
+            formId = "#salaryViewForm";
+            break;
+        case "salary_detail_view":
+            formId = "#salaryDetailForm";
+            break;
+        default:
+            formId = "#salaryEmpForm";
+            break;
+    }
+    // build action URL
+    const actionUrl = "edit?mainmenu=" + mainmenu + "&time=" + datetime;
+    // update form action and submit
+    $(formId).attr("action", actionUrl);
+    $(formId).trigger("submit");
+}
+
+// back button common function
+function goto_back() {
+    let formId = "#salaryEmpForm";
+    let action = "index";
+    let mainmenu = $("#mainmenu").val();
+    let screenName = $("#screenName").val();
+    // coming from salary view screen
+    if (screenName === "salary_view") {
+        formId = "#salaryViewForm";
+        action = "index";
+    }
+    // coming from salary detail view screen
+    if (screenName === "salary_detail_view") {
+        formId = "#salaryDetailForm";
+        action = "index";
+    }
+    // coming from payslip screen
+    if (screenName === "payslip_index") {
+        formId = "#salaryViewForm";
+        action = "../paySlip/index";
+        mainmenu = "paySlip_emp";
+    }
+    $("#mainmenu").val(mainmenu);
+    $(formId).attr("action", action + "?mainmenu=" + mainmenu + "&time=" + datetime);
+    $(formId).submit();
+}
+
+// edit salary validation and submit
+function edit_salary_process() {
+    // clear previous errors
+    clear_validation();
+    var basicSalary = $("#basicSalary").val().trim();
+    var insentive   = $("#insentive").val().trim();
+    var pfAmount    = $("#pfAmount").val().trim();
+    var esiAmount   = $("#esiAmount").val().trim();
+
+    var isValid = true;
+    if (basicSalary == "" || basicSalary == 0) {
+        show_validation(
+            "basicSalary",
+            "basicSalaryError",
+            window.lang.salary.validation.basic_salary.required
+        );
+        $("#basicSalary").focus();
+        isValid = false;
+    }
+    if (insentive == "" || insentive == 0) {
+        show_validation(
+            "insentive",
+            "insentiveError",
+            window.lang.salary.validation.insentive.required
+        );
+        if (isValid) {
+            $("#insentive").focus();
+        }
+        isValid = false;
+    }
+    // Uncomment if PF is mandatory
+    /*
+        if (pfAmount == "" || pfAmount == 0) {
+            show_validation(
+                "pfAmount",
+                "pfAmountError",
+                window.lang.salary.validation.pf.required
+            );
+            if (isValid) {
+                $("#pfAmount").focus();
+            }
+            isValid = false;
+        }
+    */
+    // Uncomment if ESI is mandatory
+    /*
+        if (esiAmount == "" || esiAmount == 0) {
+            show_validation(
+                "esiAmount",
+                "esiAmountError",
+                window.lang.salary.validation.esi.required
+            );
+            if (isValid) {
+                $("#esiAmount").focus();
+            }
+            isValid = false;
+        }
+    */
+    if (!isValid) {
+        return false;
+    } else {
+        var netSalary = parseInt(basicSalary) + parseInt(insentive); // + parseInt(pfAmount) + parseInt(esiAmount);
+        $("#totalSalary").val(netSalary);
+        $("#totalSalaryText").text(netSalary);
+    }
+    var mainmenu = $("#mainmenu").val();
+    if (confirm(window.lang.salary.popup.update.text)) {
+        $("#salaryEditForm").attr(
+            "action",
+            "editProcess?mainmenu=" + mainmenu + "&time=" + datetime
+        );
+        $("#salaryEditForm").submit();
+    }
+    return false;
+}
+
+// clear all validation messages on update button click time
+function clear_validation() {
+    $(".basicSalaryError").html("");
+    $(".insentiveError").html("");
+    $(".pfAmountError").html("");
+    $(".esiAmountError").html("");
+
+    $("#basicSalary").removeClass("is-invalid");
+    $("#insentive").removeClass("is-invalid");
+    $("#pfAmount").removeClass("is-invalid");
+    $("#esiAmount").removeClass("is-invalid");
+}
+
+// show validation message
+function show_validation(inputId, errorClass, message) {
+    $("#" + inputId).addClass("is-invalid");
+    $("." + errorClass).html(message);
+}
+
+// remove validation message for selected field while on change time.
+function clear_field_validation(inputId, errorClass) {
+    $("#" + inputId).removeClass("is-invalid");
+    $("." + errorClass).html("");
+}
+
+// calculate total salary and update screen.
+function calculate_net_salary() {
+    var basicSalary = parseInt($("#basicSalary").val()) || 0;
+    var insentive   = parseInt($("#insentive").val()) || 0;
+    var pfAmount    = parseInt($("#pfAmount").val()) || 0;
+    var esiAmount   = parseInt($("#esiAmount").val()) || 0;
+    // calculate net salary
+    var netSalary = basicSalary + insentive + pfAmount + esiAmount;
+    // avoid negative value (optional)
+    if (netSalary < 0) {
+        netSalary = 0;
+    }
+    $("#totalSalary").val(netSalary);
+    $("#totalSalaryText").text(netSalary.toLocaleString());
+}
+
+// get the data based the month and year click
+function get_data_based_on_year_month_bar(selMonth, selYear,time) {
+    $('#selMonth').val(selMonth);
+    $('#selYear').val(selYear);
+    var mainmenu = $('#mainmenu').val();
+    $('#salaryEmpForm').attr('action', 'index?mainmenu='+mainmenu+'&time='+datetime);
+    $("#salaryEmpForm").submit();
 }

@@ -33,8 +33,8 @@
 
 .bordera:hover {
     border: 1px solid #4b6cb7;
-    background: #eef3ff;
-    color: #182848;
+    background: linear-gradient(90deg, #7998df, #668ddb);
+    color: #fff !important;
 }
 
 .currentheader {
@@ -50,7 +50,14 @@
 .spnOver {
     display: inline-block;
 }
-
+.disabled-item {
+    display: inline-block;
+    padding: 5px 10px;
+    color: #b0b8c4;
+    background: transparent;
+    border-radius: 4px;
+    cursor: not-allowed;
+}
 /* desktop (PC) view */
 
 @media (min-width: 1200px) {

@@ -121,7 +121,7 @@ class SalaryRepository
      * @param string $created_by
      * @return \Illuminate\Support\Collection
      */
-    public static function getAllEmpDetails($request, $created_by)
+    public static function get_all_emp_details($request, $created_by)
     {
         /**
          * get selected year/month
@@ -163,7 +163,7 @@ class SalaryRepository
      * @param string $created_by
      * @return \Illuminate\Support\Collection
      */
-    public static function getAllFilteredEmpDetails($request, $created_by)
+    public static function get_all_filtered_emp_details($request, $created_by)
     {
         /**
          * get selected year/month
@@ -191,9 +191,9 @@ class SalaryRepository
     }
 
     /**
-     * Insert Employee Filter Details for Salary Module
+     * insert employee filter details for salary module
      *
-     * This method replaces existing employees for a given month/year
+     * this method replaces existing employees for a given month/year
      * and inserts newly selected employees into pay_mst_ps_emp table.
      *
      * @param object $request
@@ -201,7 +201,7 @@ class SalaryRepository
      * 
      * @return bool
      */
-    public static function InsertEmpFlrDetails($request, $create_by)
+    public static function insert_emp_flr_details($request, $create_by)
     {
         DB::beginTransaction();
 
@@ -245,16 +245,16 @@ class SalaryRepository
     }
 
     /**
-     * Get User Salary Detail
+     * get user salary detail
      *
-     * Retrieve employee details selected for salary processing
+     * retrieve employee details selected for salary processing
      * and exclude employees whose salary has already been
      * generated for the selected year and month.
      *
      * @param object $request
      * @return \Illuminate\Support\Collection
      */
-    public static function fnGetUserSalaryDetail($request)
+    public static function fn_get_user_salary_detail($request)
     {
         // get selected year and month
         if (!empty($request->selYear) && !empty($request->selMonth)) {
@@ -288,5 +288,182 @@ class SalaryRepository
             )
             ->orderBy('mu.emp_id', 'ASC')
             ->get();
+    }
+
+    /**
+     * get salary year list
+     *
+     * retrieve available salary years for an employee.
+     *
+     * @param object $request
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_salary_year_detail($request)
+    {
+        return DB::table('pay_emp_trn_salary as salary')
+            ->where('salary.emp_id', $request->empId)
+            ->orderBy('salary.year', 'DESC')
+            ->orderBy('salary.month', 'DESC')
+            ->groupBy('salary.year')
+            ->pluck('salary.year', 'salary.year');
+    }
+
+    /**
+     * get total Salary Summary
+     *
+     * retrieve total salary, PF, ESI, incentive,
+     * and net salary amounts for an employee.
+     *
+     * @param object $request
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_total_salary_array_detail($request)
+    {
+        $query = DB::table('pay_emp_trn_salary as salary')
+            ->select(
+                'salary.year',
+                DB::raw('SUM(salary.basic_salary) as basicSalary'),
+                DB::raw('SUM(salary.insentive) as insentive'),
+                DB::raw('SUM(salary.PF) as pfAmount'),
+                DB::raw('SUM(salary.ESI) as esiAmount'),
+                DB::raw('SUM(salary.total) as totalSalary'),
+                DB::raw('SUM(salary.NET_salary) as netSalary')
+            )
+            ->where('salary.emp_id', $request->empId)
+            ->groupBy('salary.year')
+            ->orderBy('salary.year', 'DESC')
+            ->get();
+        return $query;
+    }
+
+    /**
+     * get salary detail view
+     *
+     * retrieve paginated salary details
+     * for a specific employee.
+     *
+     * @param object $request
+     * @param int $plimit
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function get_salary_detail_view($request, $plimit)
+    {
+        $query = DB::table('pay_emp_trn_salary as salary')
+            ->select(
+                'salary.id as salaryId',
+                'salary.total as totalSalary',
+                'salary.year',
+                'salary.month',
+                'salary.basic_salary as basicSalary',
+                'salary.insentive',
+                'salary.PF as pfAmount',
+                'salary.ESI as esiAmount',
+                'salary.NET_salary as netSalary',
+                'emp.emp_id',
+                'emp.emp_name'
+            )
+            ->leftJoin(
+                'm_emp as emp',
+                'emp.emp_id',
+                '=',
+                'salary.emp_id'
+            )
+            ->where('salary.emp_id', $request->empId);
+
+        if (!empty($request->yearViseData)) {
+            $query->where('salary.year', $request->yearViseData);
+        }
+
+        return $query
+            ->orderBy('salary.year', 'DESC')
+            ->orderBy('salary.month', 'DESC')
+            ->paginate($plimit);
+    }
+
+    /**
+     * get salary edit detail
+     *
+     * retrieve salary record for edit screen.
+     *
+     * @param object $request
+     * @return \Illuminate\Support\Collection
+     */
+    public static function fn_get_user_salary_edit_detail($request)
+    {
+        return DB::table('pay_emp_trn_salary as salary')
+            ->select(
+                'emp.emp_name',
+                'emp.emp_id',
+                'salary.id as salaryId',
+                'salary.basic_salary as basicSalary',
+                'salary.insentive as insentive',
+                'salary.PF as pfAmount',
+                'salary.ESI as esiAmount',
+                'salary.total as totalSalary',
+                'salary.month',
+                'salary.year'
+            )
+            ->leftJoin('m_emp as emp', 'emp.emp_id', '=', 'salary.emp_id')
+            ->where('salary.id', $request->salaryId)
+            ->get();
+    }
+
+    /**
+     * get salary view detail
+     *
+     * retrieve salary record for view screen.
+     *
+     * @param object $request
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_salary_view_detail($request)
+    {
+        return DB::table('pay_emp_trn_salary as salary')
+            ->select(
+                'emp.emp_name',
+                'emp.emp_id',
+                'salary.id as salaryId',
+                'salary.basic_salary as basicSalary',
+                'salary.insentive',
+                'salary.PF as pfAmount',
+                'salary.ESI as esiAmount',
+                'salary.total as totalSalary',
+                'salary.NET_salary as netSalary',
+                'salary.month',
+                'salary.year'
+            )
+            ->leftJoin(
+                'm_emp as emp',
+                'emp.emp_id',
+                '=',
+                'salary.emp_id'
+            )
+            ->where('salary.id', $request->salaryId)
+            ->get();
+    }
+
+    /**
+     * update salary details
+     *
+     * update salary record in salary transaction table.
+     *
+     * @param object $request
+     * @param string $updated_by
+     * @return bool
+     */
+    public function salary_update($request, $updated_by)
+    {
+        return DB::table('pay_emp_trn_salary')
+            ->where('id', $request->salaryId)
+            ->update([
+                'basic_salary' => $request->basicSalary,
+                'insentive'    => $request->insentive,
+                'PF'           => $request->pfAmount,
+                'ESI'          => $request->esiAmount,
+                'NET_salary'   => $request->totalSalary,
+                'total'        => $request->totalSalary,
+                'updated_date_time'  => now(),
+                'updated_by'    => $updated_by,
+            ]);
     }
 }

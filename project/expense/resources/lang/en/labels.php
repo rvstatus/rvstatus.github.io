@@ -1,21 +1,27 @@
 <?php
 
 return [
-    // common
+    // common table head start
     'sno' => 'S.No',
-    'register' => ' Register',
-    'add' => ' Add',
-    'cancel' => ' Cancel',
     'month' => 'Month',
     'year' => 'Year',
+    // common table head end
+    // common button start
     'view' => 'View',
-    'no_data_found' => 'No Data Found!',
-    // salary
+    'no_data_found' => 'No Data Found !',
+    'add' => ' Add',
+    'edit' => ' Edit',
+    'back' => 'Back',
+    'register' => ' Register',
+    'update' => ' Update',
+    'cancel' => ' Cancel',
+    // common button end
+    // salary start
     'salary' => 'Salary',
-    'salarydetails' => 'Salary Details',
+    'salary_details' => 'Salary Details',
     'employee_selection' => 'Employee Selection',
-    'employeno' => 'Employee No',
-    'employeename' => 'Employee Name',
+    'employee_id' => 'Employee ID',
+    'employee_name' => 'Employee Name',
     'basic_salary' => 'Basic Salary',
     'PF' => 'PF',
     'ESI' => 'ESI',
@@ -29,6 +35,12 @@ return [
     // emp selection popup 
     'un_selected' => ' Unselected',
     'selected' => ' Selected',
-    // pay slip
+    // salary detail view
+    'total' => 'Total',
+    'year_month' => 'Year / Month',
+    'employee_information' => 'Employee Information',
+    // salary start end
+    // pay slip start
     'payslip' => 'Pay Slip',
+    // pay slip end
 ];

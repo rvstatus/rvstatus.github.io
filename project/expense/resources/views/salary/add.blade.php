@@ -29,7 +29,6 @@
               <div style="font-size:16px; font-weight:600; color:#2c3e50; line-height:18px;">
                 {{ $request->selYear }}
               </div>
-              <input type="hidden" name="year" value="{{ $request->selYear }}">
             </div>
             <!-- MONTH -->
             <div class="col-sm-6 text-center" style="padding:5px 0;">
@@ -39,7 +38,6 @@
               <div style="font-size:16px; font-weight:600; color:#2c3e50; line-height:18px;">
                 {{ $request->selMonth }}
               </div>
-              <input type="hidden" name="month" value="{{ $request->selMonth }}">
             </div>
           </div>
         </div>
@@ -71,17 +69,17 @@
             <thead style="background:#f4f6f8;">
               <!-- TOP GROUP ROW -->
               <tr>
-                <th rowspan="2" class="text-center" style="vertical-align:middle;">
+                <th rowspan="2" class="text-center cmn_vam">
                   {{ trans('labels.sno') }}
                 </th>
-                <th rowspan="2" class="text-center" style="vertical-align:middle;">
-                  {{ trans('labels.employeno') }}
+                <th rowspan="2" class="text-center cmn_vam">
+                  {{ trans('labels.employee_id') }}
                 </th>
-                <th rowspan="2" class="text-center" style="vertical-align:middle;">
-                  {{ trans('labels.employeename') }}
+                <th rowspan="2" class="text-center cmn_vam">
+                  {{ trans('labels.employee_name') }}
                 </th>
                 <th colspan="5" class="text-center" style="font-weight:bold;">
-                  {{ trans('labels.salarydetails') }}
+                  {{ trans('labels.salary_details') }}
                 </th>
               </tr>
               <!-- SECOND ROW -->
@@ -107,16 +105,16 @@
                   {{ $user->emp_name }}
                 </td>
                 <td>
-                  <input type="text" name="basicSalary{{ $key+1 }}" id="basicSalary{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return isNumberKey(event);" onchange="return fnCancelCheck();" data-key="{{ $key+1 }}">
+                  <input type="text" name="basicSalary{{ $key+1 }}" id="basicSalary{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return is_number_key(event);" onchange="return fn_cancel_check();" data-key="{{ $key+1 }}">
                 </td>
                 <td>
-                  <input type="text" name="insentive{{ $key+1 }}" id="insentive{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return isNumberKey(event);" onchange="return fnCancelCheck();" data-key="{{ $key+1 }}">
+                  <input type="text" name="insentive{{ $key+1 }}" id="insentive{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return is_number_key(event);" onchange="return fn_cancel_check();" data-key="{{ $key+1 }}">
                 </td>
                 <td>
-                  <input type="text" name="pfAmount{{ $key+1 }}" id="pfAmount{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return isNumberKey(event);" onchange="return fnCancelCheck();" data-key="{{ $key+1 }}">
+                  <input type="text" name="pfAmount{{ $key+1 }}" id="pfAmount{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return is_number_key(event);" onchange="return fn_cancel_check();" data-key="{{ $key+1 }}">
                 </td>
                 <td>
-                  <input type="text" name="esiAmount{{ $key+1 }}" id="esiAmount{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return isNumberKey(event);" onchange="return fnCancelCheck();" data-key="{{ $key+1 }}">
+                  <input type="text" name="esiAmount{{ $key+1 }}" id="esiAmount{{ $key+1 }}" class="form-control text-right input-sm salaryAdd" onkeypress="return is_number_key(event);" onchange="return fn_cancel_check();" data-key="{{ $key+1 }}">
                 </td>
                 <td>
                   <input type="text" name="netSalary{{ $key+1 }}" id="netSalary{{ $key+1 }}" class="form-control text-right input-sm" disabled>
@@ -138,7 +136,7 @@
             <i class="fa fa-times"></i>
             {{ trans('labels.cancel') }}
           </a>
-          <button type="button" onclick="addAll('1','reg','{{ count($userDetail) }}');" class="btn btn-success btn-sm">
+          <button type="button" onclick="add_all('1','reg','{{ count($userDetail) }}');" class="btn btn-success btn-sm">
             <i class="fa fa-plus"></i>
             {{ trans('labels.register') }}
           </button>

@@ -36,7 +36,7 @@ $request->selMonths = $prevmn;
     <!-- HEADER -->
     <div class="panel-heading emp-panel-heading d-flex justify-content-between align-items-center">
       <h4 style="margin:0;">
-        {{ trans('labels.salarydetails') }}
+        {{ trans('labels.salary_details') }}
       </h4>
     </div>
     <div class="clearfix mb10 mt10">
@@ -75,7 +75,7 @@ $request->selMonths = $prevmn;
       <form name="salaryEmpForm" id="salaryEmpForm" action="{{ url('Admin/salary/index?mainmenu=paySlip_salary&time='.date('YmdHis')) }}" method="POST">
         @csrf
         <input type="hidden" name="mainmenu" id="mainmenu" value="paySlip_salary">
-        <input type="hidden" name="plimit" id="plimit" value="{{ $request->plimit }}">
+        <input type="hidden" name="plimit" id="plimit" value="{{ $plimit }}">
         <input type="hidden" name="page" id="page" value="{{ $request->page }}">
         <input type="hidden" name="selMonth" id="selMonth" value="{{ $request->selMonth }}">
         <input type="hidden" name="selYear" id="selYear" value="{{ $request->selYear }}">
@@ -84,23 +84,23 @@ $request->selMonths = $prevmn;
         <input type="hidden" name="empId" id="empId" value="">
         <!-- TABLE -->
         <div class="table-responsive">
-          <table class="table table-bordered table-hover">
+          <table class="table table-bordered table-hover salary-table">
             <colgroup>
               <col width="6%">
-              <col width="10%">
+              <col width="12%">
               <col>
-              <col width="13%">
-              <col width="10%">
-              <col width="8%">
-              <col width="8%">
+              <col width="12%">
+              <col width="9%">
+              <col width="7%">
+              <col width="7%">
               <col width="13%">
               <col width="5%">
             </colgroup>
-            <thead style="background:#f4f6f8;">
+            <thead>
               <tr>
                 <th>{{ trans('labels.sno') }}</th>
-                <th>{{ trans('labels.employeno') }}</th>
-                <th>{{ trans('labels.employeename') }}</th>
+                <th>{{ trans('labels.employee_id') }}</th>
+                <th>{{ trans('labels.employee_name') }}</th>
                 <th>{{ trans('labels.basic_salary') }}</th>
                 <th>{{ trans('labels.insentive') }}</th>
                 <th>{{ trans('labels.PF') }}</th>

@@ -186,6 +186,9 @@ window.lang = {
             register: {
                 text: "Do you want to register salary details ?"
             },
+            update: {
+                text: "Do you want to update salary details ?"
+            },
             employee_selection: {
                 text: "Do you want to add the selected employees ?"
             }

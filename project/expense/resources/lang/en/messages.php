@@ -262,10 +262,10 @@ return [
             'success' => 'Salary Registered Successfully.',
             'fail'    => 'Salary Registration Failed.',
         ],
-        // 'update' => [
-        //     'success' => 'Salary Updated Successfully.',
-        //     'fail'    => 'Salary Update Failed.',
-        // ],
+        'update' => [
+            'success' => 'Salary Updated Successfully.',
+            'fail'    => 'Salary Update Failed.',
+        ],
         // 'delete' => [
         //     'success' => 'Salary Deleted Successfully.',
         //     'fail'    => 'Salary Delete Failed.',
