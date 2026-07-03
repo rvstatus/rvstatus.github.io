@@ -1,0 +1,54 @@
+.emp-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: #fff;
+    padding: 12px 15px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.emp-panel-heading h4 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.emp-panel-heading,
+.emp-panel-heading h4 {
+    color: #fff !important;
+}
+
+.emp-code-link {
+    color: #2c3e50;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.emp-code-link:hover {
+    color: #4b6cb7;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.panel.panel-default {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+
+.panel-body {
+    padding: 20px;
+}
+.salary-table thead th {
+    background: #eef2f7;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+.salary-table tbody tr:hover {
+    background: #f7fbff;
+    transition: .2s;
+}

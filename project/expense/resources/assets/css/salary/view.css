@@ -1,0 +1,93 @@
+/* panel */
+.salary-view-panel {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+}
+.salary-view-panel .panel-heading {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 14px 18px;
+}
+.salary-view-panel .panel-heading i {
+    margin-right: 6px;
+}
+.panel-body {
+    padding: 15px;
+}
+/* fieldset */
+.salary-fieldset {
+    border: 1px solid #dfe5ec;
+    border-radius: 6px;
+    padding: 10px 18px 6px;
+    margin-bottom: 18px;
+    background: #fff;
+}
+.salary-fieldset legend {
+    width: auto;
+    padding: 0 10px;
+    margin-bottom: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2c3e50;
+    border: none;
+}
+/* common row design */
+.salary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #eef2f7;
+}
+.salary-row:last-child {
+    border-bottom: none;
+}
+/* labels */
+.label-text {
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 600;
+}
+.value-text {
+    color: #2c3e50;
+    font-size: 14px;
+    font-weight: 600;
+}
+.employee-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #34495e;
+    letter-spacing: .3px;
+}
+/* salary summary */
+.salary-summary,
+.salary-info-box {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+.net-salary {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: 700;
+}
+/* amount colors */
+.text-success {
+    color: #28a745 !important;
+    font-weight: 600;
+}
+.text-danger {
+    color: #dc3545 !important;
+    font-weight: 600;
+}
+/* buttons */
+.btn {
+    border-radius: 4px;
+}
+.btn+.btn {
+    margin-left: 5px;
+}

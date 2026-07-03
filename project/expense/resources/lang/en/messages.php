@@ -250,4 +250,29 @@ return [
         ],
 
     ],
+    'salary' => [
+        'index' => [
+            'error' => 'Temporary technical issue. Please try again in a few minutes.',
+        ],
+        'employee_selection' => [
+            'success' => 'Employees Selected Successfully.',
+            'fail'    => 'Employee Selection Failed.',
+        ],
+        'create' => [
+            'success' => 'Salary Registered Successfully.',
+            'fail'    => 'Salary Registration Failed.',
+        ],
+        'update' => [
+            'success' => 'Salary Updated Successfully.',
+            'fail'    => 'Salary Update Failed.',
+        ],
+        // 'delete' => [
+        //     'success' => 'Salary Deleted Successfully.',
+        //     'fail'    => 'Salary Delete Failed.',
+        // ],
+        // 'detail' => [
+        //     'not_found' => 'Salary details not found.',
+        // ],
+    ],
+    'payslip' => [],
 ];

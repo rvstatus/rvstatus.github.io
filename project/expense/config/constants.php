@@ -8,6 +8,8 @@ return [
         'work_type' => 3,
         'user_approval' => 3,
         'employee' => 3,
+        'salary' => 3,
+        'payslip' => 3,
     ],
 
     'user_agree_status' => [

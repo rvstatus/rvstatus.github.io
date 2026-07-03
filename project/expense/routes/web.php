@@ -10,6 +10,9 @@ use App\Http\Controllers\WorkCategoryController;
 use App\Http\Controllers\WorkTypeController;
 use App\Http\Controllers\UserApprovalController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SalaryController;
+// use App\Http\Controllers\PaySlipController;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -115,3 +118,37 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/employee_revert', [EmployeeController::class, 'employee_revert']);
 });
 // employee screen end
+
+// salary screen start
+Route::middleware(['auth'])->group(function () {
+    // Route::get('changelanguage', [AjaxController::class, 'index']);
+    Route::any('/salary/index', [SalaryController::class, 'index']);
+    Route::any('/salary/empselectionpopup', [SalaryController::class, 'empselectionpopup']);
+    Route::any('/salary/empselectionprocess', [SalaryController::class, 'empselectionprocess']);
+    Route::any('/salary/addSalary', [SalaryController::class, 'addSalary']);
+    Route::any('/salary/addProcess', [SalaryController::class, 'addProcess']);
+    Route::any('/salary/edit', [SalaryController::class, 'edit']);
+    Route::any('/salary/formValidation', [SalaryController::class, 'formValidation']);
+    Route::any('/salary/editProcess', [SalaryController::class, 'editProcess']);
+    Route::any('/salary/view', [SalaryController::class, 'view']);
+    Route::any('/salary/detailView', [SalaryController::class, 'detailView']);
+});
+// salary screen end
+
+// // payslip screen start
+// Route::middleware(['auth'])->group(function () {
+//     // Route::get('changelanguage', [AjaxController::class, 'index']);
+//     Route::any('/paySlip/index', [PaySlipController::class, 'index'])->name('paySlip.index');
+//     Route::any('/paySlip/empselectionpopup', [PaySlipController::class, 'empselectionpopup'])->name('paySlip.empselectionpopup');
+//     Route::any('/paySlip/empselectionprocess', [PaySlipController::class, 'empselectionprocess'])->name('paySlip.empselectionprocess');
+//     Route::any('/paySlip/excelTemplateDownload', [PaySlipController::class, 'excelTemplateDownload'])->name('paySlip.excelTemplateDownload');
+//     Route::any('/paySlip/singleview', [PaySlipController::class, 'singleview'])->name('paySlip.singleview');
+//     Route::any('/paySlip/sendPaySlipMail', [PaySlipController::class, 'sendPaySlipMail'])->name('paySlip.sendPaySlipMail');
+//     Route::any('/paySlip/detailView', [PaySlipController::class, 'detailView'])->name('paySlip.detailView');
+//     Route::any('/paySlip/formValidation', [PaySlipController::class, 'formValidation'])->name('paySlip.formValidation');
+//     Route::any('/paySlip/lastThreeMonthSingleView', [PaySlipController::class, 'lastThreeMonthSingleView'])->name('paySlip.lastThreeMonthSingleView');
+//     Route::any('/paySlip/view', [PaySlipController::class, 'view'])->name('paySlip.view');
+//     Route::any('/paySlip/paySlipMailSendView', [PaySlipController::class, 'paySlipMailSendView'])->name('paySlip.paySlipMailSendView');
+//     Route::get('/paySlip/payslip-download/{date}/{file}', [PaySlipController::class, 'payslipdownload'])->name('payslip.payslipdownload');
+// });
+// // payslip screen end
