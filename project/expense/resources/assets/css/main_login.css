@@ -935,3 +935,7 @@ button:focus {
 .cmn_vam {
   vertical-align: middle !important;
 }
+/* hide thinks */
+.display-none {
+  display: none;
+}

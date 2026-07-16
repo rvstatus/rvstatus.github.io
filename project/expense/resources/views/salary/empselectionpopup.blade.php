@@ -16,8 +16,36 @@
       <input type="hidden" name="year" id="year" value="{{ $request->year }}">
       <input type="hidden" name="month" id="month" value="{{ $request->month }}">
 
+      @php
+      $days = cal_days_in_month( CAL_GREGORIAN, $request->month, $request->year );
+      @endphp
       <!-- BODY -->
       <div class="modal-body">
+        <div class="salary-period-box">
+          <div class="row salary-row" style="justify-content: center !important;">
+            <div class="col-md-3 col-sm-2">
+              <label class="salary-label">{{ trans('labels.year') }}</label>
+              <div class="salary-value">{{ $request->year }}</div>
+            </div>
+            <div class="col-md-4 col-sm-2">
+              <label class="salary-label">{{ trans('labels.month') }}</label>
+              <div class="salary-value">
+                {{ date('F', mktime(0,0,0,$request->month,1)) }}
+              </div>
+            </div>
+            <div class="col-md-5 col-sm-2">
+              <label class="salary-label">{{ trans('labels.day') }}</label>
+              <select name="day" id="day" class="form-control salary-select" onchange="on_change_salary_day_select_box(this.value)" onfocus="store_old_day();">
+                @foreach($dayList as $value => $label)
+                <option value="{{ $value }}" {{ $request->day == $value ? 'selected' : '' }}>
+                  {{ $label }}
+                </option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+        </div>
+        <hr class="salary-divider">
         <div class="employee-selection-wrapper">
           <!-- UNSELECTED -->
           <div class="employee-list">

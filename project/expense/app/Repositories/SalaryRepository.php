@@ -38,27 +38,44 @@ class SalaryRepository
     {
         $yrs = $request->selYear ?: date('Y');
         $mons = $request->selMonth ?: date("m", strtotime("-1 month"));
-        return DB::table('pay_mst_ps_emp as mu')
+        $employeeQuery = DB::table('pay_mst_ps_emp')
+            ->select('emp_id')
+            ->where('year', $yrs)
+            ->where('month', $mons)
+            ->groupBy('emp_id');
+
+        $salaryQuery = DB::table('pay_emp_trn_salary')
             ->select(
-                'salary.id as salaryId',
-                'salary.basic_salary as basicSalary',
+                'emp_id',
+                DB::raw('SUM(basic_salary) AS basicSalary'),
+                DB::raw('SUM(insentive) AS insentive'),
+                DB::raw('SUM(PF) AS PF'),
+                DB::raw('SUM(ESI) AS ESI'),
+                DB::raw('SUM(NET_salary) AS netSalary'),
+                DB::raw('SUM(total) AS totalSalary'),
+                DB::raw('MIN(id) AS salaryId')
+            )
+            ->where('year', $yrs)
+            ->where('month', $mons)
+            ->groupBy('emp_id');
+        return DB::query()
+            ->fromSub($employeeQuery, 'mu')
+            ->leftJoin('m_emp as emp', 'mu.emp_id', '=', 'emp.emp_id')
+            ->leftJoinSub($salaryQuery, 'salary', function ($join) {
+                $join->on('salary.emp_id', '=', 'mu.emp_id');
+            })
+            ->select(
+                'salary.salaryId',
+                'salary.basicSalary',
                 'salary.insentive',
                 'salary.PF',
                 'salary.ESI',
-                'salary.NET_salary as netSalary',
-                'salary.total as totalSalary',
+                'salary.netSalary',
+                'salary.totalSalary',
                 'emp.emp_id',
                 'emp.emp_name'
             )
-            ->leftJoin('m_emp as emp', 'mu.emp_id', '=', 'emp.emp_id')
-            ->leftJoin('pay_emp_trn_salary as salary', function ($join) use ($yrs, $mons) {
-                $join->on('salary.emp_id', '=', 'mu.emp_id')
-                    ->where('salary.year', $yrs)
-                    ->where('salary.month', $mons);
-            })
-            ->where('mu.year', $yrs)
-            ->where('mu.month', $mons)
-            ->orderBy('emp.emp_id')
+            ->orderBy('emp.emp_id', 'ASC')
             ->paginate($plimit);
     }
 
@@ -73,19 +90,26 @@ class SalaryRepository
         $yrs = $request->selYear ?: date('Y');
         $mons = $request->selMonth ?: date("m", strtotime("-1 month"));
         return DB::table('pay_mst_ps_emp as mu')
+            ->leftJoin('m_emp as emp', 'mu.emp_id', '=', 'emp.emp_id')
             ->select(
                 'emp.emp_name',
                 'emp.emp_id'
             )
-            ->leftJoin('m_emp as emp', 'mu.emp_id', '=', 'emp.emp_id')
             ->where('mu.year', $yrs)
             ->where('mu.month', $mons)
-            ->whereRaw("mu.emp_id NOT IN (
-                SELECT emp_id 
-                FROM pay_emp_trn_salary
-                WHERE year = ? 
-                AND month = ?
-            )", [$yrs, $mons])
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('pay_emp_trn_salary as salary')
+                    ->whereColumn('salary.emp_id', 'mu.emp_id')
+                    ->whereColumn('salary.year', 'mu.year')
+                    ->whereColumn('salary.month', 'mu.month')
+                    ->whereColumn('salary.day', 'mu.day');
+            })
+            ->groupBy(
+                'emp.emp_id',
+                'emp.emp_name'
+            )
+            ->orderBy('emp.emp_id', 'ASC')
             ->get();
     }
 
@@ -108,6 +132,7 @@ class SalaryRepository
             'ESI' => $request->{'esiAmount' . $i} ?? 0,
             'NET_salary' => $request->{'netSalary' . $i},
             'total' => $request->{'netSalary' . $i},
+            'day' => !empty($request->selDay) ? $request->selDay : null,
             'month' => $request->selMonth,
             'year' => $request->selYear,
             'created_by' => $created_by
@@ -142,14 +167,20 @@ class SalaryRepository
             ->where('emp.deleted_flg', 0)
             ->where('emp.created_by', $created_by)
 
-            /**
-             * exclude employees already in salary table
-             */
-            ->whereNotIn('emp.emp_id', function ($query) use ($year, $month) {
+            // exclude employees already in salary table
+            ->whereNotIn('emp.emp_id', function ($query) use ($year, $month, $request) {
+
                 $query->select('emp_id')
                     ->from('pay_mst_ps_emp')
                     ->where('year', $year)
                     ->where('month', $month);
+
+                // based on the day select or not where case added
+                if (!empty($request->day)) {
+                    $query->where('day', $request->day);
+                } else {
+                    $query->whereNull('day');
+                }
             })
 
             ->orderBy('emp.emp_id', 'ASC')
@@ -184,6 +215,12 @@ class SalaryRepository
             ->join('m_emp as emp', 'emp.emp_id', '=', 'ps.emp_id')
             ->where('ps.year', $year)
             ->where('ps.month', $month)
+            // based on the day select or not where case added
+            ->when(!empty($request->day), function ($q) use ($request) {
+                $q->where('ps.day', $request->day);
+            }, function ($q) {
+                $q->whereNull('ps.day');
+            })
             ->where('emp.deleted_flg', 0)
             ->where('emp.created_by', $created_by)
             ->orderBy('emp.emp_id', 'ASC')
@@ -207,10 +244,14 @@ class SalaryRepository
 
         try {
             // remove existing employee mapping for selected month/year
-            DB::table('pay_mst_ps_emp')
-                ->where('year', $request->year)
-                ->where('month', $request->month)
-                ->delete();
+            $query = DB::table('pay_mst_ps_emp')->where('year', $request->year)->where('month', $request->month);
+            // based on the day select or not where case added
+            if (!empty($request->day)) {
+                $query->where('day', $request->day);
+            } else {
+                $query->whereNull('day');
+            }
+            $query->delete();
             // prepare insert data array
             $rows = [];
             if (!empty($request->selected) && is_array($request->selected)) {
@@ -222,6 +263,7 @@ class SalaryRepository
                         'title'       => 2,
                         'year'        => $request->year,
                         'month'       => $request->month,
+                        'day'         => !empty($request->day) ? $request->day : null,
                         'create_date' => now(),
                         'create_by'   => $create_by,
                         'update_date' => now(),
@@ -256,6 +298,7 @@ class SalaryRepository
      */
     public static function fn_get_user_salary_detail($request)
     {
+        $day = $request->selDay;
         // get selected year and month
         if (!empty($request->selYear) && !empty($request->selMonth)) {
             $yrs  = $request->selYear;
@@ -274,18 +317,19 @@ class SalaryRepository
                 'mu.year',
                 'mu.month'
             )
+            ->distinct()
             ->leftJoin('m_emp as emp', 'emp.emp_id', '=', 'mu.emp_id')
             ->where('mu.year', $yrs)
             ->where('mu.month', $mons)
-            ->whereRaw(
-                'mu.emp_id NOT IN (
-                SELECT emp_id
-                FROM pay_emp_trn_salary
-                WHERE year = ?
-                AND month = ?
-            )',
-                [$yrs, $mons]
-            )
+            ->where('mu.day', $day)   // add this
+            ->whereNotExists(function ($query) use ($yrs, $mons, $day) {
+                $query->select(DB::raw(1))
+                    ->from('pay_emp_trn_salary as salary')
+                    ->whereColumn('salary.emp_id', 'mu.emp_id')
+                    ->where('salary.year', $yrs)
+                    ->where('salary.month', $mons)
+                    ->where('salary.day', $day);
+            })
             ->orderBy('mu.emp_id', 'ASC')
             ->get();
     }
@@ -349,24 +393,20 @@ class SalaryRepository
     public function get_salary_detail_view($request, $plimit)
     {
         $query = DB::table('pay_emp_trn_salary as salary')
+            ->leftJoin('m_emp as emp', 'emp.emp_id', '=', 'salary.emp_id')
             ->select(
-                'salary.id as salaryId',
-                'salary.total as totalSalary',
+                DB::raw('MIN(salary.id) as salaryId'),
                 'salary.year',
                 'salary.month',
-                'salary.basic_salary as basicSalary',
-                'salary.insentive',
-                'salary.PF as pfAmount',
-                'salary.ESI as esiAmount',
-                'salary.NET_salary as netSalary',
+                'salary.day',
+                DB::raw('SUM(salary.basic_salary) as basicSalary'),
+                DB::raw('SUM(salary.insentive) as insentive'),
+                DB::raw('SUM(salary.PF) as pfAmount'),
+                DB::raw('SUM(salary.ESI) as esiAmount'),
+                DB::raw('SUM(salary.total) as totalSalary'),
+                DB::raw('SUM(salary.NET_salary) as netSalary'),
                 'emp.emp_id',
                 'emp.emp_name'
-            )
-            ->leftJoin(
-                'm_emp as emp',
-                'emp.emp_id',
-                '=',
-                'salary.emp_id'
             )
             ->where('salary.emp_id', $request->empId);
 
@@ -375,8 +415,16 @@ class SalaryRepository
         }
 
         return $query
-            ->orderBy('salary.year', 'DESC')
-            ->orderBy('salary.month', 'DESC')
+            ->groupBy(
+                'salary.year',
+                'salary.month',
+                'salary.day',
+                'emp.emp_id',
+                'emp.emp_name'
+            )
+            ->orderByDesc('salary.year')
+            ->orderByDesc('salary.month')
+            ->orderBy('salary.day')
             ->paginate($plimit);
     }
 
@@ -400,6 +448,7 @@ class SalaryRepository
                 'salary.PF as pfAmount',
                 'salary.ESI as esiAmount',
                 'salary.total as totalSalary',
+                'salary.day',
                 'salary.month',
                 'salary.year'
             )
@@ -422,13 +471,14 @@ class SalaryRepository
             ->select(
                 'emp.emp_name',
                 'emp.emp_id',
-                'salary.id as salaryId',
-                'salary.basic_salary as basicSalary',
-                'salary.insentive',
-                'salary.PF as pfAmount',
-                'salary.ESI as esiAmount',
-                'salary.total as totalSalary',
-                'salary.NET_salary as netSalary',
+                DB::raw('MIN(salary.id) as salaryId'),
+                DB::raw('SUM(salary.basic_salary) as basicSalary'),
+                DB::raw('SUM(salary.insentive) as insentive'),
+                DB::raw('SUM(salary.PF) as pfAmount'),
+                DB::raw('SUM(salary.ESI) as esiAmount'),
+                DB::raw('SUM(salary.total) as totalSalary'),
+                DB::raw('SUM(salary.NET_salary) as netSalary'),
+                'salary.day',
                 'salary.month',
                 'salary.year'
             )
@@ -438,7 +488,16 @@ class SalaryRepository
                 '=',
                 'salary.emp_id'
             )
-            ->where('salary.id', $request->salaryId)
+            ->where('salary.emp_id', $request->empId)
+            ->where('salary.year', $request->selYear)
+            ->where('salary.month', $request->selMonth)
+            ->groupBy(
+                'emp.emp_name',
+                'emp.emp_id',
+                'salary.day',
+                'salary.month',
+                'salary.year'
+            )
             ->get();
     }
 
@@ -465,5 +524,24 @@ class SalaryRepository
                 'updated_date_time'  => now(),
                 'updated_by'    => $updated_by,
             ]);
+    }
+
+    /**
+     * get already registered salary days
+     *
+     * @param int $year
+     * @param int $month
+     * @return array
+     */
+    public function get_registered_days($year, $month)
+    {
+        return DB::table('pay_emp_trn_salary')
+            ->where('year', $year)
+            ->where('month', $month)
+            ->whereNotNull('day')
+            ->groupBy('day')
+            ->orderBy('day', 'ASC')
+            ->pluck('day')
+            ->toArray();
     }
 }

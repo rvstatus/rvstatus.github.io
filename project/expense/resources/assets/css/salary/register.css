@@ -71,8 +71,69 @@
     border-color: #4a90e2;
     box-shadow: 0 0 3px rgba(74, 144, 226, 0.4);
 }
-
 .salary-table thead tr:first-child th {
     font-size: 14px;
     background: #e9f2ff;
+}
+
+/* salary period panel */
+.salary-period-panel {
+    margin-bottom: 10px;
+}
+.salary-period-heading {
+    padding: 5px 12px;
+}
+.salary-period-heading strong {
+    font-size: 13px;
+}
+.salary-period-body {
+    padding: 8px 10px;
+}
+.salary-period-row {
+    margin: 0;
+}
+
+/* year & month */
+.salary-period-col {
+    padding: 5px 0;
+    border-right: 1px solid #e5e5e5;
+}
+.salary-period-label {
+    font-size: 11px;
+    color: #888;
+}
+.salary-period-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    line-height: 18px;
+}
+
+/* day */
+.salary-period-day {
+    padding: 10px 15px;
+}
+.salary-day-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.salary-day-label {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+    font-weight: 600;
+}
+
+/* right side border into bottom border at mobile view */
+@media (max-width: 599px) {
+    .salary-period-col {
+        border-right: none;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 10px 0;
+    }
+    .salary-period-day {
+        padding: 10px 0;
+    }
 }

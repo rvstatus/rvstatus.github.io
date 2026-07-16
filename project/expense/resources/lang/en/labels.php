@@ -5,6 +5,8 @@ return [
     'sno' => 'S.No',
     'month' => 'Month',
     'year' => 'Year',
+    'day' => 'Day',
+    'date' => 'Date',
     // common table head end
     // common button start
     'view' => 'View',
@@ -35,6 +37,7 @@ return [
     // emp selection popup 
     'un_selected' => ' Unselected',
     'selected' => ' Selected',
+    'employee_select_box_empty' => 'Select Day',
     // salary detail view
     'total' => 'Total',
     'year_month' => 'Year / Month',

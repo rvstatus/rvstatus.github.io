@@ -68,7 +68,7 @@
             <thead>
               <tr>
                 <th>{{ trans('labels.sno') }}</th>
-                <th>{{ trans('labels.year_month') }}</th>
+                <th>{{ trans('labels.date') }}</th>
                 <th>{{ trans('labels.basic_salary') }}</th>
                 <th>{{ trans('labels.insentive') }}</th>
                 <th>{{ trans('labels.PF') }}</th>
@@ -85,7 +85,7 @@
                   {{ $key + 1 }}
                 </td>
                 <td class="text-center cmn_vam">
-                  {{ $detail->year . ' / ' . $detail->month }}
+                  {{ \Carbon\Carbon::create($detail->year, $detail->month, $detail->day)->format('Y-m-d') }}
                 </td>
                 <td class="text-right cmn_vam">
                   {{ number_format($detail->basicSalary) }}

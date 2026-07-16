@@ -94,7 +94,7 @@ $request->selMonths = $prevmn;
               <col width="7%">
               <col width="7%">
               <col width="13%">
-              <col width="5%">
+              <col width="5%" class="display-none">
             </colgroup>
             <thead>
               <tr>
@@ -106,7 +106,7 @@ $request->selMonths = $prevmn;
                 <th>{{ trans('labels.PF') }}</th>
                 <th>{{ trans('labels.ESI') }}</th>
                 <th>{{ trans('labels.net_salary') }}</th>
-                <th></th>
+                <th class="display-none"></th>
               </tr>
             </thead>
             <tbody>
@@ -129,7 +129,7 @@ $request->selMonths = $prevmn;
                 <td class="text-right">{{ number_format($employeeList->PF) }}</td>
                 <td class="text-right">{{ number_format($employeeList->ESI) }}</td>
                 <td class="text-right">{{ number_format($employeeList->netSalary) }}</td>
-                <td class="text-center">
+                <td class="text-center display-none">
                   <?php if (!empty($employeeList->salaryId) && $employeeList->salaryId != "") { ?>
                     <a href="javascript:goto_salary_view('{{ $employeeList->emp_id }}','{{ $employeeList->salaryId }}');"
                       title="{{ trans('labels.view') }}">
