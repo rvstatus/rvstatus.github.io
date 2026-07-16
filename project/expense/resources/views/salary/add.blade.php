@@ -12,36 +12,6 @@
     </div>
     <!-- BODY -->
     <div class="panel-body">
-      <!-- YEAR / MONTH INFO (COMPACT CARD) -->
-      <div class="panel panel-info" style="margin-bottom:10px;">
-        <div class="panel-heading" style="padding:5px 12px;">
-          <strong style="font-size:13px;">
-            {{ trans('labels.salary') }} {{ trans('labels.period') }}
-          </strong>
-        </div>
-        <div class="panel-body" style="padding:8px 10px;">
-          <div class="row" style="margin:0;">
-            <!-- YEAR -->
-            <div class="col-sm-6 text-center" style="border-right:1px solid #e5e5e5; padding:5px 0;">
-              <div style="font-size:11px; color:#888;">
-                {{ trans('labels.year') }}
-              </div>
-              <div style="font-size:16px; font-weight:600; color:#2c3e50; line-height:18px;">
-                {{ $request->selYear }}
-              </div>
-            </div>
-            <!-- MONTH -->
-            <div class="col-sm-6 text-center" style="padding:5px 0;">
-              <div style="font-size:11px; color:#888;">
-                {{ trans('labels.month') }}
-              </div>
-              <div style="font-size:16px; font-weight:600; color:#2c3e50; line-height:18px;">
-                {{ $request->selMonth }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- FORM -->
       <form name="salaryAddForm" id="salaryAddForm" method="POST" action="{{ url('salary/addProcess?mainmenu='.$request->mainmenu.'&time='.date('YmdHis')) }}">
         @csrf
@@ -53,6 +23,56 @@
         <input type="hidden" name="screenName" value="add">
         <input type="hidden" name="time" value="{{ date('YmdHis') }}">
         <input type="hidden" name="count" value="{{ count($userDetail) }}">
+        <!-- YEAR / MONTH INFO (COMPACT CARD) -->
+        <div class="panel panel-info salary-period-panel">
+          <div class="panel-heading salary-period-heading">
+            <strong>{{ trans('labels.salary') }} {{ trans('labels.period') }}</strong>
+          </div>
+
+          <div class="panel-body salary-period-body">
+            <div class="row salary-period-row">
+
+              <!-- YEAR -->
+              <div class="col-sm-4 text-center salary-period-col">
+                <div class="salary-period-label">
+                  {{ trans('labels.year') }}
+                </div>
+                <div class="salary-period-value">
+                  {{ $request->selYear }}
+                </div>
+              </div>
+
+              <!-- MONTH -->
+              <div class="col-sm-4 text-center salary-period-col">
+                <div class="salary-period-label">
+                  {{ trans('labels.month') }}
+                </div>
+                <div class="salary-period-value">
+                  {{ $request->selMonth }}
+                </div>
+              </div>
+
+              <!-- DAY -->
+              <div class="col-sm-4 salary-period-day">
+                <div class="salary-day-wrapper">
+                  <label class="salary-day-label">
+                    {{ trans('labels.day') }}
+                  </label>
+
+                  <select name="selDay" id="selDay" class="form-control input-sm w110" onchange="change_salary_day();" onfocus="store_old_day();">
+                    @foreach($dayList as $value => $label)
+                    <option value="{{ $value }}"
+                      {{ ($request->selDay == $value) ? 'selected' : '' }}>
+                      {{ $label }}
+                    </option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
         <!-- TABLE -->
         <div class="table-responsive">
           <table class="table table-bordered salary-table">

@@ -191,11 +191,17 @@ window.lang = {
             },
             employee_selection: {
                 text: "Do you want to add the selected employees ?"
-            }
+            },
+            day_change: {
+                text: "Do you want to change the day ?"
+            },
         },
         validation: {
             employee: {
                 required: "Please select at least one employee."
+            },
+            day: {
+                required: "Please Select Day."
             },
             basic_salary: {
                 required: "Please Enter Basic Salary Amount"

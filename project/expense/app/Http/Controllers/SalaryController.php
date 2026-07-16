@@ -95,6 +95,13 @@ class SalaryController extends Controller
             sort($prev_yrs[$lastYear]);
         }
 
+        // always include current month
+        $currentMonth = date("m", strtotime("0 month"));
+
+        if (!in_array((int)$currentMonth, $prev_yrs[$lastYear])) {
+            $prev_yrs[$lastYear][] = (int)$currentMonth;
+            sort($prev_yrs[$lastYear]);
+        }
         // user salary check list
         $userDetail = $this->salaryRepository->get_user_salary_detail($request);
         $selectedUserSalaryCount = count($userDetail);
@@ -121,10 +128,30 @@ class SalaryController extends Controller
     {
         $employeeUnselect = $this->salaryRepository->get_all_emp_details($request, Auth::user()->user_id);
         $employeeSelect = $this->salaryRepository->get_all_filtered_emp_details($request, Auth::user()->user_id);
+
+        // default year/month if not provided
+        $year = !empty($request->year) ? $request->year : date('Y', strtotime('first day of last month'));
+        $month = !empty($request->month) ? $request->month : date('m', strtotime('first day of last month'));
+
+        $dayList = [];
+        $dayList[''] = Lang::get('labels.employee_select_box_empty');
+
+        // number of days in the selected month
+        $totalDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+        for ($i = 1; $i <= $totalDays; $i++) {
+            $dayList[$i] = $i;
+        }
+        $selectedDay = !empty($request->day) ? $request->day : date('d');
+        // set selected day for blade
+        $request->merge([
+            'day' => (int)$selectedDay
+        ]);
         return view('salary.empselectionpopup', [
             'request' => $request,
             'employeeUnselect' => $employeeUnselect,
-            'employeeSelect' => $employeeSelect
+            'employeeSelect' => $employeeSelect,
+            'dayList'          => $dayList,
         ]);
     }
 
@@ -178,16 +205,35 @@ class SalaryController extends Controller
             return redirect()->route('salary.index');
         }
 
-        if (empty($request->plimit)) {
-            $request->merge([
-                'plimit' => 50
-            ]);
+        // already registered salary days
+        $registeredDays = $this->salaryRepository->get_registered_days(
+            $request->selYear,
+            $request->selMonth
+        );
+
+        $dayList = [];
+        $dayList[''] = Lang::get('labels.employee_select_box_empty');
+
+        // number of days in the selected month
+        $totalDays = cal_days_in_month(CAL_GREGORIAN, $request->selMonth, $request->selYear);
+
+        for ($i = 1; $i <= $totalDays; $i++) {
+            // skip already registered days
+            if (in_array($i, $registeredDays)) {
+                continue;
+            }
+            $dayList[$i] = $i;
         }
 
+        if (empty($request->selDay)) {
+            $currentDay = date('d');
+            $request->merge(['selDay' => in_array((int)$currentDay, $registeredDays) ? '' : (int)$currentDay,]);
+        }
         $userDetail = $this->salaryRepository->fn_get_user_salary_detail($request);
 
         return view('salary.add', [
             'userDetail' => $userDetail,
+            'dayList'    => $dayList,
             'request'    => $request
         ]);
     }
@@ -272,11 +318,17 @@ class SalaryController extends Controller
      */
     public function detailView(Request $request)
     {
+        // get empId from request or session
+        $request->merge([
+            'empId' => $request->empId ?? Session::get('empId'),
+        ]);
         // redirect to salary list if employee id is missing
         if (empty($request->empId)) {
-            return redirect()->route('salary.index');
+            return Redirect::to('salary/index?mainmenu=' . $request->mainmenu . '&time=' . date('YmdHis'));
         }
-
+        $request->merge([
+            'plimit' => $request->plimit ?? Session::get('plimit'),
+        ]);
         // default pagination
         $plimit = $request->input('plimit', config('constants.pagination.salary', 50));
         // get employee salary details
@@ -396,11 +448,13 @@ class SalaryController extends Controller
         // set the request selYear and selMonth into session
         Session::flash('selYear', $request->selYear);
         Session::flash('selMonth', $request->selMonth);
+        // set the request empId into session
+        Session::flash('empId', $request->empId);
 
         // redirect based on update result
         if ($updateStatus) {
             return Redirect::to(
-                'salary/view?mainmenu=' .
+                'salary/detailView?mainmenu=' .
                     $request->mainmenu .
                     '&time=' . date('YmdHis')
             )->with(

@@ -21,6 +21,7 @@
             <input type="hidden" name="empId" id="empId" value="{{ $request->empId }}">
             <input type="hidden" name="selMonth" id="selMonth" value="{{ $userSalaryEditDetail->month }}">
             <input type="hidden" name="selYear" id="selYear" value="{{ $userSalaryEditDetail->year }}">
+            <input type="hidden" name="selDay" id="selDay" value="{{ $userSalaryEditDetail->day }}">
             <input type="hidden" name="plimit" id="plimit" value="{{ $request->plimit }}">
             <input type="hidden" name="page" id="page" value="{{ $request->page }}">
             <input type="hidden" name="mainmenu" id="mainmenu" value="{{ $request->mainmenu }}">
@@ -35,9 +36,9 @@
               <div class="col-md-4"></div>
             </div>
             <div class="form-group salary-form-group">
-              <label class="control-label col-md-3"> {{ trans('labels.year_month') }} </label>
+              <label class="control-label col-md-3"> {{ trans('labels.date') }} </label>
               <div class="col-md-5">
-                {{ $userSalaryEditDetail->year }} / {{ $userSalaryEditDetail->month }}
+                {{ \Carbon\Carbon::create( $userSalaryEditDetail->year, $userSalaryEditDetail->month, $userSalaryEditDetail->day )->format('Y-m-d') }}
               </div>
               <div class="col-md-4"></div>
             </div>

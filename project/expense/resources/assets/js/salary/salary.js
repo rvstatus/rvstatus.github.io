@@ -1,4 +1,5 @@
 var cancel_check = true;
+var old_selected_day = "";
 // this methos is used to show the emp select popup
 function show_emp_selection_popup(){
     var mainmenu = $('#mainmenu').val();
@@ -14,8 +15,6 @@ function show_emp_selection_popup(){
 
 // register salary button
 function add_salary(selYear, selMonth, actionUrl) {
-    $('#page').val('');
-    $('#plimit').val(50);
     $('#selMonth').val(selMonth);
     $('#selYear').val(selYear);
     var mainmenu = $('#mainmenu').val();
@@ -46,6 +45,15 @@ function move_selected(from, to) {
 
 // emp select by popup click
 function emp_select_by_popup_click() {
+    // validation for the day select box
+    if ($("#day").val() == "") {
+        Swal.fire({
+            icon: 'warning',
+            text: window.lang.salary.validation.day.required,
+            confirmButtonText: 'OK'
+        });
+        return false;
+    }
     var length = $("#to option").length;
     if(length==0) {
         Swal.fire({
@@ -127,6 +135,28 @@ function fn_cancel_check() {
 
 // register screen add_all Method used to register the data
 function add_all(i,msg,count) {
+    // day validation
+    var selDay = $("#selDay").val();
+    if (selDay == "") {
+        Swal.fire({
+            icon: 'warning',
+            text: window.lang.salary.validation.day.required,
+            confirmButtonText: 'OK'
+        });
+
+        $("#selDay").focus();
+        return false;
+    }
+    // employee validation
+    if (count == 0) {
+        Swal.fire({
+            icon: 'warning',
+            text: window.lang.salary.validation.employee.required,
+            confirmButtonText: 'OK'
+        });
+
+        return false;
+    }
     for (var j= 1; j <= count; j++) {
         var basicSalary = $("#basicSalary"+j).val();
         var insentive = $("#insentive"+j).val();
@@ -343,4 +373,31 @@ function get_data_based_on_year_month_bar(selMonth, selYear,time) {
     var mainmenu = $('#mainmenu').val();
     $('#salaryEmpForm').attr('action', 'index?mainmenu='+mainmenu+'&time='+datetime);
     $("#salaryEmpForm").submit();
+}
+
+// reload salary add screen based on selected day.
+function change_salary_day() {
+    var selDay = $("#selDay").val();
+    if (selDay == "") {
+        Swal.fire({
+            icon: 'warning',
+            text: window.lang.salary.validation.day.required,
+            confirmButtonText: 'OK'
+        });
+        return false;
+    }
+    if (confirm(window.lang.salary.popup.day_change.text)) {
+        var mainmenu = $("input[name='mainmenu']").val();
+        $("#salaryAddForm").attr( "action", "addSalary?mainmenu=" + mainmenu + "&time=" + datetime );
+        $("#salaryAddForm").submit(); 
+    } else {
+        // restore previous selected day
+        $("#selDay").val(old_selected_day);
+        return false;
+    }
+}
+
+// restore the old select day
+function store_old_day() {
+    old_selected_day = $("#selDay").val();
 }
