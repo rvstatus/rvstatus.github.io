@@ -45,7 +45,7 @@ class SalaryController extends Controller
         }
 
         // calendar data
-        $date = $this->salaryRepository->get_salary_calendar();
+        $date = $this->salaryRepository->get_salary_calendar(Auth::user()->user_id);
         $prev_yrs = [];
 
         foreach ($date as $row) {
@@ -103,11 +103,11 @@ class SalaryController extends Controller
             sort($prev_yrs[$lastYear]);
         }
         // user salary check list
-        $userDetail = $this->salaryRepository->get_user_salary_detail($request);
+        $userDetail = $this->salaryRepository->get_user_salary_detail($request, Auth::user()->user_id);
         $selectedUserSalaryCount = count($userDetail);
 
         // employee list with salary
-        $employeeLists = $this->salaryRepository->get_employee_list($request, $plimit);
+        $employeeLists = $this->salaryRepository->get_employee_list($request, $plimit, Auth::user()->user_id);
         return view('salary.index', [
             'employeeLists' => $employeeLists,
             'prev_yrs' => $prev_yrs,
@@ -208,7 +208,8 @@ class SalaryController extends Controller
         // already registered salary days
         $registeredDays = $this->salaryRepository->get_registered_days(
             $request->selYear,
-            $request->selMonth
+            $request->selMonth,
+            Auth::user()->user_id
         );
 
         $dayList = [];
@@ -229,7 +230,7 @@ class SalaryController extends Controller
             $currentDay = date('d');
             $request->merge(['selDay' => in_array((int)$currentDay, $registeredDays) ? '' : (int)$currentDay,]);
         }
-        $userDetail = $this->salaryRepository->fn_get_user_salary_detail($request);
+        $userDetail = $this->salaryRepository->fn_get_user_salary_detail($request, Auth::user()->user_id);
 
         return view('salary.add', [
             'userDetail' => $userDetail,
@@ -332,11 +333,11 @@ class SalaryController extends Controller
         // default pagination
         $plimit = $request->input('plimit', config('constants.pagination.salary', 50));
         // get employee salary details
-        $salaryYearArray = $this->salaryRepository->get_salary_year_detail($request);
+        $salaryYearArray = $this->salaryRepository->get_salary_year_detail($request, Auth::user()->user_id);
 
-        $totalSalaryArray = $this->salaryRepository->get_total_salary_array_detail($request);
+        $totalSalaryArray = $this->salaryRepository->get_total_salary_array_detail($request, Auth::user()->user_id);
 
-        $salaryDetail = $this->salaryRepository->get_salary_detail_view($request, $plimit);
+        $salaryDetail = $this->salaryRepository->get_salary_detail_view($request, $plimit, Auth::user()->user_id);
 
         return view('salary.detailview', [
             'salaryDetail'     => $salaryDetail,

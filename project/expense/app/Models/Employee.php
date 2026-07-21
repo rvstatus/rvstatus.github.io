@@ -12,6 +12,7 @@ class Employee extends Model
         'emp_name',
         'emp_id',
         'gender',
+        'date_of_birth',
         'category_id',
         'mobile_no',
         'email',

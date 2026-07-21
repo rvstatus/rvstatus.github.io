@@ -41,6 +41,7 @@ class EmployeeRepository extends BaseRepository
                 'e.emp_id',
                 'e.emp_name',
                 'e.gender',
+                'e.date_of_birth',
                 'e.mobile_no',
                 'e.email',
                 'e.address',
@@ -59,13 +60,15 @@ class EmployeeRepository extends BaseRepository
     }
 
     /**
+     * 
      * get employee code genereate
      * 
+     * @param string $createdBy
      * @return string
      */
-    public function get_next_employee_code()
+    public function get_next_employee_code($createdBy)
     {
-        $last = DB::table('m_emp')->orderBy('id', 'DESC')->first();
+        $last = DB::table('m_emp')->where('created_by', $createdBy)->orderBy('id', 'DESC')->first();
         if (!$last) {
             return 'EMP00001';
         }
@@ -78,6 +81,7 @@ class EmployeeRepository extends BaseRepository
      * 
      * @param string $emp_name
      * @param int $gender
+     * @param string $date_of_birth
      * @param string $mobile_no
      * @param string $email
      * @param string $address
@@ -89,13 +93,14 @@ class EmployeeRepository extends BaseRepository
      * 
      * @return bool
      */
-    public function insert_employee($emp_name, $gender, $mobile_no, $email, $address, $join_date, $category_id, $salary, $emp_id, $created_by)
+    public function insert_employee($emp_name, $gender, $date_of_birth, $mobile_no, $email, $address, $join_date, $category_id, $salary, $emp_id, $created_by)
     {
         return DB::table('m_emp')
             ->insert(
                 [
                     'emp_name' => $emp_name,
                     'gender' => $gender,
+                    'date_of_birth' => $date_of_birth,
                     'mobile_no' => $mobile_no,
                     'email' => $email,
                     'address' => $address,
@@ -140,6 +145,7 @@ class EmployeeRepository extends BaseRepository
                 'e.emp_id',
                 'e.emp_name',
                 'e.gender',
+                'e.date_of_birth',
                 'e.mobile_no',
                 'e.email',
                 'e.address',
@@ -164,6 +170,7 @@ class EmployeeRepository extends BaseRepository
      * @param int $id
      * @param string $emp_name
      * @param int $gender
+     * @param string $date_of_birth
      * @param string $mobile_no
      * @param string $email
      * @param string $address
@@ -174,7 +181,7 @@ class EmployeeRepository extends BaseRepository
      *
      * @return bool
      */
-    public function update_employee($id, $emp_name, $gender, $mobile_no, $email, $address, $join_date, $category_id, $salary, $created_by)
+    public function update_employee($id, $emp_name, $gender, $date_of_birth, $mobile_no, $email, $address, $join_date, $category_id, $salary, $created_by)
     {
         return DB::table('m_emp')
             ->where('id', $id)
@@ -183,6 +190,7 @@ class EmployeeRepository extends BaseRepository
                 [
                     'emp_name' => $emp_name,
                     'gender' => $gender,
+                    'date_of_birth'  => $date_of_birth,
                     'mobile_no' => $mobile_no,
                     'email' => $email,
                     'address' => $address,

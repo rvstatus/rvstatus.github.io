@@ -7,6 +7,7 @@ use App\Repositories\EmployeeRepository;
 use App\Repositories\WorkCategoryRepository;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 /**
  * Employee Controller
@@ -57,10 +58,11 @@ class EmployeeController extends Controller
             [
                 'emp_name' => 'required|min:3|max:50',
                 'gender' => 'required',
+                'date_of_birth' => 'required|date_format:d/m/Y|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
                 'mobile_no' => 'required|digits_between:10,10',
                 'email' => 'required|email|max:100',
                 'address' => 'required|max:500',
-                'join_date' => 'required|date|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
+                'join_date' => 'required|date_format:d/m/Y|before_or_equal:' . now()->format("d/m/Y") . '|after_or_equal:date_of_birth',
                 'category_id' => 'required',
                 'salary' => 'required|numeric|min:1|max:999999',
             ],
@@ -70,6 +72,10 @@ class EmployeeController extends Controller
                 'emp_name.max' => Lang::get('messages.employee.validation.emp_name.max'),
 
                 'gender.required' => Lang::get('messages.employee.validation.gender.required'),
+
+                'date_of_birth.required' => Lang::get('messages.employee.validation.date_of_birth.required'),
+                'date_of_birth.date_format' => Lang::get('messages.employee.validation.date_of_birth.date'),
+                'date_of_birth.before_or_equal' => Lang::get('messages.employee.validation.date_of_birth.before_or_equal'),
 
                 'mobile_no.required' => Lang::get('messages.employee.validation.mobile_no.required'),
                 'mobile_no.digits_between' => Lang::get('messages.employee.validation.mobile_no.digits_between'),
@@ -81,7 +87,8 @@ class EmployeeController extends Controller
                 'email.email' => Lang::get('messages.employee.validation.email.email'),
 
                 'join_date.required' => Lang::get('messages.employee.validation.join_date.required'),
-                'join_date.date' => Lang::get('messages.employee.validation.join_date.date'),
+                'join_date.date_format' => Lang::get('messages.employee.validation.join_date.date'),
+                'join_date.after_or_equal' => Lang::get('messages.employee.validation.join_date.after_or_equal'),
                 'join_date.before_or_equal' => Lang::get('messages.employee.validation.join_date.before_or_equal'),
 
                 'category_id.required' => Lang::get('messages.employee.validation.category_id.required'),
@@ -92,10 +99,11 @@ class EmployeeController extends Controller
             ]
         );
         // employee code generate
-        $emp_id = $this->employeeRepository->get_next_employee_code();
+        $emp_id = $this->employeeRepository->get_next_employee_code(Auth::user()->user_id);
+        $date_of_birth = Carbon::createFromFormat('d/m/Y', $request->date_of_birth)->format('Y-m-d');
+        $join_date = Carbon::createFromFormat('d/m/Y', $request->join_date)->format('Y-m-d');
         // insert employee
-        $join_date = date('Y-m-d', strtotime($request->join_date));
-        $insert = $this->employeeRepository->insert_employee($request->emp_name, $request->gender, $request->mobile_no, $request->email, $request->address, $join_date, $request->category_id, $request->salary, $emp_id, Auth::user()->user_id);
+        $insert = $this->employeeRepository->insert_employee($request->emp_name, $request->gender, $date_of_birth, $request->mobile_no, $request->email, $request->address, $join_date, $request->category_id, $request->salary, $emp_id, Auth::user()->user_id);
         if ($insert) {
             return redirect('/employee_list')
                 ->with(
@@ -165,10 +173,11 @@ class EmployeeController extends Controller
             [
                 'emp_name' => 'required|min:3|max:50',
                 'gender' => 'required',
+                'date_of_birth' => 'required|date_format:d/m/Y|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
                 'mobile_no' => 'required|digits_between:10,10',
                 'email' => 'required|email|max:100',
                 'address' => 'required|max:500',
-                'join_date' => 'required',
+                'join_date' => 'required|date_format:d/m/Y|before_or_equal:' . now()->format("d/m/Y") . '|after_or_equal:date_of_birth',
                 'category_id' => 'required',
                 'salary' => 'required|numeric|min:1|max:999999',
             ],
@@ -178,6 +187,10 @@ class EmployeeController extends Controller
                 'emp_name.max' => Lang::get('messages.employee.validation.emp_name.max'),
 
                 'gender.required' => Lang::get('messages.employee.validation.gender.required'),
+
+                'date_of_birth.required' => Lang::get('messages.employee.validation.date_of_birth.required'),
+                'date_of_birth.date_format' => Lang::get('messages.employee.validation.date_of_birth.date'),
+                'date_of_birth.before_or_equal' => Lang::get('messages.employee.validation.date_of_birth.before_or_equal'),
 
                 'mobile_no.required' => Lang::get('messages.employee.validation.mobile_no.required'),
                 'mobile_no.digits_between' => Lang::get('messages.employee.validation.mobile_no.digits_between'),
@@ -189,7 +202,8 @@ class EmployeeController extends Controller
                 'address.max' => Lang::get('messages.employee.validation.address.max'),
 
                 'join_date.required' => Lang::get('messages.employee.validation.join_date.required'),
-                'join_date.date' => Lang::get('messages.employee.validation.join_date.date'),
+                'join_date.date_format' => Lang::get('messages.employee.validation.join_date.date'),
+                'join_date.after_or_equal' => Lang::get('messages.employee.validation.join_date.after_or_equal'),
                 'join_date.before_or_equal' => Lang::get('messages.employee.validation.join_date.before_or_equal'),
 
                 'category_id.required' => Lang::get('messages.employee.validation.category_id.required'),
@@ -201,15 +215,13 @@ class EmployeeController extends Controller
             ]
         );
 
-        $join_date = date(
-            'Y-m-d',
-            strtotime($request->join_date)
-        );
-
+        $date_of_birth = Carbon::createFromFormat('d/m/Y', $request->date_of_birth)->format('Y-m-d');
+        $join_date = Carbon::createFromFormat('d/m/Y', $request->join_date)->format('Y-m-d');
         $update = $this->employeeRepository->update_employee(
             $request->id,
             $request->emp_name,
             $request->gender,
+            $date_of_birth,
             $request->mobile_no,
             $request->email,
             $request->address,

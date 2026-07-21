@@ -192,6 +192,11 @@ return [
             'gender' => [
                 'required' => 'Gender is required.',
             ],
+            'date_of_birth' => [
+                'required' => 'Date of Birth is required.',
+                'date_format' => 'Date of Birth must be a valid date.',
+                'before_or_equal' => 'Employee must be at least 18 years old.',
+            ],
             'mobile_no' => [
                 'required' => 'Mobile Number is required.',
                 'digits_between' => 'Mobile Number must be valid.',
@@ -206,8 +211,9 @@ return [
             ],
             'join_date' => [
                 'required' => 'Join Date is required.',
-                'date' => 'Join Date must be a valid date.',
-                'before_or_equal' => 'Employee must be at least 18 years old.',
+                'date_format' => 'Join Date must be a valid date.',
+                'before_or_equal' => 'Join Date must be on or before Today.',
+                'after_or_equal' => 'Join Date must be on or after the Date of Birth.',
             ],
             'category_id' => [
                 'required' => 'Category is required.',

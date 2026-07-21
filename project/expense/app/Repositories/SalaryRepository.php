@@ -16,12 +16,14 @@ class SalaryRepository
     /**
      * get salary calendar (year/month list)
      *
+     * @param string $created_by
      * @return \Illuminate\Support\Collection
      */
-    public function get_salary_calendar()
+    public function get_salary_calendar($created_by)
     {
         return DB::table('pay_mst_ps_emp as mu')
             ->select('mu.year', 'mu.month')
+            ->where('mu.create_by', $created_by)
             ->orderBy('mu.year')
             ->orderBy('mu.month')
             ->get();
@@ -32,38 +34,47 @@ class SalaryRepository
      *
      * @param object $request
      * @param int $plimit
+     * @param string $created_by
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function get_employee_list($request, $plimit)
+    public function get_employee_list($request, $plimit, $created_by)
     {
         $yrs = $request->selYear ?: date('Y');
         $mons = $request->selMonth ?: date("m", strtotime("-1 month"));
-        $employeeQuery = DB::table('pay_mst_ps_emp')
-            ->select('emp_id')
-            ->where('year', $yrs)
-            ->where('month', $mons)
-            ->groupBy('emp_id');
-
-        $salaryQuery = DB::table('pay_emp_trn_salary')
+        $employeeQuery = DB::table('pay_mst_ps_emp as ps')
+            ->join('m_emp as emp', 'emp.emp_id', '=', 'ps.emp_id')
+            ->select('ps.emp_id')
+            ->where('ps.year', $yrs)
+            ->where('ps.month', $mons)
+            ->where('ps.create_by', $created_by)
+            ->groupBy('ps.emp_id');
+        $salaryQuery = DB::table('pay_emp_trn_salary as salary')
+            ->join('m_emp as emp', 'emp.emp_id', '=', 'salary.emp_id')
+            ->where('emp.created_by', '=', $created_by)
             ->select(
-                'emp_id',
-                DB::raw('SUM(basic_salary) AS basicSalary'),
-                DB::raw('SUM(insentive) AS insentive'),
-                DB::raw('SUM(PF) AS PF'),
-                DB::raw('SUM(ESI) AS ESI'),
-                DB::raw('SUM(NET_salary) AS netSalary'),
-                DB::raw('SUM(total) AS totalSalary'),
-                DB::raw('MIN(id) AS salaryId')
+                'salary.emp_id',
+                DB::raw('SUM(salary.basic_salary) AS basicSalary'),
+                DB::raw('SUM(salary.insentive) AS insentive'),
+                DB::raw('SUM(salary.PF) AS PF'),
+                DB::raw('SUM(salary.ESI) AS ESI'),
+                DB::raw('SUM(salary.NET_salary) AS netSalary'),
+                DB::raw('SUM(salary.total) AS totalSalary'),
+                DB::raw('MIN(salary.id) AS salaryId')
             )
-            ->where('year', $yrs)
-            ->where('month', $mons)
-            ->groupBy('emp_id');
+            ->where('salary.year', $yrs)
+            ->where('salary.month', $mons)
+            ->groupBy('salary.emp_id');
         return DB::query()
             ->fromSub($employeeQuery, 'mu')
-            ->leftJoin('m_emp as emp', 'mu.emp_id', '=', 'emp.emp_id')
-            ->leftJoinSub($salaryQuery, 'salary', function ($join) {
-                $join->on('salary.emp_id', '=', 'mu.emp_id');
+            ->leftJoin('m_emp as emp', function ($join) use ($created_by) {
+                $join->on('mu.emp_id', '=', 'emp.emp_id')
+                    ->where('emp.created_by', '=', $created_by);
             })
+            ->leftJoinSub($salaryQuery, 'salary', function ($join) use ($created_by) {
+                $join->on('salary.emp_id', '=', 'mu.emp_id')
+                    ->where('emp.created_by', '=', $created_by);
+            })
+            ->where('emp.created_by', $created_by)
             ->select(
                 'salary.salaryId',
                 'salary.basicSalary',
@@ -82,10 +93,11 @@ class SalaryRepository
     /**
      * get employees who do not have salary entry
      *
+     * @param string $created_by
      * @param object $request
      * @return \Illuminate\Support\Collection
      */
-    public function get_user_salary_detail($request)
+    public function get_user_salary_detail($request, $created_by)
     {
         $yrs = $request->selYear ?: date('Y');
         $mons = $request->selMonth ?: date("m", strtotime("-1 month"));
@@ -97,6 +109,7 @@ class SalaryRepository
             )
             ->where('mu.year', $yrs)
             ->where('mu.month', $mons)
+            ->where('mu.create_by', $created_by)
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('pay_emp_trn_salary as salary')
@@ -168,13 +181,13 @@ class SalaryRepository
             ->where('emp.created_by', $created_by)
 
             // exclude employees already in salary table
-            ->whereNotIn('emp.emp_id', function ($query) use ($year, $month, $request) {
+            ->whereNotIn('emp.emp_id', function ($query) use ($year, $month, $request, $created_by) {
 
                 $query->select('emp_id')
                     ->from('pay_mst_ps_emp')
                     ->where('year', $year)
-                    ->where('month', $month);
-
+                    ->where('month', $month)
+                    ->where('create_by', $created_by);
                 // based on the day select or not where case added
                 if (!empty($request->day)) {
                     $query->where('day', $request->day);
@@ -223,6 +236,7 @@ class SalaryRepository
             })
             ->where('emp.deleted_flg', 0)
             ->where('emp.created_by', $created_by)
+            ->where('ps.create_by', $created_by)
             ->orderBy('emp.emp_id', 'ASC')
             ->get();
     }
@@ -244,7 +258,7 @@ class SalaryRepository
 
         try {
             // remove existing employee mapping for selected month/year
-            $query = DB::table('pay_mst_ps_emp')->where('year', $request->year)->where('month', $request->month);
+            $query = DB::table('pay_mst_ps_emp')->where('year', $request->year)->where('month', $request->month)->where('create_by', $create_by);
             // based on the day select or not where case added
             if (!empty($request->day)) {
                 $query->where('day', $request->day);
@@ -293,10 +307,11 @@ class SalaryRepository
      * and exclude employees whose salary has already been
      * generated for the selected year and month.
      *
+     * @param string $created_by
      * @param object $request
      * @return \Illuminate\Support\Collection
      */
-    public static function fn_get_user_salary_detail($request)
+    public static function fn_get_user_salary_detail($request, $created_by)
     {
         $day = $request->selDay;
         // get selected year and month
@@ -318,17 +333,22 @@ class SalaryRepository
                 'mu.month'
             )
             ->distinct()
-            ->leftJoin('m_emp as emp', 'emp.emp_id', '=', 'mu.emp_id')
+            ->leftJoin('m_emp as emp', function ($join) use ($created_by) {
+                $join->on('emp.emp_id', '=', 'mu.emp_id')
+                    ->where('emp.created_by', '=', $created_by);
+            })
+            ->where('mu.create_by', $created_by)
             ->where('mu.year', $yrs)
             ->where('mu.month', $mons)
-            ->where('mu.day', $day)   // add this
-            ->whereNotExists(function ($query) use ($yrs, $mons, $day) {
+            ->where('mu.day', $day)
+            ->whereNotExists(function ($query) use ($yrs, $mons, $day, $created_by) {
                 $query->select(DB::raw(1))
                     ->from('pay_emp_trn_salary as salary')
                     ->whereColumn('salary.emp_id', 'mu.emp_id')
                     ->where('salary.year', $yrs)
                     ->where('salary.month', $mons)
-                    ->where('salary.day', $day);
+                    ->where('salary.day', $day)
+                    ->where('salary.created_by', $created_by);
             })
             ->orderBy('mu.emp_id', 'ASC')
             ->get();
@@ -339,13 +359,15 @@ class SalaryRepository
      *
      * retrieve available salary years for an employee.
      *
+     * @param string $created_by
      * @param object $request
      * @return \Illuminate\Support\Collection
      */
-    public function get_salary_year_detail($request)
+    public function get_salary_year_detail($request, $created_by)
     {
         return DB::table('pay_emp_trn_salary as salary')
             ->where('salary.emp_id', $request->empId)
+            ->where('salary.created_by', $created_by)
             ->orderBy('salary.year', 'DESC')
             ->orderBy('salary.month', 'DESC')
             ->groupBy('salary.year')
@@ -358,10 +380,11 @@ class SalaryRepository
      * retrieve total salary, PF, ESI, incentive,
      * and net salary amounts for an employee.
      *
+     * @param string $created_by
      * @param object $request
      * @return \Illuminate\Support\Collection
      */
-    public function get_total_salary_array_detail($request)
+    public function get_total_salary_array_detail($request, $created_by)
     {
         $query = DB::table('pay_emp_trn_salary as salary')
             ->select(
@@ -374,6 +397,7 @@ class SalaryRepository
                 DB::raw('SUM(salary.NET_salary) as netSalary')
             )
             ->where('salary.emp_id', $request->empId)
+            ->where('salary.created_by', $created_by)
             ->groupBy('salary.year')
             ->orderBy('salary.year', 'DESC')
             ->get();
@@ -386,14 +410,18 @@ class SalaryRepository
      * retrieve paginated salary details
      * for a specific employee.
      *
+     * @param string $created_by
      * @param object $request
      * @param int $plimit
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function get_salary_detail_view($request, $plimit)
+    public function get_salary_detail_view($request, $plimit, $created_by)
     {
         $query = DB::table('pay_emp_trn_salary as salary')
-            ->leftJoin('m_emp as emp', 'emp.emp_id', '=', 'salary.emp_id')
+            ->leftJoin('m_emp as emp', function ($join) use ($created_by) {
+                $join->on('emp.emp_id', '=', 'salary.emp_id')
+                    ->where('emp.created_by', '=', $created_by);
+            })
             ->select(
                 DB::raw('MIN(salary.id) as salaryId'),
                 'salary.year',
@@ -408,8 +436,8 @@ class SalaryRepository
                 'emp.emp_id',
                 'emp.emp_name'
             )
-            ->where('salary.emp_id', $request->empId);
-
+            ->where('salary.emp_id', $request->empId)
+            ->where('salary.created_by', $created_by);
         if (!empty($request->yearViseData)) {
             $query->where('salary.year', $request->yearViseData);
         }
@@ -529,19 +557,40 @@ class SalaryRepository
     /**
      * get already registered salary days
      *
+     * @param string $created_by
      * @param int $year
      * @param int $month
      * @return array
      */
-    public function get_registered_days($year, $month)
+    public function get_registered_days($year, $month, $created_by)
     {
-        return DB::table('pay_emp_trn_salary')
-            ->where('year', $year)
-            ->where('month', $month)
-            ->whereNotNull('day')
-            ->groupBy('day')
-            ->orderBy('day', 'ASC')
-            ->pluck('day')
+        return DB::table('pay_mst_ps_emp as ps')
+            ->where('ps.year', $year)
+            ->where('ps.month', $month)
+            ->where('ps.create_by', $created_by)
+            ->whereNotNull('ps.day')
+            ->whereNotExists(function ($query) use ($created_by) {
+
+                $query->select(DB::raw(1))
+                    ->from('pay_mst_ps_emp as ps2')
+                    ->whereColumn('ps2.day', 'ps.day')
+                    ->whereColumn('ps2.year', 'ps.year')
+                    ->whereColumn('ps2.month', 'ps.month')
+                    ->where('ps2.create_by', $created_by)
+                    ->whereNotExists(function ($salary) use ($created_by) {
+
+                        $salary->select(DB::raw(1))
+                            ->from('pay_emp_trn_salary as salary')
+                            ->whereColumn('salary.emp_id', 'ps2.emp_id')
+                            ->whereColumn('salary.day', 'ps2.day')
+                            ->whereColumn('salary.year', 'ps2.year')
+                            ->whereColumn('salary.month', 'ps2.month')
+                            ->where('salary.created_by', $created_by);
+                    });
+            })
+            ->groupBy('ps.day')
+            ->orderBy('ps.day')
+            ->pluck('ps.day')
             ->toArray();
     }
 }
