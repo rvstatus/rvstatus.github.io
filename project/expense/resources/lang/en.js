@@ -132,6 +132,11 @@ window.lang = {
             gender: {
                 required: "Gender is required"
             },
+            date_of_birth: {
+                required: "Date of Birth is required",
+                invalid: "Enter valid date of birth",
+                age: "Employee must be at least 18 years old"
+            },
             mobile_no: {
                 required: "Mobile Number is required",
                 invalid: "Enter valid 10 digit mobile number"
@@ -148,7 +153,10 @@ window.lang = {
                 required: "Category is required"
             },
             join_date: {
-                required: "Join Date is required"
+                required: "Join Date is required",
+                invalid: "Enter valid join date",
+                before_or_equal : "Join date must be today or earlier.",
+                after_or_equal: "Join Date must be after Date of Birth"
             },
             salary: {
                 required: "Salary is required",

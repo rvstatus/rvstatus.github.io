@@ -71,6 +71,8 @@
                     <tr>
                         <th>Email</th>
                         <td data-label="Email">{{ $employee->email }}</td>
+                        <th>Date OF Birth</th>
+                        <td data-label="Date OF Birth">{{ $employee->date_of_birth }}</td>
                     </tr>
                     <tr>
                         <th>Address</th>

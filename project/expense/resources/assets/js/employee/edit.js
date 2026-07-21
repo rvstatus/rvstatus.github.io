@@ -48,6 +48,7 @@ $(document).ready(function () {
         // values
         const emp_name = $('#emp_name').val().trim();
         const gender = $('input[name="gender"]:checked').val();
+        const date_of_birth = $('#date_of_birth').val().trim();
         const mobile_no = $('#mobile_no').val().trim();
         const email = $('#email').val().trim();
         const address = $('#address').val().trim();
@@ -70,6 +71,16 @@ $(document).ready(function () {
             showError('input[name="gender"]', empVal.gender.required);
             isValid = false;
         } 
+        if (date_of_birth === '') {
+            showError('#date_of_birth', empVal.date_of_birth.required);
+            isValid = false;
+        } else if (!isValidDate(date_of_birth)) {
+            showError('#date_of_birth', empVal.date_of_birth.invalid);
+            isValid = false;
+        } else if (!isAdult(date_of_birth)) {
+            showError('#date_of_birth', empVal.date_of_birth.age);
+            isValid = false;
+        }
         if (mobile_no === '') {
             showError('#mobile_no', empVal.mobile_no.required);
             isValid = false;
@@ -95,7 +106,16 @@ $(document).ready(function () {
         if (join_date === '') {
             showError('#join_date', empVal.join_date.required);
             isValid = false;
-        } 
+        } else if (!isValidDate(join_date)) {
+            showError('#join_date', empVal.join_date.invalid);
+            isValid = false;
+        } else if (new Date(convertDate(join_date)) > new Date(new Date().setHours(0, 0, 0, 0))) {
+            showError('#join_date', empVal.join_date.before_or_equal);
+            isValid = false;
+        } else if (date_of_birth !== '' && new Date(convertDate(join_date)) < new Date(convertDate(date_of_birth))) {
+            showError('#join_date', empVal.join_date.after_or_equal);
+            isValid = false;
+        }
         if (salary === '') {
             showError('#salary', empVal.salary.required);
             isValid = false;
@@ -134,6 +154,9 @@ function showError(selector, message) {
         case 'input[name="gender"]':
             errorId = '#error_gender';
             break;
+        case '#date_of_birth':
+            errorId = '#error_date_of_birth';
+            break;
         case '#mobile_no':
             errorId = '#error_mobile_no';
             break;
@@ -166,4 +189,37 @@ function clearErrors() {
     $('#error_category_id').text('');
     $('#error_join_date').text('');
     $('#error_salary').text('');
+}
+
+function convertDate(date) {
+    let parts = date.split('/');
+    return parts[2] + '-' + parts[1] + '-' + parts[0];
+}
+
+function isValidDate(date) {
+    const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!regex.test(date)) {
+        return false;
+    }
+
+    let parts = date.split('/');
+    let day = parseInt(parts[0]);
+    let month = parseInt(parts[1]) - 1;
+    let year = parseInt(parts[2]);
+    let d = new Date(year, month, day);
+
+    return ( d.getFullYear() === year && d.getMonth() === month && d.getDate() === day );
+}
+
+function isAdult(date) {
+    let dob = new Date(convertDate(date));
+    let today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    let monthDiff = today.getMonth() - dob.getMonth();
+
+    if ( monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate()) ) {
+        age--;
+    }
+
+    return age >= 18;
 }

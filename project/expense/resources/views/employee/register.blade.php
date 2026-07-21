@@ -39,6 +39,15 @@
                             <div class="col-md-4"> @include( 'errors.views.partials.field-error', ['field' => 'gender'] ) </div>
                         </div>
                         <div class="form-group d-flex align-items-center">
+                            <label for="date_of_birth" class="control-label col-md-3">
+                                Date Of Birth
+                            </label>
+                            <div class="col-md-5">
+                                <input id="date_of_birth" type="text" class="form-control datepicker" name="date_of_birth" value="{{ old('date_of_birth') }}" placeholder="dd/mm/yyyy" autocomplete="off">
+                            </div>
+                            <div class="col-md-4"> @include( 'errors.views.partials.field-error', ['field' => 'date_of_birth'] ) </div>
+                        </div>
+                        <div class="form-group d-flex align-items-center">
                             <label for="mobile_no" class="control-label col-md-3">
                                 Mobile Number
                             </label>
