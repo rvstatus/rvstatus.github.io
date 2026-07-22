@@ -23,7 +23,7 @@ class SalaryRepository
     {
         return DB::table('pay_mst_ps_emp as mu')
             ->select('mu.year', 'mu.month')
-            ->where('mu.create_by', $created_by)
+            ->where('mu.created_by', $created_by)
             ->orderBy('mu.year')
             ->orderBy('mu.month')
             ->get();
@@ -46,7 +46,7 @@ class SalaryRepository
             ->select('ps.emp_id')
             ->where('ps.year', $yrs)
             ->where('ps.month', $mons)
-            ->where('ps.create_by', $created_by)
+            ->where('ps.created_by', $created_by)
             ->groupBy('ps.emp_id');
         $salaryQuery = DB::table('pay_emp_trn_salary as salary')
             ->join('m_emp as emp', 'emp.emp_id', '=', 'salary.emp_id')
@@ -109,7 +109,7 @@ class SalaryRepository
             )
             ->where('mu.year', $yrs)
             ->where('mu.month', $mons)
-            ->where('mu.create_by', $created_by)
+            ->where('mu.created_by', $created_by)
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('pay_emp_trn_salary as salary')
@@ -187,7 +187,7 @@ class SalaryRepository
                     ->from('pay_mst_ps_emp')
                     ->where('year', $year)
                     ->where('month', $month)
-                    ->where('create_by', $created_by);
+                    ->where('created_by', $created_by);
                 // based on the day select or not where case added
                 if (!empty($request->day)) {
                     $query->where('day', $request->day);
@@ -236,7 +236,7 @@ class SalaryRepository
             })
             ->where('emp.deleted_flg', 0)
             ->where('emp.created_by', $created_by)
-            ->where('ps.create_by', $created_by)
+            ->where('ps.created_by', $created_by)
             ->orderBy('emp.emp_id', 'ASC')
             ->get();
     }
@@ -248,17 +248,17 @@ class SalaryRepository
      * and inserts newly selected employees into pay_mst_ps_emp table.
      *
      * @param object $request
-     * @param string $create_by
+     * @param string $created_by
      * 
      * @return bool
      */
-    public static function insert_emp_flr_details($request, $create_by)
+    public static function insert_emp_flr_details($request, $created_by)
     {
         DB::beginTransaction();
 
         try {
             // remove existing employee mapping for selected month/year
-            $query = DB::table('pay_mst_ps_emp')->where('year', $request->year)->where('month', $request->month)->where('create_by', $create_by);
+            $query = DB::table('pay_mst_ps_emp')->where('year', $request->year)->where('month', $request->month)->where('created_by', $created_by);
             // based on the day select or not where case added
             if (!empty($request->day)) {
                 $query->where('day', $request->day);
@@ -278,10 +278,10 @@ class SalaryRepository
                         'year'        => $request->year,
                         'month'       => $request->month,
                         'day'         => !empty($request->day) ? $request->day : null,
-                        'create_date' => now(),
-                        'create_by'   => $create_by,
-                        'update_date' => now(),
-                        'update_by'   => $create_by,
+                        'created_at' => now(),
+                        'created_by'   => $created_by,
+                        'updated_at' => now(),
+                        'updated_by'   => $created_by,
                     ];
                 }
 
@@ -337,7 +337,7 @@ class SalaryRepository
                 $join->on('emp.emp_id', '=', 'mu.emp_id')
                     ->where('emp.created_by', '=', $created_by);
             })
-            ->where('mu.create_by', $created_by)
+            ->where('mu.created_by', $created_by)
             ->where('mu.year', $yrs)
             ->where('mu.month', $mons)
             ->where('mu.day', $day)
@@ -398,6 +398,9 @@ class SalaryRepository
             )
             ->where('salary.emp_id', $request->empId)
             ->where('salary.created_by', $created_by)
+            // based on each month of the year
+            ->where('salary.year', $request->selYear)
+            ->where('salary.month', $request->selMonth)
             ->groupBy('salary.year')
             ->orderBy('salary.year', 'DESC')
             ->get();
@@ -437,6 +440,8 @@ class SalaryRepository
                 'emp.emp_name'
             )
             ->where('salary.emp_id', $request->empId)
+            // based on each month of the year
+            ->where('salary.month', $request->selMonth)
             ->where('salary.created_by', $created_by);
         if (!empty($request->yearViseData)) {
             $query->where('salary.year', $request->yearViseData);
@@ -549,7 +554,7 @@ class SalaryRepository
                 'ESI'          => $request->esiAmount,
                 'NET_salary'   => $request->totalSalary,
                 'total'        => $request->totalSalary,
-                'updated_date_time'  => now(),
+                'updated_at'  => now(),
                 'updated_by'    => $updated_by,
             ]);
     }
@@ -567,7 +572,7 @@ class SalaryRepository
         return DB::table('pay_mst_ps_emp as ps')
             ->where('ps.year', $year)
             ->where('ps.month', $month)
-            ->where('ps.create_by', $created_by)
+            ->where('ps.created_by', $created_by)
             ->whereNotNull('ps.day')
             ->whereNotExists(function ($query) use ($created_by) {
 
@@ -576,7 +581,7 @@ class SalaryRepository
                     ->whereColumn('ps2.day', 'ps.day')
                     ->whereColumn('ps2.year', 'ps.year')
                     ->whereColumn('ps2.month', 'ps.month')
-                    ->where('ps2.create_by', $created_by)
+                    ->where('ps2.created_by', $created_by)
                     ->whereNotExists(function ($salary) use ($created_by) {
 
                         $salary->select(DB::raw(1))

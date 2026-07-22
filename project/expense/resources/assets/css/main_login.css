@@ -939,3 +939,7 @@ button:focus {
 .display-none {
   display: none;
 }
+/* no noda display color */
+.no-data-color {
+  color: red !important;
+}

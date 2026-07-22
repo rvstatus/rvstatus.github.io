@@ -140,7 +140,7 @@ $request->selMonths = $prevmn;
               </tr>
               @empty
               <tr>
-                <td class="text-center" colspan="9">
+                <td class="text-center no-data-color" colspan="9">
                   {{ trans('labels.no_data_found') }}
                 </td>
               </tr>

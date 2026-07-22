@@ -18,11 +18,11 @@ class ProjectTypeRepository extends BaseRepository
      * get all project types with pagination
      * 
      * @param int $perPage
-     * @param string $create_by
+     * @param string $created_by
      * @return $project_type_list
      * 
      */
-    public function get_all_project_type_list($perPage, $create_by)
+    public function get_all_project_type_list($perPage, $created_by)
     {
         $project_type_list = DB::table('mst_project_type')
             ->select(
@@ -35,7 +35,7 @@ class ProjectTypeRepository extends BaseRepository
                 'updated_at',
                 'deleted_flg'
             )
-            ->where('created_by', $create_by)
+            ->where('created_by', $created_by)
             ->paginate($perPage);
         return $project_type_list;
     }
@@ -152,15 +152,15 @@ class ProjectTypeRepository extends BaseRepository
     /**
      * get the project type for the expense
      *
-     * @param string $create_by
+     * @param string $created_by
      * @return array $project_list
      */
-    public function get_active_project_list($create_by)
+    public function get_active_project_list($created_by)
     {
         $project_list = DB::table('mst_project_type')
             ->select('project_type_name', 'project_type_id')
             ->where('deleted_flg', 0)
-            ->where('created_by', $create_by)
+            ->where('created_by', $created_by)
             ->orderBy(
                 'project_type_name',
                 'ASC'

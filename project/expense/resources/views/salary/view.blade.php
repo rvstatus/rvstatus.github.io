@@ -93,13 +93,13 @@
                 </div>
                 <div class="salary-row">
                   <span>{{ trans('labels.PF') }}</span>
-                  <span class="text-danger">
+                  <span class="text-red">
                     ₹ {{ number_format($salaryViewDetail->pfAmount) }}
                   </span>
                 </div>
                 <div class="salary-row">
                   <span>{{ trans('labels.ESI') }}</span>
-                  <span class="text-danger">
+                  <span class="text-red">
                     ₹ {{ number_format($salaryViewDetail->esiAmount) }}
                   </span>
                 </div>

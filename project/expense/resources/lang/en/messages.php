@@ -117,9 +117,6 @@ return [
 
     ],
     'expense' => [
-        'list' => [
-            'empty' => 'No Data Found.',
-        ],
         'validation' => [
             'project_type_name' => [
                 'required' => 'The Project Type Name is required.',
@@ -180,9 +177,6 @@ return [
 
     ],
     'employee' => [
-        'list' => [
-            'empty' => 'No Data Found.',
-        ],
         'validation' => [
             'emp_name' => [
                 'required' => 'Employee Name is required.',

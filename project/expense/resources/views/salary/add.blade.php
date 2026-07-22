@@ -142,7 +142,7 @@
               </tr>
               @empty
               <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="8" class="text-center no-data-color">
                   {{ trans('labels.no_data_found') }}
                 </td>
               </tr>

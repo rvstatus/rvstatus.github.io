@@ -29,18 +29,24 @@
             <i class="fa fa-arrow-left"></i>
             {{ trans('labels.back') }}
           </button>
-
-          <div class="w180">
-            <select name="year" id="year" class="form-control input-sm year-filter">
-              <option value="">All</option>
+          <div class="filter-wrapper">
+            <span class="filter-label">{{ trans('labels.year') }}</span>
+            <select name="year" id="year" class="form-control input-sm w130" onchange="fn_salary_filter();">
               @foreach($salaryYearArray as $value => $label)
               <option value="{{ $value }}" {{ $request->year == $value ? 'selected' : '' }}>
                 {{ $label }}
               </option>
               @endforeach
             </select>
+            <span class="filter-label ml15">{{ trans('labels.month') }}</span>
+            <select name="selMonth" id="filterMonth" class="form-control input-sm w130" onchange="fn_salary_filter();">
+              @foreach($monthArray as $value => $label)
+              <option value="{{ $value }}" {{ (int)$request->selMonth == $value ? 'selected' : '' }}>
+                {{ $label }}
+              </option>
+              @endforeach
+            </select>
           </div>
-
         </div>
         @if(!empty($salaryDetail) && isset($salaryDetail[0]))
         <div class="emp-info-box">
@@ -142,7 +148,7 @@
               @endif
               @empty
               <tr>
-                <td class="text-center" colspan="9">
+                <td class="text-center no-data-color" colspan="9">
                   {{ trans('labels.no_data_found') }}
                 </td>
               </tr>

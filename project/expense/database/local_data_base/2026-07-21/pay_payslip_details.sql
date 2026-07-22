@@ -1,0 +1,3 @@
+ALTER TABLE pay_payslip_details
+CHANGE COLUMN created_date_time created_at TIMESTAMP NULL DEFAULT NULL,
+CHANGE COLUMN updated_date_time updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP;

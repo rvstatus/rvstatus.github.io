@@ -59,7 +59,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($exp_list as $index => $expense)
+                            @forelse($exp_list as $index => $expense)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $expense->project_type_name }}</td>
@@ -77,7 +77,13 @@
                                     </ul>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td class="text-center no-data-color" colspan="9">
+                                    {{ trans('labels.no_data_found') }}
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
