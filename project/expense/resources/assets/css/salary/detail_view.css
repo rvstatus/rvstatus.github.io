@@ -99,3 +99,15 @@
     justify-content: space-between;
     align-items: center;
 }
+
+/* filter select box design start */
+.filter-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.filter-label {
+    font-weight: 600;
+    margin: 0 8px 0 0;
+}
+/* filter select box design end */

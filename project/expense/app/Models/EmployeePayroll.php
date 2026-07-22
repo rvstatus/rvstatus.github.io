@@ -23,9 +23,10 @@ class EmployeePayroll extends Model
         'title',
         'year',
         'month',
-        'create_date',
-        'create_by',
-        'update_date',
-        'update_by'
+        'day',
+        'created_at',
+        'created_by',
+        'updated_at',
+        'updated_by'
     ];
 }

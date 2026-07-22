@@ -27,9 +27,9 @@ class Salary extends Model
         'NET_salary',
         'month',
         'year',
-        'created_date_time',
+        'created_at',
         'created_by',
-        'updated_date_time',
+        'updated_at',
         'updated_by'
     ];
 }

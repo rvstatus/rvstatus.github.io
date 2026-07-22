@@ -18,11 +18,11 @@ class WorkCategoryRepository extends BaseRepository
      * get all work category with pagination
      * 
      * @param int $perPage
-     * @param string $create_by
+     * @param string $created_by
      * @return $work_category_list
      * 
      */
-    public function get_all_work_category_list($perPage, $create_by)
+    public function get_all_work_category_list($perPage, $created_by)
     {
         $work_category_list = DB::table('mst_work_category')
             ->select(
@@ -34,7 +34,7 @@ class WorkCategoryRepository extends BaseRepository
                 'updated_at',
                 'deleted_flg'
             )
-            ->where('created_by', $create_by)
+            ->where('created_by', $created_by)
             ->paginate($perPage);
         return $work_category_list;
     }

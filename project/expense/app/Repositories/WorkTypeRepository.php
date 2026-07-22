@@ -18,11 +18,11 @@ class WorkTypeRepository extends BaseRepository
      * get all work type with pagination
      * 
      * @param int $perPage
-     * @param string $create_by
+     * @param string $created_by
      * @return $work_type_list
      * 
      */
-    public function get_all_work_type_list($perPage, $create_by)
+    public function get_all_work_type_list($perPage, $created_by)
     {
         $work_type_list = DB::table('mst_work_type')
             ->select(
@@ -35,7 +35,7 @@ class WorkTypeRepository extends BaseRepository
                 'updated_at',
                 'deleted_flg'
             )
-            ->where('created_by', $create_by)
+            ->where('created_by', $created_by)
             ->paginate($perPage);
         return $work_type_list;
     }

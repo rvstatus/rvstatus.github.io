@@ -28,9 +28,9 @@ class PayslipDetail extends Model
         'subject',
         'content',
         'mail_send_tatus',
-        'created_date_time',
+        'created_at',
         'created_by',
-        'updated_date_time',
+        'updated_at',
         'updated_by'
     ];
 }

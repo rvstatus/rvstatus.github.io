@@ -330,6 +330,13 @@ class SalaryController extends Controller
         $request->merge([
             'plimit' => $request->plimit ?? Session::get('plimit'),
         ]);
+        // get selMonth and selYear from request or session
+        $request->merge([
+            'selMonth' => $request->selMonth ?? Session::get('selMonth'),
+        ]);
+        $request->merge([
+            'selYear' => $request->selYear ?? Session::get('selYear'),
+        ]);
         // default pagination
         $plimit = $request->input('plimit', config('constants.pagination.salary', 50));
         // get employee salary details
@@ -339,11 +346,17 @@ class SalaryController extends Controller
 
         $salaryDetail = $this->salaryRepository->get_salary_detail_view($request, $plimit, Auth::user()->user_id);
 
+        // month list
+        $monthArray = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $monthArray[$i] = date('F', mktime(0, 0, 0, $i, 1));
+        }
         return view('salary.detailview', [
             'salaryDetail'     => $salaryDetail,
             'salaryYearArray'  => $salaryYearArray,
             'totalSalaryArray' => $totalSalaryArray,
             'request'          => $request,
+            'monthArray'       => $monthArray,
         ]);
     }
 

@@ -401,3 +401,10 @@ function change_salary_day() {
 function store_old_day() {
     old_selected_day = $("#selDay").val();
 }
+
+// on change of the salary filter select box
+function fn_salary_filter() {
+    $('#selMonth').val($('#filterMonth').val());
+    $('#yearViseData').val($('#year').val());
+    $('#salaryDetailForm').submit();
+}
