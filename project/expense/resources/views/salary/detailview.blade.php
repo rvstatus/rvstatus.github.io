@@ -30,22 +30,26 @@
             {{ trans('labels.back') }}
           </button>
           <div class="filter-wrapper">
-            <span class="filter-label">{{ trans('labels.year') }}</span>
-            <select name="year" id="year" class="form-control input-sm w130" onchange="fn_salary_filter();">
-              @foreach($salaryYearArray as $value => $label)
-              <option value="{{ $value }}" {{ $request->year == $value ? 'selected' : '' }}>
-                {{ $label }}
-              </option>
-              @endforeach
-            </select>
-            <span class="filter-label ml15">{{ trans('labels.month') }}</span>
-            <select name="selMonth" id="filterMonth" class="form-control input-sm w130" onchange="fn_salary_filter();">
-              @foreach($monthArray as $value => $label)
-              <option value="{{ $value }}" {{ (int)$request->selMonth == $value ? 'selected' : '' }}>
-                {{ $label }}
-              </option>
-              @endforeach
-            </select>
+            <div class="filter-item">
+              <span class="filter-label">{{ trans('labels.year') }}</span>
+              <select name="year" id="year" class="form-control input-sm w70" onchange="fn_salary_filter();">
+                @foreach($salaryYearArray as $value => $label)
+                <option value="{{ $value }}" {{ $request->year == $value ? 'selected' : '' }}>
+                  {{ $label }}
+                </option>
+                @endforeach
+              </select>
+            </div>
+            <div class="filter-item">
+              <span class="filter-label ml15">{{ trans('labels.month') }}</span>
+              <select name="selMonth" id="filterMonth" class="form-control input-sm w105" onchange="fn_salary_filter();">
+                @foreach($monthArray as $value => $label)
+                <option value="{{ $value }}" {{ (int)$request->selMonth == $value ? 'selected' : '' }}>
+                  {{ $label }}
+                </option>
+                @endforeach
+              </select>
+            </div>
           </div>
         </div>
         @if(!empty($salaryDetail) && isset($salaryDetail[0]))
