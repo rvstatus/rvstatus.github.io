@@ -83,13 +83,6 @@
     color: #ff9800 !important;
     transform: scale(1.15);
 }
-
-.year-filter {
-    min-width: 140px;
-    border-radius: 4px;
-    border: 1px solid #dcdcdc;
-    height: 32px;
-}
 .net-salary {
     color: #28a745;
     font-weight: 700;
@@ -98,16 +91,75 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px;
 }
 
 /* filter select box design start */
 .filter-wrapper {
     display: flex;
     align-items: center;
+    gap: 20px;
+}
+.filter-item {
+    display: flex;
+    align-items: center;
 }
 
 .filter-label {
     font-weight: 600;
-    margin: 0 8px 0 0;
+    margin-right: 8px;
+    white-space: nowrap;
 }
 /* filter select box design end */
+
+/* mobile view responsive filter design start */
+/* filter select box design start */
+@media (max-width:767px) {
+    .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .header-actions .btn {
+        width: 100%;
+    }
+    .filter-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .filter-item {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    .filter-label {
+        width: 65px;
+        margin-right: 10px;
+    }
+    .filter-item select {
+        flex: 1;
+        width: 100% !important;
+    }
+    .ml15 {
+        margin-left: 0 !important;
+    }
+}
+
+@media (max-width:425px) {
+
+    .filter-label {
+        display: none;
+    }
+
+    .filter-item {
+        width: 100%;
+    }
+
+    .filter-item select {
+        width: 100% !important;
+    }
+}
+/* filter select box design end */
+/* mobile view responsive filter design end */
