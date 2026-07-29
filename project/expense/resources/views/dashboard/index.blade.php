@@ -11,11 +11,11 @@
         <div class="row g-2 align-items-end responsive-group">
             <!-- Project Type -->
             <div class="col-auto responsive-col responsive-col-label">
-                <label for="project_type" class="form-label">Project</label>
+                <label for="project_type" class="form-label">{{ Lang::get('labels.project') }}</label>
             </div>
             <div class="col-auto responsive-col">
                 <select name="project_type" id="project_type" class="form-select w180">
-                    <option value="">All</option>
+                    <option value="">{{ Lang::get('labels.all') }}</option>
                     @foreach($project_type_list as $project_type)
                     <option value="{{ $project_type->project_type_id }}"
                         {{ old('project_type', $selected_project_type) == $project_type->project_type_id ? 'selected' : '' }}>
@@ -27,11 +27,11 @@
 
             <!-- Work Type -->
             <div class="col-auto responsive-col responsive-col-label">
-                <label for="work_type" class="form-label">Work</label>
+                <label for="work_type" class="form-label">{{ Lang::get('labels.work') }}</label>
             </div>
             <div class="col-auto responsive-col">
                 <select name="work_type" id="work_type" class="form-select w180">
-                    <option value="">All</option>
+                    <option value="">{{ Lang::get('labels.all') }}</option>
                     @foreach($work_type_list as $work_type)
                     <option value="{{ $work_type->id }}"
                         {{ old('work_type', $selected_work_type) == $work_type->id ? 'selected' : '' }}>
@@ -43,7 +43,7 @@
 
             <!-- Button -->
             <div class="col-auto responsive-col">
-                <button type="submit" class="btn btn-primary">Apply Filters</button>
+                <button type="submit" class="btn btn-primary">{{ Lang::get('labels.apply_filters') }}</button>
             </div>
         </div>
     </form>
@@ -54,7 +54,7 @@
                 <div class="counter bg-danger" style="color:white;">
                     <p><i class="fa fa-tasks"></i></p>
                     <h3>
-                        Today's Expenses
+                        {{ Lang::get('labels.today_expenses') }}
                     </h3>
                     <p style="font-size: 1.2em;">
                         &#8377; {{ $total_today_exp }}
@@ -67,7 +67,7 @@
                 <div class="counter bg-primary" style="color:white;">
                     <p><i class="fas fa-undo-alt"></i></p>
                     <h3>
-                        Yesterday's Expenses
+                        {{ Lang::get('labels.yesterday_expenses') }}
                     </h3>
                     <p style="font-size: 1.2em;">
                         &#8377; {{ $total_yesterday_exp }}
@@ -80,7 +80,7 @@
                 <div class="counter bg-warning" style="color:white;">
                     <p><i class="fas fa-calendar-week"></i></p>
                     <h3>
-                        Last 7 day's Expenses
+                        {{ Lang::get('labels.last_seven_day_expenses') }}
                     </h3>
                     <p style="font-size: 1.2em;">
                         &#8377; {{ $total_last_seven_day_exp }}
@@ -93,7 +93,7 @@
                 <div class="counter bg-vio" style="color:white;">
                     <p><i class="fas fa-calendar"></i></p>
                     <h3>
-                        Current Month Expenses
+                        {{ Lang::get('labels.current_month_expenses') }}
                     </h3>
                     <p style="font-size: 1.2em;">
                         &#8377; {{ $total_current_month_exp }}
@@ -106,7 +106,7 @@
                 <div class="counter bg-success" style="color:white;">
                     <p><i class="fas fa-dollar-sign"></i></p>
                     <h3>
-                        Last Month Expenses
+                        {{ Lang::get('labels.last_month_expenses') }}
                     </h3>
                     <p style="font-size: 1.2em;">
                         &#8377; {{ $total_last_month_exp }}
@@ -119,7 +119,7 @@
                 <div class="counter bg-yell" style="color:white;">
                     <p><i class="fas fa-file-invoice-dollar" aria-hidden="true"></i></p>
                     <h3>
-                        Total Expenses
+                        {{ Lang::get('labels.total_expenses') }}
                     </h3>
                     <p style="font-size: 1.2em;">
                         &#8377; {{ $total_exp }}
