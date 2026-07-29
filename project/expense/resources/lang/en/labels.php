@@ -8,6 +8,12 @@ return [
     'day' => 'Day',
     'date' => 'Date',
     // common table head end
+
+    // common filter start
+    'project' => 'Project',
+    'work' => 'Work',
+    // common filter end
+
     // common button start
     'view' => 'View',
     'no_data_found' => 'No Data Found !',
@@ -17,7 +23,10 @@ return [
     'register' => ' Register',
     'update' => ' Update',
     'cancel' => ' Cancel',
+    'apply_filters' => 'Apply Filters',
+    'all' => 'All',
     // common button end
+
     // salary start
     'salary' => 'Salary',
     'salary_details' => 'Salary Details',
@@ -43,7 +52,17 @@ return [
     'year_month' => 'Year / Month',
     'employee_information' => 'Employee Information',
     // salary start end
+
     // pay slip start
     'payslip' => 'Pay Slip',
     // pay slip end
+
+    // dashboard start
+    'today_expenses' => "Today's Expenses",
+    'yesterday_expenses' => "Yesterday's Expenses",
+    'last_seven_day_expenses' => "Last 7 Day's Expenses",
+    'current_month_expenses' => "Current Month Expenses",
+    'last_month_expenses' => "Last Month Expenses",
+    'total_expenses' => "Total Expenses",
+    // dashboard end
 ];
