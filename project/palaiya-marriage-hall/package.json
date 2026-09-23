@@ -1,0 +1,27 @@
+{
+  "name": "palaiya-marriage-hall",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "webpack serve --config webpack.web.config.js",
+    "build": "webpack --config webpack.web.config.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@mui/icons-material": "9.4.0",
+    "@mui/material": "9.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "html-webpack-plugin": "5.6.8",
+    "ts-loader": "9.6.2",
+    "typescript": "5.9.3",
+    "webpack": "5.111.1",
+    "webpack-cli": "7.2.3",
+    "webpack-dev-server": "6.0.0"
+  }
+}
