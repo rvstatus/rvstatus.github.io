@@ -118,29 +118,72 @@ return [
     ],
     'expense' => [
         'validation' => [
-            'project_type_name' => [
-                'required' => 'The Project Type Name is required.',
+
+            'project_type_id' => [
+                'required' => 'Project Type is required.',
             ],
-            'mason_name' => [
-                'required' => 'The Mason Name is required.',
+
+            'expense_type_id' => [
+                'required' => 'Expense Type is required.',
             ],
-            'working_date' => [
-                'required' => 'Please select a Working Date.',
-                'date' => 'The Working Date must be a valid date.',
-                'before' => 'The Working Date must be a date before today.',
+
+            'expense_name_id' => [
+                'required' => 'Expense Name is required.',
             ],
-            'working_cat' => [
-                'required' => 'The Working Category is required.',
+
+            'expense_amount' => [
+                'required' => 'Expense Amount is required.',
+                'numeric' => 'Expense Amount must be numeric.',
+                'min' => 'Expense Amount must be greater than zero.',
+                'max' => 'Expense Amount must not exceed 1,50,000.',
             ],
-            'working_type' => [
-                'required' => 'The Working Type is required.',
+
+            'expense_date' => [
+                'required' => 'Expense Date is required.',
+                'date_format' => 'Expense Date must be a valid date.',
+                'before_or_equal' => 'Expense Date must be on or before Today.',
             ],
-            'salary' => [
-                'required' => 'The Salary is required.',
-                'integer' => 'The Salary must be a valid integer.',
-                'min' => 'The Salary must be at least 1.',
-                'not_in' => 'The Salary cannot be zero.',
+
+            'expense_description' => [
+                'max' => 'Expense Description must be less than 255 characters.',
             ],
+
+            'vendor_name' => [
+                'max' => 'Vendor Name must be less than 100 characters.',
+            ],
+
+            'bill_no' => [
+                'max' => 'Bill Number must be less than 50 characters.',
+            ],
+
+            'remarks' => [
+                'max' => 'Remarks must be less than 255 characters.',
+            ],
+
+            'other_expense_type' => [
+                'required' => 'Please enter other Expense Type.',
+                'max' => 'Other Expense Type should not exceed 150 characters.',
+            ],
+
+            'other_expense_name' => [
+                'required' => 'Please enter Other Expense Name.',
+                'max' => 'Other Expense Name should not exceed 150 characters.',
+            ],
+        ],
+        'create' => [
+            'success' => 'Expense Registered Successfully.',
+            'fail' => 'Expense Registration Failed.',
+        ],
+        'detail' => [
+            'not_found' => 'Temporary technical issue. Please try again in a few minutes.',
+        ],
+        'update' => [
+            'success' => 'Expense Updated Successfully.',
+            'fail' => 'Expense Update Failed.',
+        ],
+        'delete' => [
+            'success' => 'Expense Deleted Successfully.',
+            'fail' => 'Expense Delete Failed.',
         ],
     ],
     'forgot_password' => [

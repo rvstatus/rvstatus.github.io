@@ -224,6 +224,70 @@ window.lang = {
             //     required: "Please Enter ESI Amount"
             // },
         }
-    }
+    },
+    expense: {
+        lables_select_expense: "Select Expense Name",
+        lables_others: "Others",
+        validation: {
+            project_type_id: {
+                required: "Project Type is required"
+            },
+            expense_type_id: {
+                required: "Expense Type is required"
+            },
+            other_expense_type: {
+                required: "Please enter other Expense Type",
+                max: "Other Expense Type must not exceed 150 characters.",
+                min: "Other Expense Type must be at least 3 characters."
+            },
+            expense_name_id: {
+                required: "Expense is required"
+            },
+            other_expense_name: {
+                required: "Please enter other expense",
+                max: "Other Expense Name must not exceed 150 characters.",
+                min: "Other Expense Name must be at least 3 characters."
+            },
+            expense_amount: {
+                required: "Expense Amount is required",
+                numeric: "Expense Amount must be numeric",
+                min: "Expense Amount must be greater than zero",
+                max: "Expense Amount must not exceed 1,50,000"
+            },
+            expense_date: {
+                required: "Expense Date is required",
+                invalid: "Enter valid Expense Date",
+                before_or_equal: "Expense Date must be today or earlier"
+            },
+            expense_description: {
+                max: "Expense Description must be less than 255 characters"
+            },
+            vendor_name: {
+                max: "Vendor Name must be less than 100 characters"
+            },
+            bill_no: {
+                max: "Bill Number must be less than 50 characters"
+            },
+            remarks: {
+                max: "Remarks must be less than 255 characters"
+            }
+        },
+        popup: {
+            common: {
+                title: "Are you sure ? ",
+                confirm_button: "Yes, proceed ! ",
+                cancel_button: "Cancel"
+            },
+            create: {
+                text: "Do you want to register this Expense ? "
+            },
+            update: {
+                text: "Do you want to update this Expense ? "
+            },
+            delete: {
+                text: "Do you want to delete this Expense ? "
+            }
 
+        }
+    },
 };

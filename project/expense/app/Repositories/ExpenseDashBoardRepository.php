@@ -25,7 +25,7 @@ class ExpenseDashBoardRepository
             $project_type,
             $work_type,
             $user_id
-        )->sum('salary');
+        )->sum('expense_amount');
 
         // total salary expense
         $total_salary = $this->getSalaryQuery($user_id)->sum('NET_salary');
@@ -35,11 +35,11 @@ class ExpenseDashBoardRepository
         // total today expense
         $total_today_exp = $this->applyExpenseFilters(
             DB::table('t_expense')
-                ->where('working_date', '=', Carbon::today()->toDateString()),
+                ->where('expense_date', '=', Carbon::today()->toDateString()),
             $project_type,
             $work_type,
             $user_id
-        )->sum('salary');
+        )->sum('expense_amount');
 
         // total today salary expense
         $total_today_salary = $this->getSalaryQuery($user_id)
@@ -54,11 +54,11 @@ class ExpenseDashBoardRepository
         $yesterday = Carbon::yesterday();
         $total_yesterday_exp = $this->applyExpenseFilters(
             DB::table('t_expense')
-                ->whereRaw('DATE(working_date) = ?', [$yesterday->toDateString()]),
+                ->whereRaw('DATE(expense_date) = ?', [$yesterday->toDateString()]),
             $project_type,
             $work_type,
             $user_id
-        )->sum('salary');
+        )->sum('expense_amount');
 
         // total yesterday salary expense
         $total_yesterday_salary = $this->getSalaryQuery($user_id)
@@ -72,12 +72,12 @@ class ExpenseDashBoardRepository
         // total last seven days expense
         $total_last_seven_day_exp = $this->applyExpenseFilters(
             DB::table('t_expense')
-                ->whereRaw('DATE(working_date) >= ?', [Carbon::today()->subDays(7)->toDateString()])
-                ->whereRaw('DATE(working_date) <= ?', [Carbon::today()->toDateString()]),
+                ->whereRaw('DATE(expense_date) >= ?', [Carbon::today()->subDays(7)->toDateString()])
+                ->whereRaw('DATE(expense_date) <= ?', [Carbon::today()->toDateString()]),
             $project_type,
             $work_type,
             $user_id
-        )->sum('salary');
+        )->sum('expense_amount');
 
         // total last seven days salary expense
         $total_last_seven_day_salary = $this->getSalaryQuery($user_id)
@@ -96,7 +96,7 @@ class ExpenseDashBoardRepository
         $total_current_month_exp = $this->applyExpenseFilters(
             DB::table('t_expense')
                 ->whereBetween(
-                    'working_date',
+                    'expense_date',
                     [
                         Carbon::now()->startOfMonth(),
                         Carbon::now()->addMonth()->startOfMonth()
@@ -105,7 +105,7 @@ class ExpenseDashBoardRepository
             $project_type,
             $work_type,
             $user_id
-        )->sum('salary');
+        )->sum('expense_amount');
 
         // total current month salary expense
         $total_current_month_salary = $this->getSalaryQuery($user_id)
@@ -119,13 +119,13 @@ class ExpenseDashBoardRepository
         $total_last_month_exp = $this->applyExpenseFilters(
             DB::table('t_expense')
                 ->whereRaw(
-                    "DATE_FORMAT(working_date, '%Y-%m') = ?",
+                    "DATE_FORMAT(expense_date, '%Y-%m') = ?",
                     [Carbon::now()->subMonth()->format('Y-m')]
                 ),
             $project_type,
             $work_type,
             $user_id
-        )->sum('salary');
+        )->sum('expense_amount');
 
         // total last month salary expense
         $last_month = Carbon::now()->subMonth();

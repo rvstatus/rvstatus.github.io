@@ -100,6 +100,7 @@ class EmployeeController extends Controller
         );
         // employee code generate
         $emp_id = $this->employeeRepository->get_next_employee_code(Auth::user()->user_id);
+        // convert the date proeprly
         $date_of_birth = Carbon::createFromFormat('d/m/Y', $request->date_of_birth)->format('Y-m-d');
         $join_date = Carbon::createFromFormat('d/m/Y', $request->join_date)->format('Y-m-d');
         // insert employee

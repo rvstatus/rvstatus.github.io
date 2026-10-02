@@ -72,9 +72,9 @@
                                 @endif
                             </td>
                             <td>{{ $employee->work_category_name ?? '-' }}</td>
-                            <td class="text-right">{{ $employee->salary ? '₹ ' . number_format($employee->salary, 0, '.', ',') : '-' }}</td>
+                            <td class="text-right">{!! $employee->salary ? '&#8377; ' . number_format($employee->salary, 0, '.', ',') : '-' !!}</td>
                             <td class="text-center"> {{ !empty($employee->join_date) ? date('d-m-Y', strtotime($employee->join_date)) : '-' }} </td>
-                            <td class="text-center"> {{ !empty($employee->leave_date) ? date('d-m-Y', strtotime($employee->leave_date)) : 'Nil' }} </td>
+                            <td class="text-center"> {{ !empty($employee->leave_date) ? date('d-m-Y', strtotime($employee->leave_date)) : trans('labels.not_provider') }} </td>
                             <td class="text-center">{{ $employee->mobile_no ?? '-' }}</td>
                         </tr>
                         @empty
