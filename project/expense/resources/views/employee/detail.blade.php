@@ -89,7 +89,7 @@
                         <td data-label="Category">{{ $employee->work_category_name ?? '-' }}</td>
                         <th>Salary</th>
                         <td data-label="Salary">
-                            {{ $employee->salary ? '₹ '.number_format($employee->salary,0,'.',',') : '-' }}
+                            {!! $employee->salary ? '&#8377; ' . number_format($employee->salary, 0, '.', ',') : '-' !!}
                         </td>
                     </tr>
                     <tr>
@@ -99,7 +99,7 @@
                         </td>
                         <th>Leave Date</th>
                         <td data-label="Leave Date">
-                            {{ !empty($employee->leave_date) ? date('d-m-Y', strtotime($employee->leave_date)) : 'Nil' }}
+                            {{ !empty($employee->leave_date) ? date('d-m-Y', strtotime($employee->leave_date)) : trans('labels.not_provider') }}
                         </td>
                     </tr>
                 </table>

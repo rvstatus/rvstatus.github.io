@@ -7,6 +7,7 @@ return [
     'year' => 'Year',
     'day' => 'Day',
     'date' => 'Date',
+    'not_provider' => 'Nil',
     // common table head end
 
     // common filter start
@@ -65,4 +66,26 @@ return [
     'last_month_expenses' => "Last Month Expenses",
     'total_expenses' => "Total Expenses",
     // dashboard end
+
+    // expense start
+    // expense list screen
+    'expense_list' => 'Expense List',
+    'expense_type' => 'Expense Type',
+    'expense_name' => 'Expense Name',
+    'enter_expense_name'  => 'Enter Expense Name',
+    'amount' => 'Amount',
+    'description' => 'Description',
+    // expense register screen
+    'expense_register' => 'Expense Register',
+    'project_type' => 'Project Type',
+    'select_project' => 'Select Project',
+    'select_expense_type' => 'Select Expense Type',
+    'select_expense'      => 'Select Expense',
+    'expense_date' => 'Expense Date',
+    'vendor_name' => 'Vendor Name',
+    'bill_no' => 'Bill No',
+    'remarks' => 'Remarks',
+    'others' => 'Others',
+    'enter_expense_type' => 'Enter Expense Type',
+    // expense end
 ];

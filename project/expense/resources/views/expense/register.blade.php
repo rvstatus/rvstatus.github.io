@@ -1,292 +1,227 @@
 @extends('layouts.app')
-
 @section('content')
-<link href="{{ asset('resources/assets/css/width.css') }}" rel="stylesheet">
+
+<link href="{{ asset('resources/assets/css/expense/register.css') }}" rel="stylesheet">
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Expense Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/exp_reg_process') }}">
-                        {{ csrf_field() }}
+    <div class="panel panel-default">
+        <div class="panel-heading exp-panel-heading">
+            <h4> {{ trans('labels.expense_register') }} </h4>
+        </div>
 
-                        <!-- <div class="form-group{{ $errors->has('project_type_name') ? ' has-error' : '' }}">
-                            <label for="project_type_name" class="col-md-4 control-label">Project Type Name</label>
-
-                            <div class="col-md-6">
-                                <select class="form-control w180" name="project_type_name" id="project_type_name">
-                                    <option value="">Select Project Type</option>
-                                    @foreach($project_type_list as $project_type)
-                                    <option value="{{ $project_type->project_type_id }}" {{old('project_type_name') == $project_type->project_type_id  ? 'selected' : ''}}>{{ $project_type->project_type_name}}</option>
-                                    @endforeach
-                                </select>
-                                @include('errors.views.partials.field-error', ['field' => 'project_type_name'])
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('mason_name') ? ' has-error' : '' }}">
-                            <label for="mason_name" class="col-md-4 control-label">Mason Name</label>
-
-                            <div class="col-md-6">
-                                <select class="form-control w180" name="mason_name" id="mason_name">
-                                    <option value="">Select Mason Name</option>
-                                    @foreach($emp_list as $emp)
-                                    <option value="{{ $emp->emp_id }}" {{old('mason_name') == $emp->emp_id  ? 'selected' : ''}}>{{ $emp->emp_name}}</option>
-                                    @endforeach
-                                </select>
-                                @include('errors.views.partials.field-error', ['field' => 'mason_name'])
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('working_date') ? ' has-error' : '' }}">
-                            <label for="working_date" class="col-md-4 control-label">Date</label>
-
-                            <div class="col-md-6">
-                                <input id="working_date" type="text" class="form-control w115" name="working_date" value="{{ old('working_date') }}">
-                                @include('errors.views.partials.field-error', ['field' => 'working_date'])
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('working_hours') ? ' has-error' : '' }}">
-                            <label for="working_hours" class="col-md-4 control-label">Working Hours</label>
-
-                            <div class="col-md-6">
-                                <input id="working_hours" type="text" class="form-control w180" name="working_hours" value="{{ old('working_hours') }}">
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours'])
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('working_cat') ? ' has-error' : '' }}">
-                            <label for="working_cat" class="col-md-4 control-label">Working Category</label>
-
-                            <div class="col-md-6">
-                                <select class="form-control w210" name="working_cat" id="working_cat">
-                                    <option value="">Select Working Category</option>
-                                    @foreach($work_cat_list as $work_cat)
-                                    <option value="{{ $work_cat->id }}" {{old('working_cat') == $work_cat->id  ? 'selected' : ''}}>{{ $work_cat->work_category_name}}</option>
-                                    @endforeach
-                                </select>
-                                @include('errors.views.partials.field-error', ['field' => 'working_cat'])
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('working_type') ? ' has-error' : '' }}">
-                            <label for="working_type" class="col-md-4 control-label">Working Type</label>
-
-                            <div class="col-md-6">
-                                <select class="form-control w185" name="working_type" id="working_type">
-                                    <option value="">Select Working Type</option>
-                                    @foreach($work_type_list as $work_type)
-                                    <option value="{{ $work_type->id }}" {{old('working_type') == $work_type->id  ? 'selected' : ''}}>{{ $work_type->work_type_name}}</option>
-                                    @endforeach
-                                </select>
-                                @include('errors.views.partials.field-error', ['field' => 'working_type'])
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('salary') ? ' has-error' : '' }}">
-                            <label for="salary" class="col-md-4 control-label">Salary</label>
-
-                            <div class="col-md-6">
-                                <input id="salary" type="text" class="form-control w180" name="salary" value="{{ old('salary') }}">
-                                @include('errors.views.partials.field-error', ['field' => 'salary'])
-                            </div>
-                        </div> -->
-
-
-
-                        <!-- Project Type Name -->
-                        <div class="form-group d-flex align-items-center">
-                            <label for="project_type_name" class="col-md-3">Project Type Name</label>
-
-                            <div class="col-md-5">
-                                <select class="form-control w180" name="project_type_name" id="project_type_name">
-                                    <option value="">Select Project Type</option>
-                                    @foreach($project_type_list as $project_type)
-                                    <option value="{{ $project_type->project_type_id }}" {{ old('project_type_name') == $project_type->project_type_id ? 'selected' : '' }}>
-                                        {{ $project_type->project_type_name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'project_type_name'])
-                            </div>
-                        </div>
-                        <!-- Mason Name -->
-                        <div class="form-group d-flex align-items-center">
-                            <label for="mason_name" class="control-label col-md-3">Mason Name</label>
-
-                            <div class="col-md-5">
-                                <select class="form-control w180" name="mason_name" id="mason_name">
-                                    <option value="">Select Mason Name</option>
-                                    @foreach($emp_list as $emp)
-                                    <option value="{{ $emp->emp_id }}" {{ old('mason_name') == $emp->emp_id ? 'selected' : '' }}>
-                                        {{ $emp->emp_name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'mason_name'])
-                            </div>
-                        </div>
-
-                        <!-- Working Date -->
-                        <div class="form-group d-flex align-items-center">
-                            <label for="working_date" class="control-label col-md-3">Date</label>
-
-                            <div class="col-md-5">
-                                <input id="working_date" type="text" class="form-control w120 datepicker" name="working_date" value="{{ old('working_date') }}" placeholder="dd/mm/yyyy">
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'working_date'])
-                            </div>
-                        </div>
-
-                        <!-- Working Hours -->
-                        <div class="form-group d-flex align-items-center">
-                            <label for="working_hours" class="control-label col-md-3">Working Hours</label>
-
-                            <div class="col-md-5">
-                                <input id="working_hours" type="text" class="form-control w180 timepicker " name="working_hours" value="{{ old('working_hours') }}">
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours'])
-                            </div>
-                        </div>
-
-                        <!-- <div class="form-group d-flex align-items-center">
-                            <label for="working_hours" class="control-label col-md-3">Working Hours</label>
-
-                            <div class="col-md-5 d-flex">
-                                <input id="working_hours_from" type="time" class="form-control w90" name="working_hours_from" value="{{ old('working_hours_from') }}" style="margin-right: 10px;">
-                                <span style="margin: 5px 10px;">to</span>
-                                <input id="working_hours_to" type="time" class="form-control w90" name="working_hours_to" value="{{ old('working_hours_to') }}">
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours_from'])
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours_to'])
-                            </div>
-                        </div>
-                        <div class="form-group d-flex align-items-center">
-                            <label for="working_hours" class="control-label col-md-3">Working Hours</label>
-
-                            <div class="col-md-5 d-flex">
-                                <input id="working_hours_from" type="text" class="form-control w90 timepicker" name="working_hours_from" value="{{ old('working_hours_from') }}" placeholder="From" style="margin-right: 10px;">
-                                <span style="margin: 5px 10px;">to</span>
-                                <input id="working_hours_to" type="text" class="form-control w90 timepicker" name="working_hours_to" value="{{ old('working_hours_to') }}" placeholder="To">
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours_from'])
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours_to'])
-                            </div>
-                        </div> -->
-                        <!-- Working Hours (From - To) -->
-                        <!-- <div class="form-group d-flex align-items-center">
-                            <label for="working_hours_from" class="control-label col-md-3">Working Hours</label>
-
-                            <div class="col-md-5 d-flex align-items-center">
-                                <input id="working_hours_from" type="text" class="form-control timepicker w90" name="working_hours_from" value="{{ old('working_hours_from') }}" placeholder="From" style="margin-right: 10px;">
-                                <span style="margin: 0 10px;">to</span>
-                                <input id="working_hours_to" type="text" class="form-control timepicker w90" name="working_hours_to" value="{{ old('working_hours_to') }}" placeholder="To">
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours_from'])
-                                @include('errors.views.partials.field-error', ['field' => 'working_hours_to'])
-                            </div>
-                        </div> -->
-
-                        <!-- Working Category -->
-                        <div class="form-group d-flex align-items-center">
-                            <label for="working_cat" class="control-label col-md-3">Working Category</label>
-
-                            <div class="col-md-5">
-                                <select class="form-control w210" name="working_cat" id="working_cat">
-                                    <option value="">Select Working Category</option>
-                                    @foreach($work_cat_list as $work_cat)
-                                    <option value="{{ $work_cat->id }}" {{ old('working_cat') == $work_cat->id ? 'selected' : '' }}>
-                                        {{ $work_cat->work_category_name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'working_cat'])
-                            </div>
-                        </div>
-
-                        <!-- Working Type -->
-                        <div class="form-group d-flex align-items-center">
-                            <label for="working_type" class="control-label col-md-3">Working Type</label>
-
-                            <div class="col-md-5">
-                                <select class="form-control w185" name="working_type" id="working_type">
-                                    <option value="">Select Working Type</option>
-                                    @foreach($work_type_list as $work_type)
-                                    <option value="{{ $work_type->id }}" {{ old('working_type') == $work_type->id ? 'selected' : '' }}>
-                                        {{ $work_type->work_type_name }}
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'working_type'])
-                            </div>
-                        </div>
-
-                        <!-- Salary -->
-                        <div class="form-group d-flex align-items-center">
-                            <label for="salary" class="control-label col-md-3">Salary</label>
-
-                            <div class="col-md-5">
-                                <input id="salary" type="text" class="form-control w180" name="salary" value="{{ old('salary') }}">
-                            </div>
-
-                            <div class="col-md-4">
-                                @include('errors.views.partials.field-error', ['field' => 'salary'])
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-3 btn-group-responsive">
-                                <button
-                                    onclick="window.history.back();"
-                                    class="btn btn-primary"
-                                    type="button">
-                                    <i class="fa fa-arrow-left"></i> Back
-                                </button>
-
-                                <button
-                                    type="reset"
-                                    class="btn btn-warning"
-                                    onclick="this.blur();">
-                                    <i class="fa fa-undo"></i> Clear
-                                </button>
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-success">
-                                    <i class="fa fa-plus-circle"></i> Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+        <div class="panel-body">
+            @if(session()->has('response'))
+            <div class="alert {{ session('response.design') }}">
+                {{ session('response.message') }}
             </div>
+            @endif
+
+            <form id="expense_register_form" class="form-horizontal exp-form" method="POST" action="{{ url('/expense_reg_process') }}">
+                <input type="hidden" id="expense_list_url" value="{{ route('get_expense_list_by_type') }}">
+                {{ csrf_field() }}
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.project_type') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-5">
+                        <select id="project_type_id" name="project_type_id" class="form-control">
+                            <option value=""> {{ trans('labels.select_project') }} </option>
+                            @foreach($project_type_list as $project)
+                            <option value="{{ $project->project_type_id }}" {{ old('project_type_id') == $project->project_type_id ? 'selected' : '' }}>
+                                {{ $project->project_type_name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_project_type_id"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'project_type_id'])
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.expense_type') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-5">
+                        <select id="expense_type_id" name="expense_type_id" class="form-control">
+                            <option value=""> {{ trans('labels.select_expense_type') }} </option>
+                            @foreach($expense_type_list as $type)
+                            <option value="{{ $type->id }}" {{ old('expense_type_id') == $type->id ? 'selected' : '' }}>
+                                {{ $type->expense_type_name }}
+                            </option>
+                            @endforeach
+                            <option value="999">{{ trans('labels.others') }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_expense_type_id"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'expense_type_id'])
+                    </div>
+                </div>
+                <div class="form-group d-flex align-items-center" id="other_expense_type_div" style="display:none;">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.others') }}
+                        <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="col-md-5">
+                        <input type="text" id="other_expense_type" name="other_expense_type" class="form-control" value="{{ old('other_expense_type') }}" maxlength="150" placeholder="{{ trans('labels.enter_expense_type') }}">
+                    </div>
+
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_other_expense_type"></span>
+                    </div>
+                </div>
+                <!-- Expense Name -->
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.expense_name') }}
+                        <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="col-md-5">
+                        <select id="expense_name_id" name="expense_name_id" class="form-control">
+                            <option value=""> {{ trans('labels.select_expense') }} </option>
+                            @foreach($expense_name_list as $expense)
+                            <option value="{{ $expense->id }}" {{ old('expense_name_id') == $expense->id ? 'selected' : '' }}>
+                                {{ $expense->expense_name }}
+                            </option>
+                            @endforeach
+                            <option value="999"> {{ trans('labels.others') }} </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_expense_name_id"></span>
+                        @include( 'errors.views.partials.field-error', ['field' => 'expense_name_id'] )
+                    </div>
+
+                </div>
+                <!-- Other Expense Name -->
+                <div
+                    class="form-group d-flex align-items-center" id="other_expense_div" style="display:none;">
+
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.others') }}
+                        <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="col-md-5">
+                        <input type="text" id="other_expense_name" name="other_expense_name" class="form-control" maxlength="150" value="{{ old('other_expense_name') }}" placeholder="{{ trans('labels.enter_expense_name') }}">
+                    </div>
+
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_other_expense_name"></span>
+                        @include( 'errors.views.partials.field-error', ['field' => 'other_expense_name'] )
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.expense_date') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" id="expense_date" name="expense_date" class="form-control datepicker" value="{{ old('expense_date') }}">
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_expense_date"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'expense_date'])
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.amount') }}
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" id="expense_amount" name="expense_amount" class="form-control" value="{{ old('expense_amount') }}">
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_expense_amount"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'expense_amount'])
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.vendor_name') }}
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" id="vendor_name" name="vendor_name" class="form-control" value="{{ old('vendor_name') }}" maxlength="100">
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_vendor_name"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'vendor_name'])
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.bill_no') }}
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" id="bill_no" name="bill_no" class="form-control" value="{{ old('bill_no') }}" maxlength="50">
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_bill_no"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'bill_no'])
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.description') }}
+                    </label>
+                    <div class="col-md-5">
+                        <textarea name="expense_description" id="expense_description" class="form-control" rows="3" maxlength="255">{{ old('expense_description') }}</textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_expense_description"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'expense_description'])
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center">
+                    <label class="control-label col-md-3">
+                        {{ trans('labels.remarks') }}
+                    </label>
+                    <div class="col-md-5">
+                        <textarea name="remarks" id="remarks" class="form-control" rows="2" maxlength="255">{{ old('remarks') }}</textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="text-danger" id="error_remarks"></span>
+                        @include('errors.views.partials.field-error', ['field' => 'remarks'])
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-3 btn-group-responsive exp-btn-group">
+
+                        <button type="button" id="btn_back" onclick="window.history.back();" class="btn btn-primary">
+                            <i class="fa fa-arrow-left"></i>
+                            {{ trans('labels.back') }}
+                        </button>
+
+                        <button type="reset" id="btn_clear" class="btn btn-warning">
+                            <i class="fa fa-undo"></i>
+                            {{ trans('labels.cancel') }}
+                        </button>
+
+                        <button type="button" class="btn btn-success exp-submit-btn">
+                            <i class="fa fa-plus-circle"></i>
+                            {{ trans('labels.register') }}
+                        </button>
+
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+    <script src="{{ asset('resources/assets/js/expense/register.js') }}"></script>
 </div>
-
 @endsection
