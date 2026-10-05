@@ -434,4 +434,32 @@ class ExpenseController extends Controller
             $expense_list
         );
     }
+
+    /**
+     * project based expense detail screen
+     */
+    public function project_expense_detail(Request $request)
+    {
+        $project = $this->projectTypeRepository->get_by_id( $request->id );
+        if (!$project) {
+            return redirect('/expense_list')
+                ->with(
+                    'response',
+                    [
+                        'design' => 'alert-danger',
+                        'message' => Lang::get('messages.expense.detail.not_found'),
+                    ]
+                );
+        }
+
+        $expense_list = $this->expenseRepository->get_expense_list_by_project( $request->id, Auth::user()->user_id );
+        return view(
+            'expense.project_detail',
+            compact(
+                'project',
+                'expense_list'
+            )
+        );
+    }
+
 }

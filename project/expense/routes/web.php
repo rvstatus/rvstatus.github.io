@@ -56,8 +56,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/expense_list', [ExpenseController::class, 'expense_list'])->name('expense_list');
     Route::get('/expense_register', [ExpenseController::class, 'expense_register']);
     Route::post('/expense_reg_process', [ExpenseController::class, 'expense_reg_process']);
+    Route::post('/project_expense_detail', [ExpenseController::class, 'project_expense_detail']);
 
-    Route::post('/expense_detail', [ExpenseController::class, 'expense_detail']);
+    // Route::post('/expense_detail', [ExpenseController::class, 'expense_detail']);
     Route::post('/expense_edit', [ExpenseController::class, 'expense_edit']);
     Route::post('/expense_update', [ExpenseController::class, 'expense_update']);
     Route::post('/expense_delete', [ExpenseController::class, 'expense_delete']);
