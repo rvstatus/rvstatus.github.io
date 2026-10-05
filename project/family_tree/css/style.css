@@ -1,8 +1,17 @@
+body {
+    width: max-content;
+}
+
 .avatar {
-    vertical-align: middle;
+    /*vertical-align: middle;*/
     width: 50px;
     height: 50px;
     border-radius: 50%;
+}
+
+.image {
+    width: 50px;
+    height: 50px;
 }
 
 .display_inline_block {
@@ -12,3 +21,56 @@
 .details {
     font-size: 8px;
 }
+
+.scroll_box {
+  height: 800px;
+  overflow-y: scroll;
+}
+
+/* popup css start */
+.main {
+    /*margin-top: 2%;
+    margin-left: 29%;
+    font-size: 28px;
+    padding: 0 10px;*/
+    width: auto;
+    position: fixed;
+    z-index: 1;
+}
+
+.main h2 {
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.main .card {
+    background-color: #fff;
+    border-radius: 18px;
+    box-shadow: 1px 1px 8px 0 grey;
+    height: auto;
+    padding: 10px 5px 10px 5px;
+}
+
+.main .card table {
+    border: none;
+    font-size: 15px;
+    height: 125px;
+    width: 100%;
+}
+/*
+.edit {
+    position: absolute;
+    color: #e7e7e8;
+    right: 14%;
+}*/
+
+.tar {
+    text-align: right;
+}
+
+.tal {
+    text-align: left;
+}
+/* popup css end */

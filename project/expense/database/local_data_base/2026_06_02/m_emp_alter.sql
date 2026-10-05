@@ -1,0 +1,7 @@
+ALTER TABLE m_emp
+ADD COLUMN mobile_no VARCHAR(20) NULL AFTER category_id,
+ADD COLUMN email VARCHAR(100) NULL AFTER mobile_no,
+ADD COLUMN address TEXT NULL AFTER email,
+ADD COLUMN join_date DATE NULL AFTER address,
+ADD COLUMN leave_date DATE NULL AFTER join_date,
+ADD COLUMN salary DECIMAL(10,2) NULL;

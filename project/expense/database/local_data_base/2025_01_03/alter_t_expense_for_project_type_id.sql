@@ -1,0 +1,1 @@
+ALTER TABLE t_expense ADD COLUMN project_type_id VARCHAR(50) AFTER id;
