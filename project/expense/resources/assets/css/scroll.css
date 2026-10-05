@@ -1,0 +1,44 @@
+/* common scrollable table/container */
+.common-scroll-container {
+    overflow-y: auto;
+    overflow-x: auto;
+    /* firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #b8c2cc #f1f3f5;
+}
+
+.common-scroll-container-height {
+    max-height: calc(100vh - 250px);
+}
+
+/* chrome, edge, safari */
+.common-scroll-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.common-scroll-container::-webkit-scrollbar-track {
+    background: #f1f3f5;
+    border-radius: 4px;
+}
+
+.common-scroll-container::-webkit-scrollbar-thumb {
+    background: #b8c2cc;
+    border-radius: 4px;
+}
+
+.common-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #8f9aa6;
+}
+
+/* sticky table header */
+.common-scroll-container .common-sticky-header th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f4f6f8;
+}
+
+.table-bordered {
+    border: 0;
+}

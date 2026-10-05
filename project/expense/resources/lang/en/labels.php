@@ -87,5 +87,9 @@ return [
     'remarks' => 'Remarks',
     'others' => 'Others',
     'enter_expense_type' => 'Enter Expense Type',
+    // expense detail screen
+    'project_expense_details' => 'Project Expense Details',
+    'project_code' => 'Project Code',
+    'total_amount' => 'Total Amount',
     // expense end
 ];

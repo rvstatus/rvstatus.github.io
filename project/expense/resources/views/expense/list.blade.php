@@ -2,6 +2,7 @@
 @section('content')
 
 <link href="{{ asset('resources/assets/css/width.css') }}" rel="stylesheet">
+<link href="{{ asset('resources/assets/css/scroll.css') }}" rel="stylesheet">
 <link href="{{ asset('resources/assets/css/expense/list.css') }}" rel="stylesheet">
 
 <div class="container">
@@ -27,9 +28,14 @@
             <input type="hidden" name="id" id="id">
         </form>
 
+        <form id="project_detail_form" action="{{ url('/project_expense_detail') }}" method="POST"  style="display:none;">
+            {{ csrf_field() }}
+            <input type="hidden" name="id" id="project_detail_id">
+        </form>
+
         <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
+            <div class="table-responsive common-scroll-container common-scroll-container-height">
+                <table class="table table-bordered table-hover exp-table">
                     <colgroup>
                         <col width="5%">
                         <col width="11%">
@@ -40,7 +46,7 @@
                         <col width="9%">
                         <col>
                     </colgroup>
-                    <thead style="background:#f4f6f8;">
+                    <thead class="common-sticky-header">
                         <tr>
                             <th class="text-center"> {{ trans('labels.sno') }} </th>
                             <th class="text-center"> {{ trans('labels.project') }} </th>
@@ -59,7 +65,7 @@
                                 {{ ($expense_list->currentPage() - 1) * $expense_list->perPage() + $key + 1 }}
                             </td>
                             <td>
-                                <a href="javascript:void(0)" onclick="projectDetailView('{{ $expense->project_type_id }}')" class="expense-detail-link">
+                                <a href="javascript:void(0)" onclick="projectDetailView('{{ $expense->id }}')" class="expense-detail-link">
                                     {{ $expense->project_type_name ?? '-' }}
                                 </a>
                             </td>
@@ -95,9 +101,10 @@
                         @endforelse
                     </tbody>
                 </table>
-                <div class="text-right">
-                    {{ $expense_list->links() }}
-                </div>
+            </div>
+            <div class="text-right">
+                {{ $expense_list->links() }}
+            </div>
             </div>
         </div>
     </div>

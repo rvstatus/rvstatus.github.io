@@ -36,6 +36,7 @@ class ExpenseRepository extends BaseRepository
 
                 'e.project_type_id',
                 'pt.project_type_name',
+                'pt.id',
 
                 'e.expense_type_id',
                 'et.expense_type_name',
@@ -157,5 +158,45 @@ class ExpenseRepository extends BaseRepository
                     'updated_at' => now(),
                 ]
             );
+    }
+    /**
+     * get expense list by project
+     *
+     * @param int $projectTypeId
+     * @param string $createdBy
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function get_expense_list_by_project($projectTypeId, $createdBy)
+    {
+        return DB::table('t_expense as e')
+            ->leftJoin('mst_project_type as pt', 'pt.project_type_id', '=', 'e.project_type_id')
+            ->leftJoin('mst_expense_type as et', 'et.id', '=', 'e.expense_type_id')
+            ->leftJoin('mst_expense_name as em', 'em.id', '=', 'e.expense_name_id')
+            ->select(
+                'e.id',
+                'e.project_type_id',
+                'pt.project_type_name',
+                'pt.project_type_id as project_code',
+                'e.expense_type_id',
+                'et.expense_type_name',
+                'e.expense_name_id',
+                'em.expense_name',
+                'e.expense_amount',
+                'e.expense_description',
+                'e.expense_date',
+                'e.vendor_name',
+                'e.bill_no',
+                'e.remarks',
+                'e.created_by',
+                'e.created_at',
+                'e.deleted_flg'
+            )
+            ->where('pt.id', $projectTypeId)
+            ->where('e.created_by', $createdBy)
+            ->where('e.deleted_flg', 0)
+            ->orderBy('e.expense_date', 'ASC')
+            ->orderBy('e.id', 'ASC')
+        ->get();
     }
 }
