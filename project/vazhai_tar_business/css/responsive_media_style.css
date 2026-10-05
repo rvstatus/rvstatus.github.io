@@ -3,16 +3,16 @@
   .main-footer {
     grid-template-columns: 1fr;
   }
-  .sociallogos{
-    padding:20px 0;
+  .sociallogos {
+    padding: 20px 0;
   }
-  .onwer_info{
-    padding:20px 0;
+  .owner_info {
+    padding: 20px 0;
   }
 }
 
-@media (max-width:1201px){
-  .pricing-card{
+@media (max-width: 1201px) {
+  .pricing-card {
     flex: 50%;
   }
 }
