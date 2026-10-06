@@ -1,75 +1,95 @@
-jQuery(document).ready(function( $ ) {
+jQuery(document).ready(function ($) {
+  // disable the developer tool on right click
+  document.oncontextmenu = function () {
+    return false;
+  };
 
-  // back to top button
-  $(window).scroll(function() {
-    if ($(this).scrollTop() > 100) {
-      $('.back-to-top').fadeIn('slow');
-    } else {
-      $('.back-to-top').fadeOut('slow');
+  // disable F12 key OR Ctrl+Shift+I OR Ctrl+Shift+J OR Ctrl+U combo
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.keyCode === 123 ||
+      (event.ctrlKey && event.shiftKey && event.keyCode === 73) ||
+      (event.ctrlKey && event.shiftKey && event.keyCode === 74) ||
+      (event.ctrlKey && event.keyCode === 85)
+    ) {
+      event.preventDefault();
     }
   });
 
-  $('.back-to-top').click(function(){
-    $('html, body').animate({scrollTop : 0},1500, 'easeInOutExpo');
+  // back to top button
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $(".back-to-top").fadeIn("slow");
+    } else {
+      $(".back-to-top").fadeOut("slow");
+    }
+  });
+
+  $(".back-to-top").click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 1500, "easeInOutExpo");
     return false;
   });
 
   // stick the header at top on scroll
-  $("#header").sticky({topSpacing:0, zIndex: '50'});
+  $("#header").sticky({ topSpacing: 0, zIndex: "50" });
 
   // intro background carousel
   $("#intro-carousel").owlCarousel({
     autoplay: true,
     dots: false,
     loop: true,
-    animateOut: 'fadeOut',
-    items: 1
+    animateOut: "fadeOut",
+    items: 1,
   });
 
   // initiate the wowjs animation library
   new WOW().init();
 
   // initiate superfish on nav menu
-  $('.nav-menu').superfish({
+  $(".nav-menu").superfish({
     animation: {
-      opacity: 'show'
+      opacity: "show",
     },
-    speed: 400
+    speed: 400,
   });
 
   // mobile navigation
-  if ($('#nav-menu-container').length) {
-    var $mobile_nav = $('#nav-menu-container').clone().prop({
-      id: 'mobile-nav'
+  if ($("#nav-menu-container").length) {
+    var $mobile_nav = $("#nav-menu-container").clone().prop({
+      id: "mobile-nav",
     });
-    $mobile_nav.find('> ul').attr({
-      'class': '',
-      'id': ''
+    $mobile_nav.find("> ul").attr({
+      class: "",
+      id: "",
     });
-    $('body').append($mobile_nav);
-    $('body').prepend('<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>');
-    $('body').append('<div id="mobile-body-overly"></div>');
-    $('#mobile-nav').find('.menu-has-children').prepend('<i class="fa fa-chevron-down"></i>');
+    $("body").append($mobile_nav);
+    $("body").prepend(
+      '<button type="button" id="mobile-nav-toggle"><i class="fa fa-bars"></i></button>',
+    );
+    $("body").append('<div id="mobile-body-overly"></div>');
+    $("#mobile-nav")
+      .find(".menu-has-children")
+      .prepend('<i class="fa fa-chevron-down"></i>');
 
-    $(document).on('click', '.menu-has-children i', function(e) {
-      $(this).next().toggleClass('menu-item-active');
-      $(this).nextAll('ul').eq(0).slideToggle();
+    $(document).on("click", ".menu-has-children i", function (e) {
+      $(this).next().toggleClass("menu-item-active");
+      $(this).nextAll("ul").eq(0).slideToggle();
       $(this).toggleClass("fa-chevron-up fa-chevron-down");
     });
 
-    $(document).on('click', '#mobile-nav-toggle', function(e) {
-      $('body').toggleClass('mobile-nav-active');
-      $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-      $('#mobile-body-overly').toggle();
+    $(document).on("click", "#mobile-nav-toggle", function (e) {
+      $("body").toggleClass("mobile-nav-active");
+      $("#mobile-nav-toggle i").toggleClass("fa-times fa-bars");
+      $("#mobile-body-overly").toggle();
     });
 
-    $(document).click(function(e) {
+    $(document).click(function (e) {
       var container = $("#mobile-nav, #mobile-nav-toggle");
       if (!container.is(e.target) && container.has(e.target).length === 0) {
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-          $('#mobile-body-overly').fadeOut();
+        if ($("body").hasClass("mobile-nav-active")) {
+          $("body").removeClass("mobile-nav-active");
+          $("#mobile-nav-toggle i").toggleClass("fa-times fa-bars");
+          $("#mobile-body-overly").fadeOut();
         }
       }
     });
@@ -78,33 +98,41 @@ jQuery(document).ready(function( $ ) {
   }
 
   // smooth scroll for the menu and links with .scrollto classes
-  $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function() {
-    if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+  $(".nav-menu a, #mobile-nav a, .scrollto").on("click", function () {
+    if (
+      location.pathname.replace(/^\//, "") ==
+        this.pathname.replace(/^\//, "") &&
+      location.hostname == this.hostname
+    ) {
       var target = $(this.hash);
       if (target.length) {
         var top_space = 0;
 
-        if ($('#header').length) {
-          top_space = $('#header').outerHeight();
+        if ($("#header").length) {
+          top_space = $("#header").outerHeight();
 
-          if( ! $('#header').hasClass('header-fixed') ) {
+          if (!$("#header").hasClass("header-fixed")) {
             top_space = top_space - 20;
           }
         }
 
-        $('html, body').animate({
-          scrollTop: target.offset().top - top_space
-        }, 1500, 'easeInOutExpo');
+        $("html, body").animate(
+          {
+            scrollTop: target.offset().top - top_space,
+          },
+          1500,
+          "easeInOutExpo",
+        );
 
-        if ($(this).parents('.nav-menu').length) {
-          $('.nav-menu .menu-active').removeClass('menu-active');
-          $(this).closest('li').addClass('menu-active');
+        if ($(this).parents(".nav-menu").length) {
+          $(".nav-menu .menu-active").removeClass("menu-active");
+          $(this).closest("li").addClass("menu-active");
         }
 
-        if ($('body').hasClass('mobile-nav-active')) {
-          $('body').removeClass('mobile-nav-active');
-          $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
-          $('#mobile-body-overly').fadeOut();
+        if ($("body").hasClass("mobile-nav-active")) {
+          $("body").removeClass("mobile-nav-active");
+          $("#mobile-nav-toggle i").toggleClass("fa-times fa-bars");
+          $("#mobile-body-overly").fadeOut();
         }
         return false;
       }
@@ -112,21 +140,23 @@ jQuery(document).ready(function( $ ) {
   });
 
   // porfolio - uses the magnific popup jQuery plugin
-  $('.portfolio-popup').magnificPopup({
-    type: 'image',
+  $(".portfolio-popup").magnificPopup({
+    type: "image",
     removalDelay: 300,
-    mainClass: 'mfp-fade',
+    mainClass: "mfp-fade",
     gallery: {
-      enabled: true
+      enabled: true,
     },
     zoom: {
       enabled: true,
       duration: 300,
-      easing: 'ease-in-out',
-      opener: function(openerElement) {
-        return openerElement.is('img') ? openerElement : openerElement.find('img');
-      }
-    }
+      easing: "ease-in-out",
+      opener: function (openerElement) {
+        return openerElement.is("img")
+          ? openerElement
+          : openerElement.find("img");
+      },
+    },
   });
 
   // testimonials carousel (uses the Owl Carousel library)
@@ -134,7 +164,7 @@ jQuery(document).ready(function( $ ) {
     autoplay: true,
     dots: true,
     loop: true,
-    responsive: { 0: { items: 1 }, 768: { items: 2 }, 900: { items: 3 } }
+    responsive: { 0: { items: 1 }, 768: { items: 2 }, 900: { items: 3 } },
   });
 
   // clients carousel (uses the Owl Carousel library)
@@ -142,8 +172,7 @@ jQuery(document).ready(function( $ ) {
     autoplay: true,
     dots: true,
     loop: true,
-    responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 }
-    }
+    responsive: { 0: { items: 2 }, 768: { items: 4 }, 900: { items: 6 } },
   });
 
   // google map
@@ -164,10 +193,13 @@ jQuery(document).ready(function( $ ) {
   //   });
   // }
   // google.maps.event.addDomListener(window, 'load', initialize_google_map);
-
 });
 
 // preloader
-$(window).on('load', function() {
-  $('#preloader').delay(100).fadeOut('slow',function(){$(this).remove();});
+$(window).on("load", function () {
+  $("#preloader")
+    .delay(100)
+    .fadeOut("slow", function () {
+      $(this).remove();
+    });
 });
