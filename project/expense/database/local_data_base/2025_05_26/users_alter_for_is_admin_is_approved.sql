@@ -1,0 +1,3 @@
+ALTER TABLE users
+ADD COLUMN is_admin TINYINT(1) DEFAULT 0 AFTER password,
+ADD COLUMN is_approved TINYINT(1) DEFAULT 0 AFTER is_admin;

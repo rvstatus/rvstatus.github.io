@@ -1,0 +1,2 @@
+ALTER TABLE m_emp
+MODIFY COLUMN salary DECIMAL(10,2) AFTER leave_date;

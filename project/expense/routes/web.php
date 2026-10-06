@@ -1,0 +1,162 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ExpenseDashBoardController;
+use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\WorkCategoryController;
+use App\Http\Controllers\WorkTypeController;
+use App\Http\Controllers\UserApprovalController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SalaryController;
+// use App\Http\Controllers\PaySlipController;
+
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It's a breeze. Simply tell Laravel the URIs it should respond to
+| and give it the controller to call when that URI is requested.
+|
+*/
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'homePage'])->name('home.redirect');
+
+// Login
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login_process', [AuthController::class, 'login_process'])->name('login_process');
+// Route::post('/login_process', [AuthController::class, 'login_process']);
+
+// Register
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register_process', [AuthController::class, 'register_process'])->name('register_process');
+
+// Logout
+Route::get('/logout', [AuthController::class, 'logout']);
+
+// forgot password process start
+Route::get('/forgot-password', [AuthController::class, 'forgot_password']);
+Route::post('/forgot-password', [AuthController::class, 'send_reset_link']);
+
+Route::get('/reset-password', [AuthController::class, 'reset_password_form'])->name('password.reset.form');
+Route::post('/reset-password', [AuthController::class, 'reset_password'])->name('password.reset');
+// forgot password process end
+
+// expense screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/expense_list', [ExpenseController::class, 'expense_list'])->name('expense_list');
+    Route::get('/expense_register', [ExpenseController::class, 'expense_register']);
+    Route::post('/expense_reg_process', [ExpenseController::class, 'expense_reg_process']);
+    Route::post('/project_expense_detail', [ExpenseController::class, 'project_expense_detail']);
+
+    // Route::post('/expense_detail', [ExpenseController::class, 'expense_detail']);
+    Route::post('/expense_edit', [ExpenseController::class, 'expense_edit']);
+    Route::post('/expense_update', [ExpenseController::class, 'expense_update']);
+    Route::post('/expense_delete', [ExpenseController::class, 'expense_delete']);
+
+    Route::post('/get_expense_list_by_type', [ExpenseController::class, 'get_expense_list_by_type'])->name('get_expense_list_by_type');;
+});
+// expense screen end
+
+// expense dashboard screen start
+Route::middleware(['auth'])->group(function () {
+    Route::any('/expense_dashboard', [ExpenseDashBoardController::class, 'expense_dashboard']);
+});
+// expense dashboard screen end
+
+// project type screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/project_type_list', [ProjectTypeController::class, 'project_type_list']);
+    Route::post('/project_type_toggle', [ProjectTypeController::class, 'toggle_status']);
+    Route::post('/project_type_register', [ProjectTypeController::class, 'register']);
+    Route::post('/project_type_update', [ProjectTypeController::class, 'update']);
+    Route::post('/project_type_get_by_id', [ProjectTypeController::class, 'get_by_id']);
+});
+// project type screen end
+
+// work category screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/work_category_list', [WorkCategoryController::class, 'work_category_list']);
+    Route::post('/work_category_toggle', [WorkCategoryController::class, 'toggle_status']);
+    Route::post('/work_category_register', [WorkCategoryController::class, 'register']);
+    Route::post('/work_category_update', [WorkCategoryController::class, 'update']);
+    Route::post('/work_category_get_by_id', [WorkCategoryController::class, 'get_by_id']);
+});
+// work category screen end
+
+// work type screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/work_type_list', [WorkTypeController::class, 'work_type_list']);
+    Route::post('/work_type_toggle', [WorkTypeController::class, 'toggle_status']);
+    Route::post('/work_type_register', [WorkTypeController::class, 'register']);
+    Route::post('/work_type_update', [WorkTypeController::class, 'update']);
+    Route::post('/work_type_get_by_id', [WorkTypeController::class, 'get_by_id']);
+});
+// work type screen end
+
+// user approval screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/user_approval_list', [UserApprovalController::class, 'index']);
+    Route::post('/user_approve', [UserApprovalController::class, 'approve']);
+    Route::post('/user_reject', [UserApprovalController::class, 'reject']);
+    Route::post('/user_pending', [UserApprovalController::class, 'pending']);
+});
+// user approval screen end
+
+// employee screen start
+Route::middleware(['auth'])->group(function () {
+    Route::get('/employee_list', [EmployeeController::class, 'employee_list']);
+    Route::get('/employee_register', [EmployeeController::class, 'employee_register']);
+    Route::post('/employee_reg_process', [EmployeeController::class, 'employee_reg_process']);
+    Route::post('/employee_detail', [EmployeeController::class, 'employee_detail']);
+    Route::post('/employee_edit', [EmployeeController::class, 'employee_edit']);
+    // Route::get('/employee_edit', [EmployeeController::class, 'employee_edit']);
+    // Route::match(['get', 'post'], '/employee_edit', [EmployeeController::class, 'employee_edit']);
+    Route::post('/employee_update', [EmployeeController::class, 'employee_update']);
+    Route::post('/employee_delete', [EmployeeController::class, 'employee_delete']);
+    Route::post('/employee_revert', [EmployeeController::class, 'employee_revert']);
+});
+// employee screen end
+
+// salary screen start
+Route::middleware(['auth'])->group(function () {
+    // Route::get('changelanguage', [AjaxController::class, 'index']);
+    Route::any('/salary/index', [SalaryController::class, 'index']);
+    Route::any('/salary/empselectionpopup', [SalaryController::class, 'empselectionpopup']);
+    Route::any('/salary/empselectionprocess', [SalaryController::class, 'empselectionprocess']);
+    Route::any('/salary/addSalary', [SalaryController::class, 'addSalary']);
+    Route::any('/salary/addProcess', [SalaryController::class, 'addProcess']);
+    Route::any('/salary/edit', [SalaryController::class, 'edit']);
+    Route::any('/salary/formValidation', [SalaryController::class, 'formValidation']);
+    Route::any('/salary/editProcess', [SalaryController::class, 'editProcess']);
+    Route::any('/salary/view', [SalaryController::class, 'view']);
+    Route::any('/salary/detailView', [SalaryController::class, 'detailView']);
+});
+// salary screen end
+
+// // payslip screen start
+// Route::middleware(['auth'])->group(function () {
+//     // Route::get('changelanguage', [AjaxController::class, 'index']);
+//     Route::any('/paySlip/index', [PaySlipController::class, 'index'])->name('paySlip.index');
+//     Route::any('/paySlip/empselectionpopup', [PaySlipController::class, 'empselectionpopup'])->name('paySlip.empselectionpopup');
+//     Route::any('/paySlip/empselectionprocess', [PaySlipController::class, 'empselectionprocess'])->name('paySlip.empselectionprocess');
+//     Route::any('/paySlip/excelTemplateDownload', [PaySlipController::class, 'excelTemplateDownload'])->name('paySlip.excelTemplateDownload');
+//     Route::any('/paySlip/singleview', [PaySlipController::class, 'singleview'])->name('paySlip.singleview');
+//     Route::any('/paySlip/sendPaySlipMail', [PaySlipController::class, 'sendPaySlipMail'])->name('paySlip.sendPaySlipMail');
+//     Route::any('/paySlip/detailView', [PaySlipController::class, 'detailView'])->name('paySlip.detailView');
+//     Route::any('/paySlip/formValidation', [PaySlipController::class, 'formValidation'])->name('paySlip.formValidation');
+//     Route::any('/paySlip/lastThreeMonthSingleView', [PaySlipController::class, 'lastThreeMonthSingleView'])->name('paySlip.lastThreeMonthSingleView');
+//     Route::any('/paySlip/view', [PaySlipController::class, 'view'])->name('paySlip.view');
+//     Route::any('/paySlip/paySlipMailSendView', [PaySlipController::class, 'paySlipMailSendView'])->name('paySlip.paySlipMailSendView');
+//     Route::get('/paySlip/payslip-download/{date}/{file}', [PaySlipController::class, 'payslipdownload'])->name('payslip.payslipdownload');
+// });
+// // payslip screen end

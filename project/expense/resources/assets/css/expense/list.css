@@ -1,0 +1,80 @@
+.exp-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    color: #fff;
+    padding: 12px 15px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.exp-panel-heading h4 {
+    margin: 0;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #fff !important;
+}
+
+.exp-table {
+    margin-bottom: 0;
+}
+
+.exp-table thead th {
+    background: #f4f6f8;
+    color: #2c3e50;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.exp-table tbody td {
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+.exp-table tbody tr:hover {
+    background: #f9fbfd;
+}
+
+.exp-amount {
+    text-align: right;
+    font-weight: 600;
+}
+
+.exp-date {
+    text-align: center;
+}
+
+.expense-detail-link {
+    color: #2c3e50;
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.expense-detail-link:hover {
+    color: #4b6cb7;
+    text-decoration: none;
+}
+
+/* underline animation */
+.expense-detail-link::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    left: 0;
+    bottom: -2px;
+    background-color: #4b6cb7;
+    transition: width 0.3s ease;
+}
+
+.expense-detail-link:hover::after {
+    width: 100%;
+}
