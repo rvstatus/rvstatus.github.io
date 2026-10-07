@@ -25,6 +25,7 @@ import {
   Alert,
   Paper,
   Chip,
+  Snackbar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -62,14 +63,130 @@ const Home: React.FC = () => {
   const [roomTab, setRoomTab] = useState(0);
   const [galleryFilter, setGalleryFilter] = useState<string>("All");
   const [modalOpen, setModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [bookingError, setBookingError] = useState("");
+  const [bookingMessage, setBookingMessage] = useState("");
+  const [bookingMessageType, setBookingMessageType] = useState<
+    "success" | "info" | "warning" | "error"
+  >("success");
+  const showBookingMessage = (
+    message: string,
+    type: "success" | "info" | "warning" | "error",
+  ) => {
+    setBookingMessage(message);
+    setBookingMessageType(type);
+  };
+  const resetBookingForm = () => {
+    setFormData({
+      name: "",
+      phone: "",
+      email: "",
+      date: "",
+      eventType: "",
+      numberOfGuests: "",
+      requirements: "",
+    });
+
+    setFormErrors({
+      name: "",
+      phone: "",
+      email: "",
+      date: "",
+      eventType: "",
+      numberOfGuests: "",
+    });
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
+    email: "",
     date: "",
-    eventType: "Marriage",
+    eventType: "",
+    numberOfGuests: "",
     requirements: "",
   });
+  const [formErrors, setFormErrors] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    date: "",
+    eventType: "",
+    numberOfGuests: "",
+  });
+  const validateBookingForm = () => {
+    const errors = {
+      name: "",
+      phone: "",
+      email: "",
+      date: "",
+      eventType: "",
+      numberOfGuests: "",
+    };
+
+    const name = formData.name.trim();
+    const phone = formData.phone.trim();
+    const email = formData.email.trim();
+    const date = formData.date;
+    const guests = formData.numberOfGuests.trim();
+
+    // Full Name
+    if (!name) {
+      errors.name = "Full name is required";
+    } else if (name.length < 2) {
+      errors.name = "Full name must be at least 2 characters";
+    }
+
+    // Phone
+    if (!phone) {
+      errors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10}$/.test(phone)) {
+      errors.phone = "Enter a valid 10-digit phone number";
+    }
+
+    // Email
+    if (!email) {
+      errors.email = "email is required";
+    } else if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Enter a valid email address";
+    }
+
+    // Event Date
+    if (!date) {
+      errors.date = "Event date is required";
+    } else {
+      const selectedDate = new Date(`${date}T00:00:00`);
+      const today = new Date();
+
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        errors.date = "Event date cannot be in the past";
+      }
+    }
+
+    // Event Type
+    if (!formData.eventType) {
+      errors.eventType = "Event type is required";
+    }
+
+    // Number of Guests - optional
+    // if (!guests) {
+    //   errors.numberOfGuests = "Number of guests is required";
+    // } else
+    if (guests) {
+      if (!/^[0-9]+$/.test(guests)) {
+        errors.numberOfGuests = "Enter a valid number of guests";
+      } else if (Number(guests) < 1) {
+        errors.numberOfGuests = "Number of guests must be at least 1";
+      }
+    }
+
+    setFormErrors(errors);
+
+    return !Object.values(errors).some((error) => error !== "");
+  };
 
   const [checkDate, setCheckDate] = useState("");
   const [availabilityStatus, setAvailabilityStatus] = useState<string | null>(
@@ -86,20 +203,192 @@ const Home: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setBookingSuccess(true);
-    setTimeout(() => {
-      setBookingSuccess(false);
-      setModalOpen(false);
-      setFormData({
-        name: "",
-        phone: "",
-        date: "",
-        eventType: "Marriage",
-        requirements: "",
+
+    // Clear only old messages.
+    // Do NOT clear the form here.
+    setBookingSuccess(false);
+    setBookingMessage("");
+
+    // ---------------------------------------
+    // 1. Frontend validation
+    // ---------------------------------------
+
+    const isValid = validateBookingForm();
+
+    if (!isValid) {
+      return;
+    }
+
+    try {
+      // ---------------------------------------
+      // 2. Prepare request data
+      // ---------------------------------------
+
+      const requestData = {
+        customer_name: formData.name.trim(),
+        mobile: formData.phone.trim(),
+        email: formData.email.trim(),
+        event_date: formData.date,
+        event_type: formData.eventType,
+        number_of_guests:
+          formData.numberOfGuests.trim() === ""
+            ? null
+            : Number(formData.numberOfGuests),
+        requirements: formData.requirements.trim(),
+      };
+
+      console.log("Submitting booking:", requestData);
+
+      // ---------------------------------------
+      // 3. Send request to backend
+      // ---------------------------------------
+
+      const response = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
       });
-    }, 3000);
+
+      // ---------------------------------------
+      // 4. Read backend response safely
+      // ---------------------------------------
+
+      const result = await response.json();
+
+      console.log("Booking API response:", result);
+
+      // ---------------------------------------
+      // 5. SAME CUSTOMER ALREADY BOOKED
+      // ---------------------------------------
+
+      if (result.code === "ALREADY_BOOKED_BY_YOU") {
+        setBookingSuccess(false);
+
+        showBookingMessage(
+          result.message ||
+            "You have already booked this date. We cannot create another booking for the same date.",
+          "info",
+        );
+
+        // IMPORTANT:
+        // Do NOT clear the form.
+        // Customer can see/change their entered details.
+
+        return;
+      }
+
+      // ---------------------------------------
+      // 6. OTHER CUSTOMER - APPROVED BOOKING
+      // ---------------------------------------
+
+      if (result.code === "DATE_ALREADY_BOOKED") {
+        setBookingSuccess(false);
+
+        showBookingMessage(
+          result.message ||
+            "This date is already booked by another customer. Please try another date.",
+          "warning",
+        );
+
+        // IMPORTANT:
+        // Do NOT clear the form.
+        // Customer can simply change the date.
+
+        return;
+      }
+
+      // ---------------------------------------
+      // 7. OTHER CUSTOMER - PENDING BOOKING
+      // ---------------------------------------
+
+      // 7.1 SAME CUSTOMER - PENDING BOOKING
+      if (result.code === "PENDING_ALREADY_SUBMITTED") {
+        setBookingSuccess(false);
+
+        showBookingMessage(
+          result.message ||
+            "You have already submitted an enquiry for this date. Please wait for admin confirmation.",
+          "info",
+        );
+
+        // IMPORTANT:
+        // Booking was NOT created.
+        // Do NOT clear the form.
+        // Do NOT close the modal.
+        return;
+      }
+      if (result.code === "PENDING_DATE") {
+        setBookingSuccess(false);
+
+        showBookingMessage(
+          result.message ||
+            "Your enquiry has been submitted. This date already has a pending enquiry. Please contact admin as soon as possible.",
+          "warning",
+        );
+
+        // Backend CREATED the booking.
+        // Therefore clear the form.
+        resetBookingForm();
+
+        return;
+      }
+
+      // ---------------------------------------
+      // 8. NORMAL SUCCESS
+      // ---------------------------------------
+
+      if (result.code === "BOOKING_CREATED") {
+        setBookingSuccess(true);
+
+        showBookingMessage(
+          result.message || "Customer and booking registered successfully.",
+          "success",
+        );
+
+        // Backend successfully created customer + booking.
+        resetBookingForm();
+
+        // Close modal only if this form was submitted from modal.
+        setTimeout(() => {
+          setBookingSuccess(false);
+          setBookingMessage("");
+          setModalOpen(false);
+        }, 3000);
+
+        return;
+      }
+
+      // ---------------------------------------
+      // 9. BACKEND VALIDATION / OTHER ERROR
+      // ---------------------------------------
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Booking registration failed");
+      }
+
+      // ---------------------------------------
+      // 10. UNKNOWN RESPONSE
+      // ---------------------------------------
+
+      throw new Error("Unexpected response from booking server");
+    } catch (error) {
+      console.error("Booking submission error:", error);
+
+      setBookingSuccess(false);
+
+      const message =
+        error instanceof Error ? error.message : "Failed to register booking";
+
+      showBookingMessage(message, "error");
+
+      // IMPORTANT:
+      // Do NOT clear form on server/network error.
+      // Customer can retry.
+    }
   };
 
   const handleCheckAvailability = (e: React.FormEvent) => {
@@ -350,7 +639,11 @@ const Home: React.FC = () => {
               </Button>
               <Button
                 variant="contained"
-                onClick={() => setModalOpen(true)}
+                onClick={() => {
+                  setBookingSuccess(false);
+                  setBookingError("");
+                  setModalOpen(true);
+                }}
                 sx={{
                   backgroundColor: "#6d3b24",
                   color: "#fff",
@@ -423,7 +716,11 @@ const Home: React.FC = () => {
               <Button
                 fullWidth
                 variant="contained"
-                onClick={() => setModalOpen(true)}
+                onClick={() => {
+                  setBookingSuccess(false);
+                  setBookingError("");
+                  setModalOpen(true);
+                }}
                 sx={{
                   backgroundColor: "#6d3b24",
                   color: "#fff",
@@ -496,7 +793,11 @@ const Home: React.FC = () => {
             <Button
               variant="contained"
               size="large"
-              onClick={() => setModalOpen(true)}
+              onClick={() => {
+                setBookingSuccess(false);
+                setBookingError("");
+                setModalOpen(true);
+              }}
               sx={{
                 backgroundColor: "#d4af37",
                 color: "#000",
@@ -1231,6 +1532,35 @@ const Home: React.FC = () => {
                   Enquiry submitted successfully! We will contact you shortly.
                 </Alert>
               )}
+              {bookingError && (
+                <Alert severity="error" sx={{ mb: 2 }}>
+                  {bookingError}
+                </Alert>
+              )}
+              <Snackbar
+                open={!!bookingMessage}
+                autoHideDuration={7000}
+                onClose={() => setBookingMessage("")}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <Alert
+                  onClose={() => setBookingMessage("")}
+                  severity={bookingMessageType}
+                  variant="filled"
+                  sx={{
+                    width: "100%",
+                    minWidth: { xs: "90vw", sm: "500px" },
+                    fontSize: "1rem",
+                    fontWeight: 600,
+                    boxShadow: 6,
+                  }}
+                >
+                  {bookingMessage}
+                </Alert>
+              </Snackbar>
               <form onSubmit={handleBookingSubmit}>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   <TextField
@@ -1239,16 +1569,33 @@ const Home: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleFormChange}
-                    required
+                    // required
+                    error={!!formErrors.name}
+                    helperText={formErrors.name}
                   />
+
                   <TextField
                     fullWidth
                     label="Phone Number"
                     name="phone"
                     value={formData.phone}
                     onChange={handleFormChange}
-                    required
+                    // required
+                    error={!!formErrors.phone}
+                    helperText={formErrors.phone}
                   />
+
+                  <TextField
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    error={!!formErrors.email}
+                    helperText={formErrors.email}
+                  />
+
                   <Box
                     sx={{
                       display: "flex",
@@ -1264,8 +1611,12 @@ const Home: React.FC = () => {
                         name="date"
                         value={formData.date}
                         onChange={handleFormChange}
-                        required
-                        slotProps={{ inputLabel: { shrink: true } }}
+                        // required
+                        error={!!formErrors.date}
+                        helperText={formErrors.date}
+                        slotProps={{
+                          inputLabel: { shrink: true },
+                        }}
                       />
                     </Box>
                     <Box sx={{ flex: 1, width: "100%" }}>
@@ -1276,6 +1627,9 @@ const Home: React.FC = () => {
                         name="eventType"
                         value={formData.eventType}
                         onChange={handleFormChange}
+                        // required
+                        error={!!formErrors.eventType}
+                        helperText={formErrors.eventType}
                       >
                         <MenuItem value="Marriage">Marriage</MenuItem>
                         <MenuItem value="Reception">Reception</MenuItem>
@@ -1289,6 +1643,23 @@ const Home: React.FC = () => {
                   </Box>
                   <TextField
                     fullWidth
+                    label="Number of Guests"
+                    name="numberOfGuests"
+                    type="number"
+                    value={formData.numberOfGuests}
+                    onChange={handleFormChange}
+                    // required
+                    error={!!formErrors.numberOfGuests}
+                    helperText={formErrors.numberOfGuests}
+                    // slotProps={{
+                    //   htmlInput: {
+                    //     min: 1,
+                    //   },
+                    // }}
+                  />
+
+                  <TextField
+                    fullWidth
                     multiline
                     rows={3}
                     label="Additional Requirements (Rooms, Parking, etc.)"
@@ -1296,10 +1667,12 @@ const Home: React.FC = () => {
                     value={formData.requirements}
                     onChange={handleFormChange}
                   />
+
                   <Button
                     fullWidth
                     type="submit"
                     variant="contained"
+                    disabled={isSubmitting}
                     size="large"
                     sx={{
                       backgroundColor: "#6d3b24",

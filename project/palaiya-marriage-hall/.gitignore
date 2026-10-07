@@ -94,3 +94,6 @@ build/
 *.njsproj
 *.sln
 *.sw?
+
+# prima auto generated
+generated/
