@@ -25,7 +25,6 @@ import {
   Alert,
   Paper,
   Chip,
-  Snackbar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -40,6 +39,7 @@ import SecurityIcon from "@mui/icons-material/Security";
 import PowerIcon from "@mui/icons-material/Power";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import StarRateIcon from "@mui/icons-material/StarRate";
+import BookingForm from "./components/BookingForm";
 
 interface Room {
   id: number;
@@ -222,6 +222,7 @@ const Home: React.FC = () => {
     }
 
     try {
+      setIsSubmitting(true);
       // ---------------------------------------
       // 2. Prepare request data
       // ---------------------------------------
@@ -388,6 +389,8 @@ const Home: React.FC = () => {
       // IMPORTANT:
       // Do NOT clear form on server/network error.
       // Customer can retry.
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -619,7 +622,7 @@ const Home: React.FC = () => {
                 About
               </Button>
               <Button href="#hall" color="inherit" sx={{ fontWeight: 600 }}>
-                The Hall
+                Hall
               </Button>
               <Button href="#rooms" color="inherit" sx={{ fontWeight: 600 }}>
                 Rooms (10)
@@ -695,23 +698,18 @@ const Home: React.FC = () => {
           </Box>
           <Divider sx={{ mb: 2 }} />
           <List>
-            {[
-              "About",
-              "The Hall",
-              "Rooms",
-              "Facilities",
-              "Gallery",
-              "Contact",
-            ].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton
-                  component="a"
-                  href={`#${text.toLowerCase().replace(/\s+/g, "")}`}
-                >
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
+            {["About", "Hall", "Rooms", "Facilities", "Gallery", "Contact"].map(
+              (text) => (
+                <ListItem key={text} disablePadding>
+                  <ListItemButton
+                    component="a"
+                    href={`#${text.toLowerCase().replace(/\s+/g, "")}`}
+                  >
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              ),
+            )}
             <ListItem disablePadding sx={{ mt: 2 }}>
               <Button
                 fullWidth
@@ -1468,7 +1466,7 @@ const Home: React.FC = () => {
             gap: 6,
           }}
         >
-          <Box sx={{ flex: 1 }}>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography
               variant="overline"
               sx={{ color: "#d4af37", fontWeight: 700, letterSpacing: 2 }}
@@ -1515,179 +1513,25 @@ const Home: React.FC = () => {
               </Box>
             </Box>
           </Box>
-
-          <Box sx={{ flex: 1 }}>
-            <Paper
-              elevation={3}
-              sx={{ p: 4, borderRadius: 4, backgroundColor: "#ffffff" }}
-            >
-              <Typography
-                variant="h5"
-                sx={{ fontWeight: 700, color: "#6d3b24", mb: 3 }}
-              >
-                Quick Booking Enquiry
-              </Typography>
-              {bookingSuccess && (
-                <Alert severity="success" sx={{ mb: 3 }}>
-                  Enquiry submitted successfully! We will contact you shortly.
-                </Alert>
-              )}
-              {bookingError && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {bookingError}
-                </Alert>
-              )}
-              <Snackbar
-                open={!!bookingMessage}
-                autoHideDuration={7000}
-                onClose={() => setBookingMessage("")}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-              >
-                <Alert
-                  onClose={() => setBookingMessage("")}
-                  severity={bookingMessageType}
-                  variant="filled"
-                  sx={{
-                    width: "100%",
-                    minWidth: { xs: "90vw", sm: "500px" },
-                    fontSize: "1rem",
-                    fontWeight: 600,
-                    boxShadow: 6,
-                  }}
-                >
-                  {bookingMessage}
-                </Alert>
-              </Snackbar>
-              <form onSubmit={handleBookingSubmit}>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Full Name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleFormChange}
-                    // required
-                    error={!!formErrors.name}
-                    helperText={formErrors.name}
-                  />
-
-                  <TextField
-                    fullWidth
-                    label="Phone Number"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleFormChange}
-                    // required
-                    error={!!formErrors.phone}
-                    helperText={formErrors.phone}
-                  />
-
-                  <TextField
-                    fullWidth
-                    label="Email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleFormChange}
-                    error={!!formErrors.email}
-                    helperText={formErrors.email}
-                  />
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 2,
-                      flexWrap: { xs: "wrap", sm: "nowrap" },
-                    }}
-                  >
-                    <Box sx={{ flex: 1, width: "100%" }}>
-                      <TextField
-                        fullWidth
-                        type="date"
-                        label="Event Date"
-                        name="date"
-                        value={formData.date}
-                        onChange={handleFormChange}
-                        // required
-                        error={!!formErrors.date}
-                        helperText={formErrors.date}
-                        slotProps={{
-                          inputLabel: { shrink: true },
-                        }}
-                      />
-                    </Box>
-                    <Box sx={{ flex: 1, width: "100%" }}>
-                      <TextField
-                        select
-                        fullWidth
-                        label="Event Type"
-                        name="eventType"
-                        value={formData.eventType}
-                        onChange={handleFormChange}
-                        // required
-                        error={!!formErrors.eventType}
-                        helperText={formErrors.eventType}
-                      >
-                        <MenuItem value="Marriage">Marriage</MenuItem>
-                        <MenuItem value="Reception">Reception</MenuItem>
-                        <MenuItem value="Engagement">Engagement</MenuItem>
-                        <MenuItem value="Birthday / Party">
-                          Birthday / Party
-                        </MenuItem>
-                        <MenuItem value="Other">Other</MenuItem>
-                      </TextField>
-                    </Box>
-                  </Box>
-                  <TextField
-                    fullWidth
-                    label="Number of Guests"
-                    name="numberOfGuests"
-                    type="number"
-                    value={formData.numberOfGuests}
-                    onChange={handleFormChange}
-                    // required
-                    error={!!formErrors.numberOfGuests}
-                    helperText={formErrors.numberOfGuests}
-                    // slotProps={{
-                    //   htmlInput: {
-                    //     min: 1,
-                    //   },
-                    // }}
-                  />
-
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={3}
-                    label="Additional Requirements (Rooms, Parking, etc.)"
-                    name="requirements"
-                    value={formData.requirements}
-                    onChange={handleFormChange}
-                  />
-
-                  <Button
-                    fullWidth
-                    type="submit"
-                    variant="contained"
-                    disabled={isSubmitting}
-                    size="large"
-                    sx={{
-                      backgroundColor: "#6d3b24",
-                      fontWeight: 700,
-                      py: 1.5,
-                      "&:hover": { backgroundColor: "#522b1a" },
-                      borderRadius: "25px",
-                      mt: 1,
-                    }}
-                  >
-                    Submit Enquiry
-                  </Button>
-                </Box>
-              </form>
-            </Paper>
+          <Box
+            sx={{
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
+            <BookingForm
+              title="Quick Booking Enquiry"
+              formData={formData}
+              formErrors={formErrors}
+              bookingSuccess={bookingSuccess}
+              bookingError={bookingError}
+              bookingMessage={bookingMessage}
+              bookingMessageType={bookingMessageType}
+              isSubmitting={isSubmitting}
+              handleFormChange={handleFormChange}
+              handleBookingSubmit={handleBookingSubmit}
+              setBookingMessage={setBookingMessage}
+            />
           </Box>
         </Box>
       </Container>
@@ -1741,77 +1585,18 @@ const Home: React.FC = () => {
               <CloseIcon />
             </IconButton>
           </Box>
-          {bookingSuccess && (
-            <Alert severity="success" sx={{ mb: 2 }}>
-              Enquiry submitted successfully! We will contact you shortly.
-            </Alert>
-          )}
-          <form onSubmit={handleBookingSubmit}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <TextField
-                fullWidth
-                label="Full Name"
-                name="name"
-                value={formData.name}
-                onChange={handleFormChange}
-                required
-              />
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                value={formData.phone}
-                onChange={handleFormChange}
-                required
-              />
-              <TextField
-                fullWidth
-                type="date"
-                label="Event Date"
-                name="date"
-                value={formData.date}
-                onChange={handleFormChange}
-                required
-                slotProps={{ inputLabel: { shrink: true } }}
-              />
-              <TextField
-                select
-                fullWidth
-                label="Event Type"
-                name="eventType"
-                value={formData.eventType}
-                onChange={handleFormChange}
-              >
-                <MenuItem value="Marriage">Marriage</MenuItem>
-                <MenuItem value="Reception">Reception</MenuItem>
-                <MenuItem value="Engagement">Engagement</MenuItem>
-                <MenuItem value="Birthday / Party">Birthday / Party</MenuItem>
-              </TextField>
-              <TextField
-                fullWidth
-                multiline
-                rows={2}
-                label="Requirements (Rooms, Parking)"
-                name="requirements"
-                value={formData.requirements}
-                onChange={handleFormChange}
-              />
-              <Button
-                fullWidth
-                type="submit"
-                variant="contained"
-                sx={{
-                  backgroundColor: "#6d3b24",
-                  fontWeight: 700,
-                  "&:hover": { backgroundColor: "#522b1a" },
-                  borderRadius: "20px",
-                  mt: 1,
-                }}
-              >
-                Confirm Enquiry
-              </Button>
-            </Box>
-          </form>
+          <BookingForm
+            formData={formData}
+            formErrors={formErrors}
+            bookingSuccess={bookingSuccess}
+            bookingError={bookingError}
+            bookingMessage={bookingMessage}
+            bookingMessageType={bookingMessageType}
+            isSubmitting={isSubmitting}
+            handleFormChange={handleFormChange}
+            handleBookingSubmit={handleBookingSubmit}
+            setBookingMessage={setBookingMessage}
+          />
         </Box>
       </Modal>
     </Box>
