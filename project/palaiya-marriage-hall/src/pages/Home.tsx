@@ -96,8 +96,15 @@ const Home: React.FC = () => {
       eventType: "",
       numberOfGuests: "",
     });
+    setBookingSuccess(false);
+    setBookingError("");
+    setBookingMessage("");
+    setBookingMessageType("success");
   };
-
+  const handleModalClose = () => {
+    setModalOpen(false);
+    resetBookingForm();
+  };
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -409,8 +416,7 @@ const Home: React.FC = () => {
       type: "ac",
       price: "₹2,500 / day",
       capacity: "3 Guests",
-      image:
-        "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/ac/room-ac-101.jpg",
       features: ["King Size Bed", "Attached Bathroom", "Smart TV", "Intercom"],
     },
     {
@@ -419,8 +425,7 @@ const Home: React.FC = () => {
       type: "ac",
       price: "₹2,200 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/ac/room-ac-102.jpg",
       features: [
         "Queen Size Bed",
         "AC & Air Circulator",
@@ -434,8 +439,7 @@ const Home: React.FC = () => {
       type: "ac",
       price: "₹2,200 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/ac/room-ac-103.jpg",
       features: ["Attached Modern Bath", "AC", "Free Wi-Fi", "Room Service"],
     },
     {
@@ -444,8 +448,7 @@ const Home: React.FC = () => {
       type: "ac",
       price: "₹2,000 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1595576508898-0ad5c879a061?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/ac/room-ac-104.jpg",
       features: ["Comfortable Bedding", "AC", "Power Backup", "Table & Chair"],
     },
     {
@@ -454,8 +457,7 @@ const Home: React.FC = () => {
       type: "ac",
       price: "₹2,000 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/ac/room-ac-105.jpg",
       features: [
         "Air Conditioned",
         "Clean Linens",
@@ -469,8 +471,7 @@ const Home: React.FC = () => {
       type: "non-ac",
       price: "₹1,200 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/non-ac/room-non-ac-201.jpg",
       features: ["Spacious Ventilation", "Attached Bathroom", "Table", "Fan"],
     },
     {
@@ -479,8 +480,7 @@ const Home: React.FC = () => {
       type: "non-ac",
       price: "₹1,200 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/non-ac/room-non-ac-202.jpg",
       features: ["Twin Beds", "Natural Lighting", "Wardrobe", "Clean Washroom"],
     },
     {
@@ -489,8 +489,7 @@ const Home: React.FC = () => {
       type: "non-ac",
       price: "₹1,000 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/non-ac/room-non-ac-203.jpg",
       features: [
         "Comfortable Beds",
         "Ceiling Fan",
@@ -504,8 +503,7 @@ const Home: React.FC = () => {
       type: "non-ac",
       price: "₹1,000 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/non-ac/room-non-ac-204.jpg",
       features: [
         "Peaceful Ambiance",
         "Attached Bathroom",
@@ -519,8 +517,7 @@ const Home: React.FC = () => {
       type: "non-ac",
       price: "₹900 / day",
       capacity: "2 Guests",
-      image:
-        "https://images.unsplash.com/photo-1568495248636-6432b97bd949?auto=format&fit=crop&w=600&q=80",
+      image: "images/rooms/non-ac/room-non-ac-205.jpg",
       features: [
         "Clean & Tidy",
         "Essential Furnishing",
@@ -535,43 +532,37 @@ const Home: React.FC = () => {
       id: 1,
       title: "Grand Marriage Mandapam",
       category: "Hall",
-      image:
-        "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80",
+      image: "images/gallery/hall/hall-01.jpg",
     },
     {
       id: 2,
       title: "Reception Stage Lighting",
       category: "Hall",
-      image:
-        "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=600&q=80",
+      image: "images/gallery/hall/hall-02.jpg",
     },
     {
       id: 3,
       title: "Luxury AC Suite Interior",
       category: "Rooms",
-      image:
-        "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=600&q=80",
+      image: "images/gallery/rooms/ac/room-ac-104.jpg",
     },
     {
       id: 4,
       title: "Spacious Dining Hall",
       category: "Dining",
-      image:
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80",
+      image: "images/gallery/dining/dining-01.jpg",
     },
     {
       id: 5,
       title: "20-Car Secure Parking Area",
       category: "Parking",
-      image:
-        "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=600&q=80",
+      image: "images/gallery/parking/parking-01.jpg",
     },
     {
       id: 6,
       title: "Standard Non-AC Room",
       category: "Rooms",
-      image:
-        "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=600&q=80",
+      image: "images/gallery/rooms/non-ac/room-non-ac-204.jpg",
     },
   ];
 
@@ -643,8 +634,7 @@ const Home: React.FC = () => {
               <Button
                 variant="contained"
                 onClick={() => {
-                  setBookingSuccess(false);
-                  setBookingError("");
+                  resetBookingForm();
                   setModalOpen(true);
                 }}
                 sx={{
@@ -736,7 +726,7 @@ const Home: React.FC = () => {
       <Box
         sx={{
           position: "relative",
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1920&q=80')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/hero/hero-01.jpg')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           color: "#fff",
@@ -899,7 +889,7 @@ const Home: React.FC = () => {
           <Box sx={{ flex: 1, width: "100%" }}>
             <Box
               component="img"
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80"
+              src="images/marriage-hall-01.jpg"
               alt="Palaiya Marriage Hall Exterior"
               sx={{
                 width: "100%",
@@ -999,7 +989,7 @@ const Home: React.FC = () => {
                 <CardMedia
                   component="img"
                   height="280"
-                  image="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80"
+                  image="images/intro-01.jpg"
                   alt="Main Marriage Hall"
                 />
                 <CardContent>
@@ -1032,7 +1022,7 @@ const Home: React.FC = () => {
                 <CardMedia
                   component="img"
                   height="280"
-                  image="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80"
+                  image="images/intro-02.jpg"
                   alt="Dining Hall"
                 />
                 <CardContent>
@@ -1554,7 +1544,7 @@ const Home: React.FC = () => {
       </Box>
 
       {/* MODAL ENQUIRY POPUP */}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+      <Modal open={modalOpen} onClose={handleModalClose}>
         <Box
           sx={{
             position: "absolute",
@@ -1562,41 +1552,58 @@ const Home: React.FC = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: { xs: "90%", sm: 500 },
+            maxHeight: "90vh",
             backgroundColor: "background.paper",
             borderRadius: 4,
             boxShadow: 24,
-            p: 4,
-            maxHeight: "90vh",
-            overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
           }}
         >
+          {/* Fixed Header */}
           <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              mb: 2,
+              p: 3,
+              pb: 2,
+              flexShrink: 0,
             }}
           >
             <Typography variant="h6" sx={{ fontWeight: 700, color: "#6d3b24" }}>
               Book Palaiya Marriage Hall
             </Typography>
-            <IconButton onClick={() => setModalOpen(false)}>
+
+            <IconButton onClick={handleModalClose}>
               <CloseIcon />
             </IconButton>
           </Box>
-          <BookingForm
-            formData={formData}
-            formErrors={formErrors}
-            bookingSuccess={bookingSuccess}
-            bookingError={bookingError}
-            bookingMessage={bookingMessage}
-            bookingMessageType={bookingMessageType}
-            isSubmitting={isSubmitting}
-            handleFormChange={handleFormChange}
-            handleBookingSubmit={handleBookingSubmit}
-            setBookingMessage={setBookingMessage}
-          />
+
+          {/* ONLY THIS PART SCROLLS */}
+          <Box
+            sx={{
+              flex: 1,
+              minHeight: 0,
+              overflowY: "auto",
+              px: 3,
+              pb: 3,
+            }}
+          >
+            <BookingForm
+              formData={formData}
+              formErrors={formErrors}
+              bookingSuccess={bookingSuccess}
+              bookingError={bookingError}
+              bookingMessage={bookingMessage}
+              bookingMessageType={bookingMessageType}
+              isSubmitting={isSubmitting}
+              handleFormChange={handleFormChange}
+              handleBookingSubmit={handleBookingSubmit}
+              setBookingMessage={setBookingMessage}
+            />
+          </Box>
         </Box>
       </Modal>
     </Box>
