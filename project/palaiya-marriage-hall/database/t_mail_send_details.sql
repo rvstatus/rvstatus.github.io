@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS `t_mail_send_details` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` VARCHAR(150) NOT NULL,
+  `booking_id` INT(11) NOT NULL,
+  `from_email` VARCHAR(255) NOT NULL,
+  `to_email` VARCHAR(255) NOT NULL,
+  `subject` VARCHAR(500) NOT NULL,
+  `body` LONGTEXT NOT NULL,
+  `mail_send_status` INT(5) NOT NULL DEFAULT 0
+    COMMENT '0 = Not sent, 1 = Sent',
+  `mail_send_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` VARCHAR(150) NOT NULL,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` VARCHAR(150) DEFAULT '',
+  `updated_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_flg` INT(2) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
