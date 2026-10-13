@@ -10,6 +10,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
     clean: true,
+    publicPath: "/",
   },
 
   resolve: {
@@ -37,5 +38,8 @@ module.exports = {
     open: true,
     hot: true,
     historyApiFallback: true,
+    static: {
+      directory: path.resolve(__dirname, "public"),
+    },
   },
 };
