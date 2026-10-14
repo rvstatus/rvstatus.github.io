@@ -5,7 +5,6 @@ import {
   Button,
   MenuItem,
   Paper,
-  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -35,14 +34,11 @@ interface BookingFormProps {
   formErrors: FormErrors;
   bookingSuccess: boolean;
   bookingError: string;
-  bookingMessage: string;
-  bookingMessageType: "success" | "info" | "warning" | "error";
   isSubmitting: boolean;
   handleFormChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   handleBookingSubmit: (e: React.FormEvent) => void;
-  setBookingMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const BookingForm: React.FC<BookingFormProps> = ({
@@ -51,12 +47,9 @@ const BookingForm: React.FC<BookingFormProps> = ({
   formErrors,
   bookingSuccess,
   bookingError,
-  bookingMessage,
-  bookingMessageType,
   isSubmitting,
   handleFormChange,
   handleBookingSubmit,
-  setBookingMessage,
 }) => {
   return (
     <Paper
@@ -91,34 +84,6 @@ const BookingForm: React.FC<BookingFormProps> = ({
           {bookingError}
         </Alert>
       )}
-
-      <Snackbar
-        open={!!bookingMessage}
-        autoHideDuration={7000}
-        onClose={() => setBookingMessage("")}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Alert
-          onClose={() => setBookingMessage("")}
-          severity={bookingMessageType}
-          variant="filled"
-          sx={{
-            width: "100%",
-            minWidth: {
-              xs: "90vw",
-              sm: "500px",
-            },
-            fontSize: "1rem",
-            fontWeight: 600,
-            boxShadow: 6,
-          }}
-        >
-          {bookingMessage}
-        </Alert>
-      </Snackbar>
 
       <form onSubmit={handleBookingSubmit}>
         <Box

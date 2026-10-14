@@ -25,6 +25,7 @@ import {
   Alert,
   Paper,
   Chip,
+  Snackbar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -350,22 +351,34 @@ const Home: React.FC = () => {
       // ---------------------------------------
 
       if (result.code === "BOOKING_CREATED") {
+        // Show the success notification first
         setBookingSuccess(true);
 
         showBookingMessage(
-          result.message || "Customer and booking registered successfully.",
+          result.message ||
+            "Enquiry submitted successfully! We will contact you shortly.",
           "success",
         );
 
-        // Backend successfully created customer + booking.
-        resetBookingForm();
+        // Clear form fields without clearing the success message
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          date: "",
+          eventType: "",
+          numberOfGuests: "",
+          requirements: "",
+        });
 
-        // Close modal only if this form was submitted from modal.
-        setTimeout(() => {
-          setBookingSuccess(false);
-          setBookingMessage("");
-          setModalOpen(false);
-        }, 3000);
+        setFormErrors({
+          name: "",
+          phone: "",
+          email: "",
+          date: "",
+          eventType: "",
+          numberOfGuests: "",
+        });
 
         return;
       }
@@ -575,6 +588,36 @@ const Home: React.FC = () => {
     <Box
       sx={{ backgroundColor: "#faf7f2", minHeight: "100vh", color: "#2d2d2d" }}
     >
+      <Snackbar
+        open={!!bookingMessage}
+        autoHideDuration={7000}
+        onClose={() => setBookingMessage("")}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        sx={{
+          zIndex: 99999,
+          mt: { xs: 1, sm: 2 },
+          mr: { xs: 0, sm: 2 },
+        }}
+      >
+        <Alert
+          onClose={() => setBookingMessage("")}
+          severity={bookingMessageType}
+          variant="filled"
+          sx={{
+            width: "100%",
+            minWidth: { xs: "90vw", sm: "400px" },
+            maxWidth: { xs: "95vw", sm: "500px" },
+            fontSize: "1rem",
+            fontWeight: 600,
+            boxShadow: 6,
+          }}
+        >
+          {bookingMessage}
+        </Alert>
+      </Snackbar>
       {/* HEADER & NAVIGATION */}
       <AppBar
         position="sticky"
@@ -1515,12 +1558,9 @@ const Home: React.FC = () => {
               formErrors={formErrors}
               bookingSuccess={bookingSuccess}
               bookingError={bookingError}
-              bookingMessage={bookingMessage}
-              bookingMessageType={bookingMessageType}
               isSubmitting={isSubmitting}
               handleFormChange={handleFormChange}
               handleBookingSubmit={handleBookingSubmit}
-              setBookingMessage={setBookingMessage}
             />
           </Box>
         </Box>
@@ -1596,12 +1636,9 @@ const Home: React.FC = () => {
               formErrors={formErrors}
               bookingSuccess={bookingSuccess}
               bookingError={bookingError}
-              bookingMessage={bookingMessage}
-              bookingMessageType={bookingMessageType}
               isSubmitting={isSubmitting}
               handleFormChange={handleFormChange}
               handleBookingSubmit={handleBookingSubmit}
-              setBookingMessage={setBookingMessage}
             />
           </Box>
         </Box>
