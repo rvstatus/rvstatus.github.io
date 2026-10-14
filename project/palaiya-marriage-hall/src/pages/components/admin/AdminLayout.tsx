@@ -18,8 +18,10 @@ import PeopleIcon from "@mui/icons-material/People";
 import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import EmailIcon from "@mui/icons-material/Email";
+import HomeIcon from "@mui/icons-material/Home";
 
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { notifyAdminAuthChanged } from "../../../App";
 
 const drawerWidth = 240;
 
@@ -35,7 +37,9 @@ const AdminLayout: React.FC = () => {
   // Handle logout
   const handleLogout = () => {
     localStorage.removeItem("admin");
-    navigate("/admin/login");
+    // logout time notify admin are logout
+    notifyAdminAuthChanged();
+    navigate("/admin/login", { replace: true });
   };
 
   // Handle mobile drawer open and close
@@ -115,6 +119,22 @@ const AdminLayout: React.FC = () => {
           </ListItemIcon>
 
           <ListItemText primary="Dashboard" />
+        </ListItemButton>
+        <ListItemButton
+          selected={isActive("/")}
+          onClick={() => handleNavigation("/")}
+          sx={navigationStyles}
+        >
+          <ListItemIcon
+            sx={{
+              minWidth: 40,
+              color: isActive("/") ? "#6d3b24" : "inherit",
+            }}
+          >
+            <HomeIcon />
+          </ListItemIcon>
+
+          <ListItemText primary="Home" />
         </ListItemButton>
 
         {/* Bookings */}
@@ -200,6 +220,9 @@ const AdminLayout: React.FC = () => {
       sx={{
         display: "flex",
         minHeight: "100vh",
+        width: "100%",
+        maxWidth: "100%",
+        overflowX: "hidden",
         backgroundColor: "#f7f5f3",
       }}
     >
@@ -319,11 +342,16 @@ const AdminLayout: React.FC = () => {
         component="main"
         sx={{
           flexGrow: 1,
+          minWidth: 0,
           width: {
+            xs: "100%",
             sm: `calc(100% - ${drawerWidth}px)`,
           },
+          maxWidth: "100%",
+          boxSizing: "border-box",
+          overflowX: "hidden",
           p: {
-            xs: 2,
+            xs: 1.5,
             sm: 3,
           },
           pt: {

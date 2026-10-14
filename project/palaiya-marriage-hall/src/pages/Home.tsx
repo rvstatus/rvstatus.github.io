@@ -25,6 +25,7 @@ import {
   Alert,
   Paper,
   Chip,
+  Snackbar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -40,6 +41,8 @@ import PowerIcon from "@mui/icons-material/Power";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import BookingForm from "./components/BookingForm";
+import { ADMIN_AUTH_EVENT, isAdminAuthenticated } from "../App";
+import { useNavigate } from "react-router-dom";
 
 interface Room {
   id: number;
@@ -70,6 +73,24 @@ const Home: React.FC = () => {
   const [bookingMessageType, setBookingMessageType] = useState<
     "success" | "info" | "warning" | "error"
   >("success");
+
+  const navigate = useNavigate();
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(isAdminAuthenticated);
+  // useEffect for syncAdminAuth
+  React.useEffect(() => {
+    const syncAdminAuth = () => {
+      setIsAdminLoggedIn(isAdminAuthenticated());
+    };
+
+    window.addEventListener(ADMIN_AUTH_EVENT, syncAdminAuth);
+    window.addEventListener("storage", syncAdminAuth);
+
+    return () => {
+      window.removeEventListener(ADMIN_AUTH_EVENT, syncAdminAuth);
+      window.removeEventListener("storage", syncAdminAuth);
+    };
+  }, []);
+
   const showBookingMessage = (
     message: string,
     type: "success" | "info" | "warning" | "error",
@@ -350,22 +371,34 @@ const Home: React.FC = () => {
       // ---------------------------------------
 
       if (result.code === "BOOKING_CREATED") {
+        // Show the success notification first
         setBookingSuccess(true);
 
         showBookingMessage(
-          result.message || "Customer and booking registered successfully.",
+          result.message ||
+            "Enquiry submitted successfully! We will contact you shortly.",
           "success",
         );
 
-        // Backend successfully created customer + booking.
-        resetBookingForm();
+        // Clear form fields without clearing the success message
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          date: "",
+          eventType: "",
+          numberOfGuests: "",
+          requirements: "",
+        });
 
-        // Close modal only if this form was submitted from modal.
-        setTimeout(() => {
-          setBookingSuccess(false);
-          setBookingMessage("");
-          setModalOpen(false);
-        }, 3000);
+        setFormErrors({
+          name: "",
+          phone: "",
+          email: "",
+          date: "",
+          eventType: "",
+          numberOfGuests: "",
+        });
 
         return;
       }
@@ -575,6 +608,36 @@ const Home: React.FC = () => {
     <Box
       sx={{ backgroundColor: "#faf7f2", minHeight: "100vh", color: "#2d2d2d" }}
     >
+      <Snackbar
+        open={!!bookingMessage}
+        autoHideDuration={7000}
+        onClose={() => setBookingMessage("")}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        sx={{
+          zIndex: 99999,
+          mt: { xs: 1, sm: 2 },
+          mr: { xs: 0, sm: 2 },
+        }}
+      >
+        <Alert
+          onClose={() => setBookingMessage("")}
+          severity={bookingMessageType}
+          variant="filled"
+          sx={{
+            width: "100%",
+            minWidth: { xs: "90vw", sm: "400px" },
+            maxWidth: { xs: "95vw", sm: "500px" },
+            fontSize: "1rem",
+            fontWeight: 600,
+            boxShadow: 6,
+          }}
+        >
+          {bookingMessage}
+        </Alert>
+      </Snackbar>
       {/* HEADER & NAVIGATION */}
       <AppBar
         position="sticky"
@@ -631,6 +694,15 @@ const Home: React.FC = () => {
               <Button href="#contact" color="inherit" sx={{ fontWeight: 600 }}>
                 Contact
               </Button>
+              {isAdminLoggedIn && (
+                <Button
+                  color="inherit"
+                  onClick={() => navigate("/admin/dashboard")}
+                  sx={{ fontWeight: 600 }}
+                >
+                  Admin
+                </Button>
+              )}
               <Button
                 variant="contained"
                 onClick={() => {
@@ -699,6 +771,18 @@ const Home: React.FC = () => {
                   </ListItemButton>
                 </ListItem>
               ),
+            )}
+            {isAdminLoggedIn && (
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    handleDrawerToggle();
+                    navigate("/admin/dashboard");
+                  }}
+                >
+                  <ListItemText primary="Admin" />
+                </ListItemButton>
+              </ListItem>
             )}
             <ListItem disablePadding sx={{ mt: 2 }}>
               <Button
@@ -1515,12 +1599,9 @@ const Home: React.FC = () => {
               formErrors={formErrors}
               bookingSuccess={bookingSuccess}
               bookingError={bookingError}
-              bookingMessage={bookingMessage}
-              bookingMessageType={bookingMessageType}
               isSubmitting={isSubmitting}
               handleFormChange={handleFormChange}
               handleBookingSubmit={handleBookingSubmit}
-              setBookingMessage={setBookingMessage}
             />
           </Box>
         </Box>
@@ -1596,12 +1677,9 @@ const Home: React.FC = () => {
               formErrors={formErrors}
               bookingSuccess={bookingSuccess}
               bookingError={bookingError}
-              bookingMessage={bookingMessage}
-              bookingMessageType={bookingMessageType}
               isSubmitting={isSubmitting}
               handleFormChange={handleFormChange}
               handleBookingSubmit={handleBookingSubmit}
-              setBookingMessage={setBookingMessage}
             />
           </Box>
         </Box>

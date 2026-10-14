@@ -251,7 +251,7 @@ router.post("/", async (req, res) => {
       return {
         success: true,
         code: "BOOKING_CREATED",
-        message: "Customer and booking registered successfully.",
+        message: "Enquiry submitted successfully! We will contact you shortly.",
         customer,
         booking,
       };
