@@ -9,9 +9,36 @@ import AdminLayout from "./pages/components/admin/AdminLayout";
 import MailHistory from "./pages/admin/MailHistory";
 import Customers from "./pages/admin/Customers";
 
+// admin-auth-changed used for the home screen
+export const ADMIN_AUTH_EVENT = "admin-auth-changed";
+
+// notifyAdminAuthChanged used to identify the login and logout properly
+export const notifyAdminAuthChanged = () => {
+  window.dispatchEvent(new Event(ADMIN_AUTH_EVENT));
+};
+
+// isAdminAuthenticated is store the localStorage of admin value
+export const isAdminAuthenticated = () =>
+  Boolean(localStorage.getItem("admin"));
+
 const AppRoutes: React.FC = () => {
-  // Check whether the admin is logged in.
-  const isAdminLoggedIn = Boolean(localStorage.getItem("admin"));
+  // isAdminAuthenticated set on the isAdminLoggedIn
+  const [isAdminLoggedIn, setIsAdminLoggedIn] =
+    React.useState(isAdminAuthenticated);
+  // useEffect for syncAdminAuth
+  React.useEffect(() => {
+    const syncAdminAuth = () => {
+      setIsAdminLoggedIn(isAdminAuthenticated());
+    };
+
+    window.addEventListener(ADMIN_AUTH_EVENT, syncAdminAuth);
+    window.addEventListener("storage", syncAdminAuth);
+
+    return () => {
+      window.removeEventListener(ADMIN_AUTH_EVENT, syncAdminAuth);
+      window.removeEventListener("storage", syncAdminAuth);
+    };
+  }, []);
 
   return (
     <Routes>

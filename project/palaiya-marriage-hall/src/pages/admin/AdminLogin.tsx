@@ -18,6 +18,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
+import { notifyAdminAuthChanged } from "../../App";
 
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
@@ -117,7 +118,8 @@ const AdminLogin: React.FC = () => {
       }
 
       localStorage.setItem("admin", JSON.stringify(result.admin));
-
+      // login time notify admin login
+      notifyAdminAuthChanged();
       navigate("/admin/dashboard");
     } catch (error) {
       console.error("Admin login error:", error);

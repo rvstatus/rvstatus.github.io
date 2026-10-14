@@ -41,6 +41,8 @@ import PowerIcon from "@mui/icons-material/Power";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import BookingForm from "./components/BookingForm";
+import { ADMIN_AUTH_EVENT, isAdminAuthenticated } from "../App";
+import { useNavigate } from "react-router-dom";
 
 interface Room {
   id: number;
@@ -71,6 +73,24 @@ const Home: React.FC = () => {
   const [bookingMessageType, setBookingMessageType] = useState<
     "success" | "info" | "warning" | "error"
   >("success");
+
+  const navigate = useNavigate();
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(isAdminAuthenticated);
+  // useEffect for syncAdminAuth
+  React.useEffect(() => {
+    const syncAdminAuth = () => {
+      setIsAdminLoggedIn(isAdminAuthenticated());
+    };
+
+    window.addEventListener(ADMIN_AUTH_EVENT, syncAdminAuth);
+    window.addEventListener("storage", syncAdminAuth);
+
+    return () => {
+      window.removeEventListener(ADMIN_AUTH_EVENT, syncAdminAuth);
+      window.removeEventListener("storage", syncAdminAuth);
+    };
+  }, []);
+
   const showBookingMessage = (
     message: string,
     type: "success" | "info" | "warning" | "error",
@@ -674,6 +694,15 @@ const Home: React.FC = () => {
               <Button href="#contact" color="inherit" sx={{ fontWeight: 600 }}>
                 Contact
               </Button>
+              {isAdminLoggedIn && (
+                <Button
+                  color="inherit"
+                  onClick={() => navigate("/admin/dashboard")}
+                  sx={{ fontWeight: 600 }}
+                >
+                  Admin
+                </Button>
+              )}
               <Button
                 variant="contained"
                 onClick={() => {
@@ -742,6 +771,18 @@ const Home: React.FC = () => {
                   </ListItemButton>
                 </ListItem>
               ),
+            )}
+            {isAdminLoggedIn && (
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    handleDrawerToggle();
+                    navigate("/admin/dashboard");
+                  }}
+                >
+                  <ListItemText primary="Admin" />
+                </ListItemButton>
+              </ListItem>
             )}
             <ListItem disablePadding sx={{ mt: 2 }}>
               <Button
