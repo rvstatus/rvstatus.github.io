@@ -30,8 +30,15 @@ app.use("/admin/bookings", adminBookingsRoutes);
 app.use("/admin/mail-history", mailHistoryRoutes);
 
 const PORT = process.env.PORT || 5000;
+const serverStartTime = new Date();
 
 // Start the API server and display the server URL.
 app.listen(PORT, () => {
-  console.log(`API server running on http://localhost:${PORT}`);
+  console.log("====================================");
+  console.log("Palaiya Marriage Hall API Started");
+  console.log("Server URL: http://localhost:" + PORT);
+  console.log("Start Date:", serverStartTime.toLocaleDateString());
+  console.log("Start Time:", serverStartTime.toLocaleTimeString());
+  console.log("Full Date and Time:", serverStartTime.toLocaleString());
+  console.log("====================================");
 });

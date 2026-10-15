@@ -334,7 +334,7 @@ const MailHistory: React.FC = () => {
                       <TableRow key={record.id} hover>
                         <TableCell>{record.id}</TableCell>
 
-                        <TableCell>#{record.booking_id}</TableCell>
+                        <TableCell>{record.booking_id}</TableCell>
 
                         <TableCell>
                           <Typography variant="body2">
@@ -405,6 +405,7 @@ const MailHistory: React.FC = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            py: 1,
             pr: 2,
           }}
         >
@@ -415,20 +416,21 @@ const MailHistory: React.FC = () => {
           <IconButton
             onClick={handleCloseDetails}
             aria-label="Close mail details"
+            size="small"
             sx={{ color: "#6d3b24" }}
           >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
 
-        <DialogContent dividers>
+        <DialogContent dividers sx={{ p: 1.5 }}>
           {selected && (
-            <Stack spacing={2.5}>
+            <Stack spacing={1.5}>
               {/* Email Information Card */}
               <Paper
                 variant="outlined"
                 sx={{
-                  p: 2,
+                  p: 1.5,
                   borderRadius: 2,
                   borderColor: "#eaded6",
                   backgroundColor: "#fffdfb",
@@ -439,7 +441,7 @@ const MailHistory: React.FC = () => {
                   sx={{
                     alignItems: "center",
                     justifyContent: "space-between",
-                    mb: 2,
+                    mb: 1.5,
                   }}
                 >
                   <Typography
@@ -465,24 +467,21 @@ const MailHistory: React.FC = () => {
                   sx={{
                     display: "grid",
                     gridTemplateColumns: {
-                      xs: "100px minmax(0, 1fr)",
-                      sm: "100px minmax(0, 1fr) 100px minmax(0, 1fr)",
+                      xs: "85px minmax(0, 1fr)",
+                      sm: "85px minmax(0, 1fr) 85px minmax(0, 1fr)",
                     },
-                    columnGap: 2,
-                    rowGap: 2,
+                    columnGap: 1.5,
+                    rowGap: 1,
                     alignItems: "start",
                   }}
                 >
-                  {/* Booking ID */}
                   <Typography variant="body2" color="text.secondary">
                     Booking ID
                   </Typography>
-
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                    #{selected.booking_id}
+                    {selected.booking_id}
                   </Typography>
 
-                  {/* Desktop Mail Date */}
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -490,7 +489,6 @@ const MailHistory: React.FC = () => {
                   >
                     Mail Date
                   </Typography>
-
                   <Typography
                     variant="body2"
                     sx={{
@@ -501,29 +499,23 @@ const MailHistory: React.FC = () => {
                     {formatDate(selected.mail_send_date)}
                   </Typography>
 
-                  {/* From */}
                   <Typography variant="body2" color="text.secondary">
                     From
                   </Typography>
-
                   <Typography variant="body2" sx={{ overflowWrap: "anywhere" }}>
                     {selected.from_email}
                   </Typography>
 
-                  {/* To */}
                   <Typography variant="body2" color="text.secondary">
                     To
                   </Typography>
-
                   <Typography variant="body2" sx={{ overflowWrap: "anywhere" }}>
                     {selected.to_email}
                   </Typography>
 
-                  {/* Subject */}
                   <Typography variant="body2" color="text.secondary">
                     Subject
                   </Typography>
-
                   <Typography
                     variant="body2"
                     sx={{
@@ -535,7 +527,6 @@ const MailHistory: React.FC = () => {
                     {selected.subject}
                   </Typography>
 
-                  {/* Mobile Mail Date */}
                   <Typography
                     variant="body2"
                     color="text.secondary"
@@ -543,7 +534,6 @@ const MailHistory: React.FC = () => {
                   >
                     Mail Date
                   </Typography>
-
                   <Typography
                     variant="body2"
                     sx={{
@@ -560,7 +550,11 @@ const MailHistory: React.FC = () => {
               <Box>
                 <Typography
                   variant="subtitle1"
-                  sx={{ fontWeight: 700, color: "#6d3b24", mb: 1 }}
+                  sx={{
+                    fontWeight: 700,
+                    color: "#6d3b24",
+                    mb: 0.75,
+                  }}
                 >
                   Email Preview
                 </Typography>
@@ -568,17 +562,16 @@ const MailHistory: React.FC = () => {
                 <Paper
                   variant="outlined"
                   sx={{
-                    p: 2,
-                    maxHeight: 500,
-                    overflow: "auto",
+                    p: 1,
                     backgroundColor: "#f5f5f5",
+                    overflow: "visible",
                   }}
                 >
                   <Box
                     sx={{
-                      maxWidth: 650,
+                      maxWidth: 600,
                       mx: "auto",
-                      p: { xs: 2, sm: 4 },
+                      p: { xs: 1, sm: 2 },
                       backgroundColor: "#ffffff",
                       border: "1px solid #e5e5e5",
                       borderRadius: 2,
@@ -589,17 +582,20 @@ const MailHistory: React.FC = () => {
                       },
                       "& table": {
                         maxWidth: "100%",
+                        tableLayout: "fixed",
                       },
                     }}
                   >
-                    {/<\/?[a-z][\s\S]*?>/i.test(selected.body) ? (
+                    {/<\/?[a-z][\s\S]*?>/i.test(selected.body || "") ? (
                       <iframe
                         title="Stored email preview"
                         srcDoc={selected.body}
                         sandbox=""
+                        scrolling="no"
                         style={{
+                          display: "block",
                           width: "100%",
-                          minHeight: 350,
+                          height: "600px",
                           border: "none",
                           backgroundColor: "#ffffff",
                         }}
@@ -610,7 +606,7 @@ const MailHistory: React.FC = () => {
                           whiteSpace: "pre-wrap",
                           overflowWrap: "anywhere",
                           fontSize: 14,
-                          lineHeight: 1.8,
+                          lineHeight: 1.6,
                           color: "#333",
                         }}
                       >
@@ -623,12 +619,6 @@ const MailHistory: React.FC = () => {
             </Stack>
           )}
         </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleCloseDetails} sx={{ color: "#6d3b24" }}>
-            Close
-          </Button>
-        </DialogActions>
       </Dialog>
 
       {/* Error Snackbar */}
